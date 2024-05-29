@@ -7,8 +7,8 @@ public class MonsterBoss : MonsterBase
     protected override void InitMonster()
     {
         base.InitMonster();
-        monsterID = "¡÷∏∑¡÷¿Œ";
-        mData = GameData.GetDialog("¡÷∏∑¡÷¿Œ");
+        monsterID = "Ï£ºÎßâÏ£ºÏù∏";
+        mData = GameData.GetDialog("Ï£ºÎßâÏ£ºÏù∏");
     }
     
 

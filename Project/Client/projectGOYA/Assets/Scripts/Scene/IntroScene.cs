@@ -21,10 +21,10 @@ public class IntroScene : BaseScene
 
     private void Start()
     {
-        GameData.DialogData[] list = new[] {new GameData.DialogData("ÁÖ¸·ÁÖÀÎ", 1,new[] { "»ç¶÷ÀÌ µÇ°í ½Í´Ù°í?", "°úÁ¦¸¦ ³»ÁÙ°Ô.", "»ê¿¹ÀÇ ¼ö¿°À» °¡Á®¿À·Å."}, false,3) };
-        GameData.dicDialogData.Add("ÁÖ¸·ÁÖÀÎ", list);
-        list = new[] {new GameData.DialogData("»ê¿¹", 1,new[] { "³» ÀáÀ» ±ú¿ì´Ù´Ï!", "³Ê Àç¹ÌÀÖ´Â ¼Ò¸®¸¦ °¡Á³±¸³ª!", "³ª¸¦ ½Å³ª°Ô ÇØÁà!"}, false,-1),new GameData.DialogData("»ê¿¹", 2,new[] {"³ª¸¦ ÀÌ·¸°Ô ÁöÄ¡°Ô ÇÏ´Ù´Ï...", "[»ê¿¹ÀÇ ¼ö¿°]À» ¾ò¾ú´Ù!"}, false,2) };
-        GameData.dicDialogData.Add("»ê¿¹", list);
+        GameData.DialogData[] list = new[] {new GameData.DialogData("ì£¼ë§‰ì£¼ì¸", 1,new[] { "ì‚¬ëŒì´ ë˜ê³  ì‹¶ë‹¤ê³ ?", "ê³¼ì œë¥¼ ë‚´ì¤„ê²Œ.", "ì‚°ì˜ˆì˜ ìˆ˜ì—¼ì„ ê°€ì ¸ì˜¤ë ´."}, false,3) };
+        GameData.dicDialogData.Add("ì£¼ë§‰ì£¼ì¸", list);
+        list = new[] {new GameData.DialogData("ì‚°ì˜ˆ", 1,new[] { "ë‚´ ì ì„ ê¹¨ìš°ë‹¤ë‹ˆ!", "ë„ˆ ì¬ë¯¸ìˆëŠ” ì†Œë¦¬ë¥¼ ê°€ì¡Œêµ¬ë‚˜!", "ë‚˜ë¥¼ ì‹ ë‚˜ê²Œ í•´ì¤˜!"}, false,-1),new GameData.DialogData("ì‚°ì˜ˆ", 2,new[] {"ë‚˜ë¥¼ ì´ë ‡ê²Œ ì§€ì¹˜ê²Œ í•˜ë‹¤ë‹ˆ...", "[ì‚°ì˜ˆì˜ ìˆ˜ì—¼]ì„ ì–»ì—ˆë‹¤!"}, false,2) };
+        GameData.dicDialogData.Add("ì‚°ì˜ˆ", list);
         
         mBtnNext.onClick.AddListener(delegate
         {

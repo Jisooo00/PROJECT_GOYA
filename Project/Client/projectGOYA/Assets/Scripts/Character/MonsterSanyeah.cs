@@ -7,8 +7,8 @@ public class MonsterSanyeah : MonsterBase
     protected override void InitMonster()
     {
         base.InitMonster();
-        monsterID = "�꿹";
-        mData = GameData.GetDialog("�꿹");
+        monsterID = "산예";
+        mData = GameData.GetDialog("산예");
     }
 
 }

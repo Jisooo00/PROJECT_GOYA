@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 {
 
     public static Player instance;
-    public float moveSpeed = 10f; //Á¶Àý ÇÊ¿ä
+    public float moveSpeed = 10f; //ì¡°ì ˆ í•„ìš”
     public Rigidbody2D rb;
     
     private Vector2 movement;

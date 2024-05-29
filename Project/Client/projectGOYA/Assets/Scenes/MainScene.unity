@@ -441,6 +441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mQuestionMark: {fileID: 1491758430}
+  monsterID: 
 --- !u!1 &260381263
 GameObject:
   m_ObjectHideFlags: 0
@@ -4319,7 +4320,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1225301483
@@ -14717,6 +14718,7 @@ MonoBehaviour:
   mBtnDialog: {fileID: 0}
   mButtonUI: {fileID: 0}
   mDialogUI: {fileID: 0}
+  mSanyeahGame: {fileID: 0}
 --- !u!1 &2009057912
 GameObject:
   m_ObjectHideFlags: 0
@@ -16337,6 +16339,7 @@ MonoBehaviour:
   mBtnDialog: {fileID: 2009057915}
   mButtonUI: {fileID: 2107336172}
   mDialogUI: {fileID: 593441541}
+  mSanyeahGame: {fileID: 0}
 --- !u!4 &2082700157
 Transform:
   m_ObjectHideFlags: 0

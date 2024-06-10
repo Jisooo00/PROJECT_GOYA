@@ -21,8 +21,11 @@ public class _SceneManager
 
     public void LoadScene(GameData.eScene sceneType)
     {
-        currentScene.Clear();
-        SceneManager.LoadScene(GetSceneName(sceneType));
+        currentScene.Clear(delegate
+        {
+            SceneManager.LoadScene(GetSceneName(sceneType));
+        });
+
     }
     
 }

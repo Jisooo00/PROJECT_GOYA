@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 
 public static class GameData
@@ -30,12 +31,12 @@ public static class GameData
     public class DialogData
     {
         public string mObjectID;
-        public string[] mListDialog;
+        public KeyValuePair<string,string>[] mListDialog;
         public bool bIsPlayed;
         public int mMoveScene;
         public int mIndex;
 
-        public DialogData(string ID,int index, string[] list, bool b, int scene = -1)
+        public DialogData(string ID,int index, KeyValuePair<string,string>[] list, bool b, int scene = -1)
         {
             mIndex = index;
             mObjectID = ID;
@@ -74,4 +75,11 @@ public static class GameData
     }
 
     
+}
+
+public class Global
+{
+    public const string KEY_USER_ID = "USER_ID";
+    public const string KEY_USER_PW = "USER_PW";
+    public const string KEY_USER_UID = "USER_UID";
 }

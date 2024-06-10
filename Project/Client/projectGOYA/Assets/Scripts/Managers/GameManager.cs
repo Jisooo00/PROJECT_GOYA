@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
 
     private _SceneManager _sceneMgr = new _SceneManager();
     public _SceneManager Scene { get { return Instance._sceneMgr; } }
-    
     void Start()
     {
         Init();
@@ -37,3 +36,5 @@ public class GameManager : MonoBehaviour
     }
     
 }
+
+

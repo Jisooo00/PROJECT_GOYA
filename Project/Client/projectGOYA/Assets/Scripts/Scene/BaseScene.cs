@@ -8,6 +8,8 @@ using Object = UnityEngine.Object;
 public abstract class BaseScene : MonoBehaviour
 {
    public GameData.eScene m_eSceneType { get; protected set; } = GameData.eScene.None;
+   public UIManager m_uiManager = null;
+   public Canvas mCanvas;
 
    private void Awake()
    {
@@ -28,5 +30,32 @@ public abstract class BaseScene : MonoBehaviour
       
    }
 
-   public abstract void Clear();
+   public void SetUIManager(GameData.eScene eScene)
+   {
+      if (m_uiManager == null)
+      {
+         GameObject go = Resources.Load("Prefabs/UI/UIManager") as GameObject;
+         if (go != null)
+         {
+            m_uiManager = go.GetComponent<UIManager>();
+            GameObject ui = Instantiate(go);
+            if (ui != null)
+            {
+               ui.transform.SetParent(mCanvas.transform);
+               var rect = ui.GetComponent<RectTransform>();
+               rect.offsetMin = Vector2.zero;
+               rect.offsetMax = Vector2.zero;
+            }
+            else
+            {
+               Debug.LogError("Instantiation of UIManager is Failed");
+            }
+         }
+      }
+
+   }
+   
+
+   public abstract void Clear(Action del);
+   
 }

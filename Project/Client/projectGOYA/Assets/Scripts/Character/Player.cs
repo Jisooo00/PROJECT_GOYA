@@ -20,6 +20,9 @@ public class Player : MonoBehaviour
     [NonSerialized] public bool bInputRight = false;
     [NonSerialized] public bool bIsDialogPlaying = false;
 
+    public Animation mAniEffect;
+    public GameObject mGoEffect;
+
     private bool bIsMoving = false;
     public Vector3 dirVec;
     [NonSerialized] public GameObject mScanObject = null;
@@ -54,6 +57,12 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetKey(KeyCode.Space))
+            PlayEffect("Chara_DISAPPEAR");
+        
+        if(Input.GetKey(KeyCode.X))
+            PlayEffect("Chara_APPEAR");
+        
         if (bIsDialogPlaying)
             return;
         CheckMovement();
@@ -104,4 +113,13 @@ public class Player : MonoBehaviour
             mScanObject = null;
         }
     }
+
+    public void PlayEffect(string AniClip)
+    {
+        mGoEffect.SetActive(false);
+        mGoEffect.transform.localPosition = transform.localPosition;
+        mGoEffect.SetActive(true);
+        mAniEffect.Play(AniClip);
+    }
+    
 }

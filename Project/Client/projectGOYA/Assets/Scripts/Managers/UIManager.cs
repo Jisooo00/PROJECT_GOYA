@@ -9,27 +9,37 @@ public class UIManager : MonoBehaviour
     public Button mBtnDialog;
     [NonSerialized] public bool mIsDialogEnable = false;
 
-    [SerializeField] private GameObject mButtonUI;
+    [SerializeField] private GameObject mLoginUI;
+    [SerializeField] private GameObject mActionUI;
     [SerializeField] private GameObject mDialogUI;
 
-    public SanyeahGame mSanyeahGame;
-
+    //public SanyeahGame mSanyeahGame;
     private UIDialog mDialogSystem;
+
     void Start()
     {
+        Init();
+    }
+
+    public void Init()
+    {
+        mActionUI.SetActive(true);
+        mDialogUI.SetActive(false);
         SetDialogEnable(false);
         if(mDialogUI!= null)
             mDialogSystem = mDialogUI.GetComponent<UIDialog>();
     }
 
+    
     // Update is called once per frame
     void Update()
     {
         var data = Player.instance.GetScannedMonster();
-        if (data != null&& !data.bIsPlayed && !mIsDialogEnable)
+        if (data != null && !data.bIsPlayed && !mIsDialogEnable)
         {
             SetDialogEnable(true);
-        }else if ((data == null || data.bIsPlayed) && mIsDialogEnable)
+        }
+        else if ((data == null || data.bIsPlayed) && mIsDialogEnable)
         {
             SetDialogEnable(false);
         }
@@ -83,7 +93,7 @@ public class UIManager : MonoBehaviour
 
     public void PlayDialog()
     {
-        mButtonUI.SetActive(false);
+        mActionUI.SetActive(false);
         mDialogUI.SetActive(true);
         if (mDialogSystem != null)
         {
@@ -106,7 +116,7 @@ public class UIManager : MonoBehaviour
 
     public void EndDialog(GameData.DialogData data = null)
     {
-        mButtonUI.SetActive(true);
+        mActionUI.SetActive(true);
         mDialogUI.SetActive(false);
         Player.instance.bIsDialogPlaying = false;
         if (data != null)
@@ -116,7 +126,9 @@ public class UIManager : MonoBehaviour
                 GameManager.Instance.Scene.LoadScene((GameData.eScene) data.mMoveScene);
         }
         
+        /*
         if (GameManager.Instance.Scene.currentScene.name == "@SanyeahScene" && data.mIndex == 1)
+         
         {
             mSanyeahGame.gameObject.SetActive(true);
             mSanyeahGame.mDelAfterGame = delegate
@@ -124,7 +136,7 @@ public class UIManager : MonoBehaviour
                 Player.instance.mScanObject.GetComponent<MonsterBase>().RefreshData();
             };
 
-        }
+        }*/
 
     }
 

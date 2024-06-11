@@ -13,6 +13,7 @@ public static class GameData
         IntroScene,
         MainScene,
         SanyeahScene,
+        SanyeahGameScene,
     }
 
     #endregion
@@ -82,4 +83,12 @@ public class Global
     public const string KEY_USER_ID = "USER_ID";
     public const string KEY_USER_PW = "USER_PW";
     public const string KEY_USER_UID = "USER_UID";
+    public const int SANYEAH_NOTE_POOLING_CNT = 15;
+    public const float SANYEAH_NOTE_DROP_SPEED = 550;
+    public const float SANYEAH_NOTE_JUDGE_PERFECT = 30;
+    public const float SANYEAH_NOTE_JUDGE_GREAT = 60;
+    public const float SANYEAH_NOTE_JUDGE_GOOD = 90;
+    public const float SANYEAH_NOTE_JUDGE_BAD = 120;
+    public const float SANYEAH_NOTE_JUDGE_MISS = 300;
+    
 }

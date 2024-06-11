@@ -54,8 +54,13 @@ public class UIDialog : MonoBehaviour
     {
         mTextScript.text = mData.mListDialog[mIndex].Value;
         mTextName.text = mData.mListDialog[mIndex].Key.Substring(0,mData.mListDialog[mIndex].Key.Length-3);
-        if(mDicPortraits.ContainsKey(mData.mListDialog[mIndex].Key))
+        if (mDicPortraits.ContainsKey(mData.mListDialog[mIndex].Key))
+        {
             mImgPortrait.sprite = mDicPortraits[mData.mListDialog[mIndex].Key];
+            mImgPortrait.SetNativeSize();
+            var rect = mImgPortrait.GetComponent<RectTransform>();
+            rect.sizeDelta = new Vector2(400, 400 * rect.sizeDelta.y / rect.sizeDelta.x);
+        }
     }
     
     private void LoadSpritePortraits()

@@ -27,9 +27,9 @@ public class IntroScene : BaseScene
 
     private void Start()
     {
-        GameData.DialogData[] list = new[] {new GameData.DialogData("주막주인", 1,new KeyValuePair<string,string>[] { new ("np0001_01","어머나? 거기 꼬질꼬질한 도깨비야, 여기서 뭘하는 거니?"),new ("dokkabi_01","나는 김서방이 되고 싶어!"),new ("np0001_01","사람이 되고 싶다고?"),new ("np0001_01","산예의 수염을 가지고 와보렴~"),new ("dokkabi_01","좋아!!")}, false,3) };
+        GameData.DialogData[] list = new[] {new GameData.DialogData("주막주인", 1,new KeyValuePair<string,string>[] { new ("np0001_01","어머나? 거기 꼬질꼬질한 도깨비야, 여기서 뭘하는 거니?"),new ("dokkabi_01","김서방이 되고 싶어서 왔어!"),new ("np0001_01","사람이 되고 싶다고?"),new ("np0001_01","내가 시키는 대로 한 번 해볼래?"),new ("dokkabi_01","좋아!!")}, false,3) };
         GameData.dicDialogData.Add("주막주인", list);
-        list = new[] {new GameData.DialogData("산예", 1,new KeyValuePair<string,string>[] {new("dokkabi_01","으악 산예를 깨워버렸다!"), new("np0002_01","내 잠을 깨우다니!"), new("np0002_01","너 재미있는 소리를 가졌구나!"), new("np0002_01","나를 신나게 해줘!")}, false,-1),new GameData.DialogData("산예", 2,new KeyValuePair<string,string>[] { new("np0002_01","나를 이렇게 지치게 하다니"), new("dokkabi_01","[산예의 수염을 얻었다!]")}, false,2) };
+        list = new[] {new GameData.DialogData("산예", 1,new KeyValuePair<string,string>[] {new("dokkabi_01","으악 산예를 깨워버렸다!"), new("np0002_01","잠자는 이 산예의 잠을 깨우다니!"), new("np0002_01","나를 신나게 해줘")}, false,4),new GameData.DialogData("산예", 2,new KeyValuePair<string,string>[] { new("np0002_02","나를 이렇게 지치게 하다니"), new("dokkabi_01","[산예의 수염]을 얻었다!")}, false,2) };
         GameData.dicDialogData.Add("산예", list);
         
         mBtnNext.onClick.AddListener(delegate
@@ -37,7 +37,7 @@ public class IntroScene : BaseScene
             GameManager.Instance.Scene.LoadScene(GameData.eScene.MainScene);
         });
         
-        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
         
         if (PlayerPrefs.HasKey(Global.KEY_USER_ID) && PlayerPrefs.HasKey(Global.KEY_USER_PW) && PlayerPrefs.HasKey(Global.KEY_USER_UID))
         {

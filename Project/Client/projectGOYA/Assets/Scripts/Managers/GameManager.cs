@@ -12,12 +12,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private _SceneManager _sceneMgr = new _SceneManager();
-    public _SceneManager Scene { get { return Instance._sceneMgr; } }
+    private SceneMgr sceneMgr = new SceneMgr();
+    public SceneMgr Scene { get { return Instance.sceneMgr; } }
     void Start()
     {
         Init();
     }
+
+    public bool bClearSanyeah = false;
 
     static void Init()
     {

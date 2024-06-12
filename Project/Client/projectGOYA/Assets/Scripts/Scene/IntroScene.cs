@@ -37,7 +37,7 @@ public class IntroScene : BaseScene
             GameManager.Instance.Scene.LoadScene(GameData.eScene.MainScene);
         });
         
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
         
         if (PlayerPrefs.HasKey(Global.KEY_USER_ID) && PlayerPrefs.HasKey(Global.KEY_USER_PW) && PlayerPrefs.HasKey(Global.KEY_USER_UID))
         {

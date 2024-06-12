@@ -57,11 +57,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKey(KeyCode.Space))
-            PlayEffect("Chara_DISAPPEAR");
+        //if(Input.GetKey(KeyCode.Space))
+        //    PlayEffect("Chara_DISAPPEAR");
         
-        if(Input.GetKey(KeyCode.X))
-            PlayEffect("Chara_APPEAR");
+        //if(Input.GetKey(KeyCode.X))
+        //    PlayEffect("Chara_APPEAR");
         
         if (bIsDialogPlaying)
             return;

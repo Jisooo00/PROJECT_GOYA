@@ -74,6 +74,22 @@ public class UISignIn : MonoBehaviour
                 return;
             }
 
+            var req = new ReqLogin();
+            req.id = mInputID.text;
+            req.pw = mInputPW.text;
+
+            WebReq.Instance.Request(req, delegate(ReqLogin.Res res)
+            {
+                if(res.IsSuccess)
+                    SignInComplete();
+                else
+                {
+                    PopupManager.Instance.OpenPopupNotice(res.responseMessage+string.Format("\n에러코드 : {0}",res.statusCode));
+                }
+                
+            });
+
+/*
             if (PlayerPrefs.HasKey(Global.KEY_USER_ID) && PlayerPrefs.HasKey(Global.KEY_USER_PW))
             {
                 if (mInputID.text != PlayerPrefs.GetString(Global.KEY_USER_ID))
@@ -87,12 +103,14 @@ public class UISignIn : MonoBehaviour
                     return;
                 }
                 SignInComplete();
-                
+
             }
             else
             {
                 PopupManager.Instance.OpenPopupNotice("회원가입을 먼저 진행해주세요.");
-            }
+            }*/
+
+
         });
         mBtnSignUp.onClick.AddListener(delegate
         {
@@ -154,8 +172,21 @@ public class UISignIn : MonoBehaviour
                         return;
                     }
                 }
+
+                var req = new ReqSignUp();
+                req.id = mInputID.text;
+                req.pw = mInputPW.text;
                 
-                SignUpComplete();
+                WebReq.Instance.Request(req, delegate(ReqSignUp.Res res)
+                {
+                    if(res.IsSuccess)
+                        SignUpComplete();
+                    else
+                    {
+                        PopupManager.Instance.OpenPopupNotice(res.responseMessage+string.Format("\n에러코드 : {0}",res.statusCode));
+                    }
+                
+                });
             }
         });
         mBtnSetUID.onClick.AddListener(delegate
@@ -165,7 +196,7 @@ public class UISignIn : MonoBehaviour
                 PopupManager.Instance.OpenPopupNotice("닉네임을 입력하세요.");
                 return;
             }
-            SetUIDComplete();
+            SetNameComplete();
             
         });
     }
@@ -197,7 +228,7 @@ public class UISignIn : MonoBehaviour
     public void SignInComplete()
     {
         Debug.Log("로그인 완료!");
-        if (PlayerPrefs.HasKey(Global.KEY_USER_UID))
+        if (PlayerPrefs.HasKey(Global.KEY_USER_NAME))
             mDelLoginAfter();
         else
         {
@@ -245,11 +276,19 @@ public class UISignIn : MonoBehaviour
         SetUIDUI();
     }
 
-    public void SetUIDComplete()
+    public void SetNameComplete()
     {
-        PlayerPrefs.SetString(Global.KEY_USER_UID,mInputUID.text);
+        PlayerPrefs.SetString(Global.KEY_USER_NAME,mInputUID.text);
         PopupManager.Instance.OpenPopupNotice("닉네임이 등록되었습니다.");
         mDelLoginAfter();
+    }
+
+    public void RefreshAfterSignOut()
+    {
+        mInputID.text = "";
+        mInputPW.text = "";
+        mGoSignUI.SetActive(true);
+        mGoUIDUI.SetActive(false);
     }
     
     

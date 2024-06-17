@@ -83,12 +83,17 @@ public class IntroScene : BaseScene
                 if (res.IsSuccess)
                 {
                     Debug.Log("로그인 성공");
+                                    
                     SetMenuUI();
                 }
                 else
                 {
                     PopupManager.Instance.OpenPopupNotice(res.responseMessage+string.Format("\n에러코드 : {0}",res.statusCode));
+                    PlayerPrefs.DeleteKey(Global.KEY_USER_ID);
+                    PlayerPrefs.DeleteKey(Global.KEY_USER_PW);
+                    RefreshUI();
                 }
+
                 
             });
 

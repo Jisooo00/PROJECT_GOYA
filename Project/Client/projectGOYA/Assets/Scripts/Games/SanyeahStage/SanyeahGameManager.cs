@@ -196,30 +196,32 @@ public class SanyeahGameManager : BaseScene
 
     public void PlayRhythmAniLeft(eScore score)
     {
-        if (score == eScore.MISS)
-            return;
-        
         mGoEffectL.SetActive(false);
-        if(score != eScore.BAD)
+        if(score != eScore.BAD && score!= eScore.MISS)
             mGoEffectL.SetActive(true);
         
         TextEffectEnable(mTextLeft,score,"TextEffectDisableLeft");
         
-        mAniSanyeahRhythm.SetTrigger("RhythmLeft");
+        if (score == eScore.MISS)
+            mAniSanyeahRhythm.SetTrigger("RhythmStumble");
+        else
+            mAniSanyeahRhythm.SetTrigger("RhythmLeft");
         
     }
     
     public void PlayRhythmAniRight(eScore score)
     {
-        TextEffectEnable(mTextRight,score,"TextEffectDisableRight");
-        if (score == eScore.MISS)
-            return;
         
         mGoEffectR.SetActive(false);
-        if(score != eScore.BAD)
+        if(score != eScore.BAD && score!= eScore.MISS)
             mGoEffectR.SetActive(true);
+        
+        TextEffectEnable(mTextRight,score,"TextEffectDisableRight");
 
-        mAniSanyeahRhythm.SetTrigger("RhythmRight");
+        if (score == eScore.MISS)
+            mAniSanyeahRhythm.SetTrigger("RhythmStumble");
+        else
+            mAniSanyeahRhythm.SetTrigger("RhythmRight");
     }
 
     public eScore GetScore(float result)

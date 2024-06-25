@@ -8,9 +8,12 @@ using UnityEngine.UI;
 
 public class IntroScene : BaseScene
 {
-    public Button mBtnNext;
+    public Button mBtnStart;
+    public Button mBtnSetting;
+    public Button mBtnCredit;
     public Button mBtnSignOut;
     public UISignIn mUISignIn;
+    public UICredit mUICredit;
     public GameObject mGoMainMenuUI;
     protected override void InitScene()
     {
@@ -35,9 +38,18 @@ public class IntroScene : BaseScene
         list = new[] {new GameData.DialogData("산예", 1,new KeyValuePair<string,string>[] {new("dokkabi_01","으악 산예를 깨워버렸다!"), new("np0002_01","잠자는 이 산예의 잠을 깨우다니!"), new("np0002_01","나를 신나게 해줘")}, false,4),new GameData.DialogData("산예", 2,new KeyValuePair<string,string>[] { new("np0002_02","나를 이렇게 지치게 하다니"), new("dokkabi_01","[산예의 수염]을 얻었다!")}, false,2) };
         GameData.dicDialogData.Add("산예", list);
         
-        mBtnNext.onClick.AddListener(delegate
+        mBtnStart.onClick.AddListener(delegate
         {
             GameManager.Instance.Scene.LoadScene(GameData.eScene.MainScene);
+        });
+        mBtnSetting.onClick.AddListener(delegate
+        {
+            PopupManager.Instance.OpenPopupNotice("설정 기능 개발중");
+        });
+        mBtnCredit.onClick.AddListener(delegate
+        {
+            if(!mUICredit.IsActive)
+                mUICredit.gameObject.SetActive(true);
         });
         
         mBtnSignOut.onClick.AddListener(delegate
@@ -60,6 +72,8 @@ public class IntroScene : BaseScene
             });
 
         });
+        if(mUICredit.IsActive)
+            mUICredit.gameObject.SetActive(false);
         
         RefreshUI();
     }

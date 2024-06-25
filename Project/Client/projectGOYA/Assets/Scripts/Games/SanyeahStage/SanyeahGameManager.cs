@@ -17,6 +17,8 @@ public class SanyeahGameManager : BaseScene
     [SerializeField] private TMP_Text mTextLeft;
     [SerializeField] private TMP_Text mTextRight;
     [SerializeField] private AudioClip mAudioClip;
+    [SerializeField] private AudioClip mEffectClip;
+    [SerializeField] private AudioClip mEffectMissClip;
     [SerializeField] private Animator mAniSanyeahRhythm;
     // Tool 이용해 NoteData 제작
     [SerializeField] private NoteData mNoteDataLeft;
@@ -31,6 +33,8 @@ public class SanyeahGameManager : BaseScene
     [SerializeField] private Button mBtnL;
     
     private AudioSource mAudioSrc;
+    private AudioSource mEffectSrc;
+    private AudioSource mEffectMissSrc;
     
     //배경음과의 Sync를 위해 게임 시작 시점과 Note활성화 시점 분리
     private bool bStart = false;
@@ -70,6 +74,17 @@ public class SanyeahGameManager : BaseScene
         {
             mAudioSrc = gameObject.AddComponent<AudioSource>();
             mAudioSrc.clip = mAudioClip;
+        }
+        
+        if (mEffectClip != null)
+        {
+            mEffectSrc = gameObject.AddComponent<AudioSource>();
+            mEffectSrc.clip = mEffectClip;
+        }
+        if (mEffectMissClip != null)
+        {
+            mEffectMissSrc = gameObject.AddComponent<AudioSource>();
+            mEffectMissSrc.clip = mEffectMissClip;
         }
 
         StartCoroutine("StartGame");
@@ -117,7 +132,7 @@ public class SanyeahGameManager : BaseScene
                 mTextStartTimer.text = iTimer.ToString();
             }
 
-            if (fStartTime < 1f && !bDropNote)
+            if (fStartTime < 1.25f && !bDropNote)
                 StartCoroutine("DropNoteData");
             
             yield return null;
@@ -177,11 +192,14 @@ public class SanyeahGameManager : BaseScene
     }
 
     public void JudgeLeft()
-    {
+    {        
         float result = mNoteMgrLeft.GetJudgeDistance();
-        if (result > Global.SANYEAH_NOTE_JUDGE_MISS || result <0)
+        if (result > Global.SANYEAH_NOTE_JUDGE_MISS || result < 0)
+        {
+            mEffectMissSrc.Play();
             return;
-        
+        }
+        mEffectSrc.Play();
         PlayRhythmAniLeft(GetScore(result));
     }
 
@@ -189,8 +207,11 @@ public class SanyeahGameManager : BaseScene
     {
         float result = mNoteMgrRight.GetJudgeDistance();
         if (result > Global.SANYEAH_NOTE_JUDGE_MISS || result < 0)
+        {
+            mEffectMissSrc.Play();
             return;
-        
+        }
+        mEffectSrc.Play();
         PlayRhythmAniRight(GetScore(result));
     }
 

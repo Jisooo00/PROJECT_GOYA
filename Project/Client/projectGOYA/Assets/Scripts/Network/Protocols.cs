@@ -51,6 +51,8 @@ namespace Protocols
 			public string id;
 			public string pw;
 			public int userUid;
+			public string nickname;
+			public string curMap;
 		};
 
 		public ResData data;
@@ -116,6 +118,45 @@ public class ReqSignOut : ReqBase
 	public ReqSignOut()
 	{
 		api = "account/logout";
+	}
+
+	// Response
+	[Serializable]
+	public class Res : ResBase
+	{
+	}
+}
+
+// User Info
+[Serializable]
+public class ReqUserInfo : ReqBase
+{
+	public int userUid;
+
+	public ReqUserInfo()
+	{
+		api = "user/info";
+		userUid = UserData.myData.user_uid;
+	}
+
+	// Response
+	[Serializable]
+	public class Res : ResBase
+	{
+	}
+}
+
+// Create User Info
+[Serializable]
+public class ReqCreateUserInfo : ReqBase
+{
+	public string nickname;
+	public int userUid;
+
+	public ReqCreateUserInfo()
+	{
+		api = "user/create";
+		userUid = UserData.myData.user_uid;
 	}
 
 	// Response

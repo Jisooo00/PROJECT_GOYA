@@ -80,8 +80,11 @@ public class UISignIn : MonoBehaviour
 
             WebReq.Instance.Request(req, delegate(ReqLogin.Res res)
             {
-                if(res.IsSuccess)
+                if (res.IsSuccess)
+                {
                     SignInComplete();
+                    
+                }
                 else
                 {
                     PopupManager.Instance.OpenPopupNotice(res.responseMessage+string.Format("\n에러코드 : {0}",res.statusCode));
@@ -196,7 +199,21 @@ public class UISignIn : MonoBehaviour
                 PopupManager.Instance.OpenPopupNotice("닉네임을 입력하세요.");
                 return;
             }
-            SetNameComplete();
+            
+            var req = new ReqCreateUserInfo();
+            req.nickname = mInputUID.text;
+                
+            WebReq.Instance.Request(req, delegate(ReqCreateUserInfo.Res res)
+            {
+                if(res.IsSuccess)
+                    SetNameComplete();
+                else
+                {
+                    PopupManager.Instance.OpenPopupNotice(res.responseMessage+string.Format("\n에러코드 : {0}",res.statusCode));
+                }
+                
+            });
+            
             
         });
     }
@@ -228,12 +245,19 @@ public class UISignIn : MonoBehaviour
     public void SignInComplete()
     {
         Debug.Log("로그인 완료!");
-        if (PlayerPrefs.HasKey(Global.KEY_USER_NAME))
-            mDelLoginAfter();
-        else
+        
+        RequestUserInfo(delegate
         {
-            SetUIDUI();
-        }
+            if (string.IsNullOrEmpty(UserData.myData.user_name))
+            {
+                SetUIDUI();
+            }
+            else
+            {
+                mDelLoginAfter();
+            }
+        });
+        
     }
 
     public void SetSingUpUI()
@@ -269,11 +293,38 @@ public class UISignIn : MonoBehaviour
 
     public void SignUpComplete()
     {
-        PlayerPrefs.SetString(Global.KEY_USER_ID,mInputID.text);
-        PlayerPrefs.SetString(Global.KEY_USER_PW,mInputPW.text);
+        PlayerPrefs.SetString(Global.KEY_USER_ID,UserData.myData.user_id);
+        PlayerPrefs.SetString(Global.KEY_USER_PW,UserData.myData.user_pw);
         PopupManager.Instance.OpenPopupNotice("회원가입이 완료되었습니다.");
         Debug.Log("회원가입 완료! ID : "+PlayerPrefs.GetString(Global.KEY_USER_ID)+" PW : "+PlayerPrefs.GetString(Global.KEY_USER_PW));
-        SetUIDUI();
+       
+        var req = new ReqLogin();
+        req.id = UserData.myData.user_id;
+        req.pw = UserData.myData.user_pw;
+
+        WebReq.Instance.Request(req, delegate(ReqLogin.Res res)
+        {
+            if (res.IsSuccess)
+            {
+                RequestUserInfo(delegate
+                {
+                    if (string.IsNullOrEmpty(UserData.myData.user_name))
+                    {
+                        SetUIDUI();
+                    }
+                    else
+                    {
+                        mDelLoginAfter();
+                    }
+                });
+            }
+
+            else
+            {
+                PopupManager.Instance.OpenPopupNotice(res.responseMessage+string.Format("\n에러코드 : {0}",res.statusCode));
+            }
+        });
+
     }
 
     public void SetNameComplete()
@@ -290,6 +341,16 @@ public class UISignIn : MonoBehaviour
         mGoSignUI.SetActive(true);
         mGoUIDUI.SetActive(false);
     }
+
+    public void RequestUserInfo(Action del)
+    {
+                        
+        WebReq.Instance.Request(new ReqUserInfo(), delegate(ReqUserInfo.Res res)
+        {
+            del();
+        });
+    }
+    
     
     
 }

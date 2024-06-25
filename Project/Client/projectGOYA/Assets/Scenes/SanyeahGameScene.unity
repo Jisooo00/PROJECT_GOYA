@@ -2285,6 +2285,8 @@ MonoBehaviour:
   mTextLeft: {fileID: 914343915}
   mTextRight: {fileID: 2006192495}
   mAudioClip: {fileID: 8300000, guid: 4d4c8ba74e2ac404c88acdeeec66ccbc, type: 3}
+  mEffectClip: {fileID: 8300000, guid: c8a94546633b88041bf9f2c8f40323e7, type: 3}
+  mEffectMissClip: {fileID: 8300000, guid: 54afc434c67214041aadfd15d515dcc5, type: 3}
   mAniSanyeahRhythm: {fileID: 272826104}
   mNoteDataLeft: {fileID: 11400000, guid: 7c8b6bc1210d53c40994b7c0b3645dbd, type: 2}
   mNoteDataRight: {fileID: 11400000, guid: cb2323fc6c5ad514d8444c16c4ab9265, type: 2}

@@ -112,18 +112,21 @@ public class WebReq : MonoBehaviour
 		if (res_type == typeof(ReqLogin.Res))
 		{
 			var res = (ReqLogin.Res)res_base;
-			user_uid = res.data.userUid;
-			UserData.myData.user_uid = res.data.userUid;
-			UserData.myData.user_id = res.data.id;
-			UserData.myData.user_pw = res.data.pw;
+
 
 			if (res.IsSuccess)
 			{
-							
-				PlayerPrefs.SetString(Global.KEY_USER_ID,res.data.id);
-				PlayerPrefs.SetInt(Global.KEY_USER_UID,res.data.userUid);
-				PlayerPrefs.SetString(Global.KEY_USER_PW,res.data.pw);
-				PlayerPrefs.Save();
+				user_uid = res.data.userUid;
+				UserData.myData.user_uid = res.data.userUid;
+				UserData.myData.user_id = res.data.id;
+				UserData.myData.user_pw = res.data.pw;
+				if((PlayerPrefs.GetInt(Global.KEY_USER_UID) != UserData.myData.user_uid))
+				{
+					PlayerPrefs.SetString(Global.KEY_USER_ID,res.data.id);
+					PlayerPrefs.SetInt(Global.KEY_USER_UID,res.data.userUid);
+					PlayerPrefs.SetString(Global.KEY_USER_PW,res.data.pw);
+					PlayerPrefs.Save();
+				}
 				Debug.Log("login success");
 			}
 		}
@@ -138,6 +141,22 @@ public class WebReq : MonoBehaviour
 			if (res.IsSuccess)
 			{
 				Debug.Log("Sign-Up success");
+			}
+		}
+		
+		if (res_type == typeof(ReqUserInfo.Res))
+		{
+			var res = (ReqUserInfo.Res)res_base;
+
+			if (res.IsSuccess)
+			{
+				UserData.myData.user_name = res.data.nickname;
+				UserData.myData.cur_map = res.data.curMap;
+				Debug.Log("Set nickname success");
+			}
+			else
+			{
+				Debug.Log("Need Set nickname");
 			}
 		}
 		
@@ -160,11 +179,25 @@ public class WebReq : MonoBehaviour
 	}
 	
 	// Sign out
-	
 	public void Request(ReqSignOut req, Action<ReqSignOut.Res> func)
 	{
 
 		StartCoroutine(Proc< ReqSignOut.Res>(req, func));
+		
+	}
+	
+	// User Info
+	public void Request(ReqUserInfo req, Action<ReqUserInfo.Res> func)
+	{
+
+		StartCoroutine(Proc< ReqUserInfo.Res>(req, func));
+		
+	}
+	
+	public void Request(ReqCreateUserInfo req, Action<ReqCreateUserInfo.Res> func)
+	{
+
+		StartCoroutine(Proc< ReqCreateUserInfo.Res>(req, func));
 		
 	}
 

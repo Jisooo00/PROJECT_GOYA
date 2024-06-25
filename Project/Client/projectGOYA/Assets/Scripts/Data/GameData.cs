@@ -88,6 +88,8 @@ public class UserData
     public int user_uid = -1;
     public string user_id = "";
     public string user_pw = "";
+    public string user_name = "";
+    public string cur_map = "";
 }
 
 

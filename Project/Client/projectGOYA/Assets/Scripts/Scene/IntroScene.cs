@@ -63,6 +63,7 @@ public class IntroScene : BaseScene
                     PopupManager.Instance.OpenPopupNotice(res.responseMessage);
                     PlayerPrefs.DeleteKey(Global.KEY_USER_ID);
                     PlayerPrefs.DeleteKey(Global.KEY_USER_PW);
+                    PlayerPrefs.DeleteKey(Global.KEY_USER_NAME);
                     RefreshUI();
                 }
                 else

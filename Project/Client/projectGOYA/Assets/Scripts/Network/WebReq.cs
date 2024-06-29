@@ -1,6 +1,7 @@
 ﻿using Protocols;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -55,7 +56,9 @@ public class WebReq : MonoBehaviour
 		www = UnityWebRequest.Get(string.Format(GoogleSheetAddress, ScriptDatRange, ScriptDataSheetID));
 		yield return www.SendWebRequest();
 		GameData.InitScriptData(www.downloadHandler.text);
-		
+
+		GameData.myData.bInitDialog = true;
+
 	}
 	
 
@@ -185,6 +188,8 @@ public class WebReq : MonoBehaviour
 
 			if (res.IsSuccess)
 			{
+				if (GameData.QuestDatas == null)
+					GameData.QuestDatas = new Dictionary<string, GameData.QuestData>();
 				foreach (var quest in res.data)
 				{
 					if(!GameData.QuestDatas.ContainsKey(quest.questId))

@@ -265,6 +265,10 @@ public class UISignIn : MonoBehaviour
                 yield return null;
             }
             WebReq.Instance.LoadDialogData();
+            while (!GameData.myData.bInitDialog)
+            {
+                yield return null;
+            }
 
             mDelLoginAfter();
         }

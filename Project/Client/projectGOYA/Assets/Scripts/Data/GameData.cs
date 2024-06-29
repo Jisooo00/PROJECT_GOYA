@@ -149,6 +149,8 @@ public static class GameData
         public bool IS_BGM_ON = true;
         public bool IS_EFFECT_ON = true;
         public float SET_VOLUME = 1f;
+
+        public bool bInitDialog = false;
     
         public void SetBgmOn(bool value)
         {

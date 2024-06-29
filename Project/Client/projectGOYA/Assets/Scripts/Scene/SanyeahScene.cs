@@ -16,23 +16,19 @@ public class SanyeahScene : BaseScene
         mUIEnding.SetActive(false);
         mUIEnding.transform.SetAsLastSibling();
         SetUIManager(m_eSceneType);
-        if (GameData.GetQuestData("Qu_0002").GetState() != GameData.QuestData.eState.COMPLETED)
+        if (GameData.GetQuestData("Qu_0002").GetState() == GameData.QuestData.eState.UNAVAILABLE)
         {
-            
-            Player.instance.transform.localPosition = Vector3.zero;
-            if (PlayerPrefs.HasKey(string.Format("{0}_Dl_0004",GameData.myData.user_uid)))
-                Sanyeah.animator.SetBool("idle",true);
-            else
-                Sanyeah.animator.SetBool("idle",false);
-            
-            if(GameManager.Instance.bClearSanyeah == true) 
-                StartCoroutine("ShowEnding");
+            Sanyeah.animator.SetBool("idle",false);
         }
         else
         {
-            
+            Player.instance.transform.localPosition = Vector3.zero;
             Sanyeah.animator.SetBool("idle",true);
             Sanyeah.animator.SetBool("awake",false);
+            if (GameData.GetQuestData("Qu_0002").GetState() == GameData.QuestData.eState.COMPLETED)
+            {
+                StartCoroutine("ShowEnding");
+            }
         }
         Player.instance.PlayEffect("Chara_APPEAR");
         
@@ -43,6 +39,11 @@ public class SanyeahScene : BaseScene
     IEnumerator ShowEnding()
     {
         mUIEnding.SetActive(true);
+        
+        PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_uid, "Dl_0006"), "true");
+        PlayerPrefs.Save();
+        GameData.SetDialogPlayed("np_0002","Dl_0006");
+        
         float playTime = 0f;
         while (playTime < 5f)
         {

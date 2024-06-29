@@ -68,12 +68,9 @@ public class GameManager : MonoBehaviour
             case eDialogAction.QUEST_ACCEPT :
                 var req1 = new ReqQuestAccept();
                 req1.questId = questId;
-                WebReq.Instance.Request(req1, delegate(ReqQuestAccept.Res res)
-                {
-                    if(questId == "Qu_0002" && Instance.Scene.currentScene.m_eSceneType == GameData.eScene.MainScene)
-                        Instance.Scene.currentScene.DelFunc();
-                });
-
+                WebReq.Instance.Request(req1, delegate(ReqQuestAccept.Res res) { });
+                if(questId == "Qu_0002" && Instance.Scene.currentScene.m_eSceneType == GameData.eScene.MainScene)
+                    Instance.Scene.currentScene.DelFunc();
                 break;
             case eDialogAction.PLAY_SANYEAH:
                 if (PlayerPrefs.HasKey(string.Format("{0}_{1}", GameData.myData.user_uid, "Dl_0006")))

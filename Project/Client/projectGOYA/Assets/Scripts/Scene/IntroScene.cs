@@ -198,6 +198,10 @@ public class IntroScene : BaseScene
                 yield return null;
             }
             WebReq.Instance.LoadDialogData();
+            while (!GameData.myData.bInitDialog)
+            {
+                yield return null;
+            }
 
             SetMenuUI();
         }

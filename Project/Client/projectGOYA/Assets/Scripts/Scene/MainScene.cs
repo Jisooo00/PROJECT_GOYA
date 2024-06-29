@@ -25,13 +25,18 @@ public class MainScene : BaseScene
         {
             var req = new ReqQuestAccept();
             req.questId = "Qu_0001";
-            WebReq.Instance.Request(req,delegate(ReqQuestAccept.Res res){});
+            WebReq.Instance.Request(req, delegate(ReqQuestAccept.Res res)
+            {
+            });
         }
-        if(GameData.QuestDatas.ContainsKey("Qu_0002") && GameData.QuestDatas["Qu_0002"].GetState() ==
-           GameData.QuestData.eState.ACCOMPLISHING)
-            SceneMoveBox.SetActive(true);
-        else
-            SceneMoveBox.SetActive(false);
+
+        foreach (var dialog in GameData.GetDialog("np_0001"))
+        {
+            if (dialog.m_strDialogID == "Dl_0002")
+            {
+                SceneMoveBox.SetActive(dialog.m_bPlayed);
+            }
+        }
             
     }
 
@@ -54,10 +59,12 @@ public class MainScene : BaseScene
     
     public override void DelFunc()
     {
-        if(GameData.QuestDatas.ContainsKey("Qu_0002") && GameData.QuestDatas["Qu_0002"].GetState() ==
-           GameData.QuestData.eState.ACCOMPLISHING)
-            SceneMoveBox.SetActive(true);
-        else
-            SceneMoveBox.SetActive(false);
+        foreach (var dialog in GameData.GetDialog("np_0001"))
+        {
+            if (dialog.m_strDialogID == "Dl_0002")
+            {
+                SceneMoveBox.SetActive(dialog.m_bPlayed);
+            }
+        }
     }
 }

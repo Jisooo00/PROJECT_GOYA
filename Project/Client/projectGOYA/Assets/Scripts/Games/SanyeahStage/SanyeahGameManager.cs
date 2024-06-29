@@ -154,7 +154,7 @@ public class SanyeahGameManager : BaseScene
         if (!mIsAllNoteDrop)
         {
             bool bDelay = mFDropRightLastTime > 1f || mFDropLeftLastTime > 1f;
-            mImgGaugeValue.fillAmount -= Time.deltaTime / (bDelay ? 15f : 7.5f);
+            mImgGaugeValue.fillAmount -= Time.deltaTime / (bDelay ? 20f : 10f);
 
         }
 
@@ -399,20 +399,30 @@ public class SanyeahGameManager : BaseScene
 
     void GoToSanyeahScene()
     {
-        var req = new ReqQuestAction();
-        req.type = ReqQuestAction.eType.Game.ToString();
-        req.target = "Np_0002";
-        req.count = mITotalScore;
-        
-        WebReq.Instance.Request(req, delegate(ReqQuestAction.Res res)
+        StartCoroutine("GoToSanyeahSceneAfter");
+    }
+
+    IEnumerator GoToSanyeahSceneAfter()
+    {
+        if (GameManager.Instance.bClearSanyeah)
         {
-            if (res.IsSuccess)
+            var req = new ReqQuestAction();
+            req.type = ReqQuestAction.eType.Game.ToString();
+            req.target = "Np_0002";
+            req.count = mITotalScore;
+            bool bReqComplete = false;
+            WebReq.Instance.Request(req, delegate(ReqQuestAction.Res res)
             {
-                var _req = new ReqQuestClear();
-                _req.questId = "Qu_0002";
-                WebReq.Instance.Request(_req, delegate(ReqQuestClear.Res res) { });
+                bReqComplete = true;
+                if (res.IsSuccess)
+                {
+                }
+            });
+            while (!bReqComplete)
+            {
+                yield return null;
             }
-        });
+        }
         
         GameManager.Instance.Scene.LoadScene(GameData.eScene.SanyeahScene);
     }

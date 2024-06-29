@@ -60,11 +60,7 @@ public abstract class MonsterBase : MonoBehaviour{
     protected virtual void InitMonster()
     {
     }
-
-    public void SetDialogEnd()
-    {
-        //mData = GameData.SetDialogEnd(monsterID,mData.mIndex-1);
-    }
+    
 
     public void RefreshData()
     {

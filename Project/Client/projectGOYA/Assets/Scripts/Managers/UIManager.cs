@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject mLoginUI;
     [SerializeField] private GameObject mActionUI;
     [SerializeField] private GameObject mDialogUI;
+    public Button mBtnSetting;
 
     //public SanyeahGame mSanyeahGame;
     private UIDialog mDialogSystem;
@@ -28,6 +29,11 @@ public class UIManager : MonoBehaviour
         SetDialogEnable(false);
         if(mDialogUI!= null)
             mDialogSystem = mDialogUI.GetComponent<UIDialog>();
+        mBtnSetting.onClick.AddListener(delegate
+        {
+            AudioManager.Instance.PlayClick();
+            PopupManager.Instance.OpenPopupSetting();
+        });
     }
 
     
@@ -35,11 +41,11 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         var data = Player.instance.GetScannedMonster();
-        if (data != null && !data.bIsPlayed && !mIsDialogEnable)
+        if (data != null && !mIsDialogEnable)
         {
             SetDialogEnable(true);
         }
-        else if ((data == null || data.bIsPlayed) && mIsDialogEnable)
+        else if ((data == null) && mIsDialogEnable)
         {
             SetDialogEnable(false);
         }
@@ -80,6 +86,7 @@ public class UIManager : MonoBehaviour
 
     public void DialogKeyOnClick()
     {
+        AudioManager.Instance.PlayClick();
         Player.instance.bIsDialogPlaying = true;
         PlayDialog();
     }
@@ -100,31 +107,18 @@ public class UIManager : MonoBehaviour
             var monster = Player.instance.GetScannedMonster();
             if (Player.instance.GetScannedMonster() != null)
             {
-                mDialogSystem.Init(monster, delegate
-                {
-                    if (Player.instance.GetScannedMonster() != null)
-                    {
-                        GameData.SetDialogEnd(Player.instance.GetScannedMonster().mObjectID,Player.instance.GetScannedMonster().mIndex-1);
-                        EndDialog(Player.instance.GetScannedMonster());
-                    }
+                mDialogSystem.Init(monster, delegate { EndDialog(); });
 
-                });
             }
 
         }
     }
 
-    public void EndDialog(GameData.DialogData data = null)
+    public void EndDialog()
     {
         mActionUI.SetActive(true);
         mDialogUI.SetActive(false);
         Player.instance.bIsDialogPlaying = false;
-        if (data != null)
-        {
-            GameData.SetDialogEnd(data.mObjectID,data.mIndex-1);
-            if(data.mMoveScene >= 0 )
-                GameManager.Instance.Scene.LoadScene((GameData.eScene) data.mMoveScene);
-        }
         
         /*
         if (GameManager.Instance.Scene.currentScene.name == "@SanyeahScene" && data.mIndex == 1)

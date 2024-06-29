@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     public Vector3 dirVec;
     [NonSerialized] public GameObject mScanObject = null;
 
+    private float mFPlayFootstep = 0f;
+
     public GameData.DialogData GetScannedMonster()
     {
         if (mScanObject == null)
@@ -35,10 +37,10 @@ public class Player : MonoBehaviour
         }
 
         var data = mScanObject.GetComponent<MonsterBase>();
-        return data.mData;
+        return data.CurDialog;
     }
     
-    public GameData.DialogData GetScannedMonsterRefresh()
+    public List<GameData.DialogData> GetScannedMonsterRefresh()
     {
         if (mScanObject == null)
         {
@@ -57,17 +59,19 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        //if(Input.GetKey(KeyCode.Space))
-        //    PlayEffect("Chara_DISAPPEAR");
-        
-        //if(Input.GetKey(KeyCode.X))
-        //    PlayEffect("Chara_APPEAR");
+        mFPlayFootstep += Time.deltaTime;
         
         if (bIsDialogPlaying)
             return;
         CheckMovement();
+
         if (bIsMoving)
         {
+            if (mFPlayFootstep > 0.4f)
+            {
+                AudioManager.Instance.PlayFootstep();
+                mFPlayFootstep = 0;
+            }
             movement.x = bInputLeft ? -1 : bInputRight ? 1: 0;
             movement.y = bInputUp ? 1 : bInputDown ? -1 : 0;
 
@@ -100,7 +104,6 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
-
         
         Debug.DrawRay(rb.position,dirVec,new Color(0,1,0));
         RaycastHit2D rayHit = Physics2D.Raycast(rb.position, dirVec, 1f, LayerMask.GetMask("InteractiveObject"));
@@ -121,5 +124,12 @@ public class Player : MonoBehaviour
         mGoEffect.SetActive(true);
         mAniEffect.Play(AniClip);
     }
-    
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.layer == 7)
+        {
+            GameManager.Instance.Scene.LoadScene(GameData.eScene.SanyeahScene);
+        }
+    }
 }

@@ -89,6 +89,19 @@ public class PopupManager : MonoBehaviour
         popupNotice.gameObject.SetActive(true);
         SetOpenPopup(popupNotice);
     }
+    
+    public void OpenPopupSetting(Action del = null)
+    {
+        var go = Load("Prefabs/UI/UIPopupSetting", m_rectTransform);
+        var popupSetting= go.GetComponent<UIPopupSetting>();
+        popupSetting.Init(delegate
+        {
+            if (del != null)
+                del();
+        }, "", "설정");
+        popupSetting.gameObject.SetActive(true);
+        SetOpenPopup(popupSetting);
+    }
 
     private GameObject Load(string name, RectTransform rect)
     {

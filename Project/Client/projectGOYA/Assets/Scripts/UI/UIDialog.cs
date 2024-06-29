@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,39 +9,104 @@ using UnityEngine.UI;
 public class UIDialog : MonoBehaviour
 {
     [SerializeField] private TMP_Text mTextScript;
-    [SerializeField] private TMP_Text mTextName;
-    [SerializeField] private Image mImgPortrait;
+    [SerializeField] private Sprite[] m_listSprites;
+    public UISpeaker m_speakDokkabi;
+    public UISpeaker m_speakNPC;
 
-    private int mIndex = 0;
-    private KeyValuePair<string,string>[] mListDialog;
-    private Action mDelDialogAfter;
-    private GameData.DialogData mData;
-    private Dictionary<string, Sprite> mDicPortraits;
-    
-    public void Init(GameData.DialogData data, Action delDialogAfter)
+    [Serializable]
+    public class UISpeaker
     {
-        mIndex = 0;
-        if (data.mListDialog.Length== 0)
+        public GameObject m_goj;
+        public TMP_Text mTextName;
+        public Image mImgPortrait;
+        public Image mImgNameBg;
+        private bool isSpeaking;
+        public void SetSpeaking(bool speak)
         {
-            delDialogAfter();
+            isSpeaking = speak;
+            if (!isSpeaking)
+            {
+                mImgPortrait.color = Color.gray;
+                mImgNameBg.color = Color.gray;
+            }
+            else
+            {
+                mImgPortrait.color = Color.white;
+                mImgNameBg.color = Color.white;
+            }
         }
-        else
+
+        public void SetName(string name)
         {
-            mData = data;
-            mListDialog = data.mListDialog;
-            mDelDialogAfter = delDialogAfter;
-            mDicPortraits = new Dictionary<string, Sprite>();
-            LoadSpritePortraits();
-            SetDialog();
-            
+            mTextName.text = name;
+        }
+
+        public void SetImg(Sprite img)
+        {
+            mImgPortrait.sprite = img;
+            mImgPortrait.SetNativeSize();
+            var rect = mImgPortrait.GetComponent<RectTransform>();
+            float multiple = 1f;
+            if (img.name.Contains("np_0002"))
+            {
+                multiple = 1.75f;
+                rect.anchoredPosition= new Vector2(500, rect.anchoredPosition.y);
+            }
+            rect.sizeDelta = new Vector2(350*multiple, 350*multiple * rect.sizeDelta.y / rect.sizeDelta.x);
             
         }
     }
 
+    private int mIndex = 0;
+
+    private Action mDelDialogAfter;
+    private GameData.DialogData mData;
+    private List<GameData.ScriptData> m_listScript;
+    private Dictionary<string, Sprite> mDicPortraits;
+    
+    public void Init(GameData.DialogData data,Action del)
+    {
+        m_listScript = GameData.GetScript(data.m_strDialogID);
+        mIndex = 0;
+        if (m_listScript.Count== 0)
+        {
+            GameManager.DialogAction(data.m_strQuestID,data.m_eAction);
+        }
+        else
+        {
+            mData = data;
+            mDelDialogAfter = del + delegate
+            {
+                if (data.m_eAction != GameManager.eDialogAction.SAVE_EXCEPTION)
+                {
+                    PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_uid, data.m_strDialogID), "true");
+                    PlayerPrefs.Save();
+                    GameData.SetDialogPlayed(data.mObjectID,data.m_strDialogID);
+                }
+
+                GameManager.DialogAction(data.m_strQuestID, data.m_eAction);
+            };
+            
+            mDicPortraits = new Dictionary<string, Sprite>();
+            SetSpritePortraits();
+            InitSpeakerUI();
+            SetDialog();
+        }
+    }
+
+    void InitSpeakerUI()
+    {
+        m_speakDokkabi.m_goj.SetActive(false);
+        m_speakNPC.m_goj.SetActive(false);
+
+        
+    }
+
+    
     public void OnClick()
     {
         mIndex++;
-        if (mIndex >= mListDialog.Length)
+        if (mIndex >= m_listScript.Count)
         {
             mDelDialogAfter();
         }
@@ -52,36 +118,47 @@ public class UIDialog : MonoBehaviour
 
     public void SetDialog()
     {
-        mTextScript.text = mData.mListDialog[mIndex].Value;
-        mTextName.text = mData.mListDialog[mIndex].Key.Substring(0,mData.mListDialog[mIndex].Key.Length-3);
-        if (mDicPortraits.ContainsKey(mData.mListDialog[mIndex].Key))
+        mTextScript.text = m_listScript[mIndex].m_strScript;
+        string img = string.Format("img_portrait_{0}",m_listScript[mIndex].GetPortraitImgName());
+        if (m_listScript[mIndex].IsDokkabi)
         {
-            mImgPortrait.sprite = mDicPortraits[mData.mListDialog[mIndex].Key];
-            mImgPortrait.SetNativeSize();
-            var rect = mImgPortrait.GetComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(400, 400 * rect.sizeDelta.y / rect.sizeDelta.x);
+            if(!m_speakDokkabi.m_goj.activeSelf)
+                m_speakDokkabi.m_goj.SetActive(true);
+            m_speakDokkabi.SetSpeaking(true);
+            if (m_speakNPC.m_goj.activeSelf)
+                m_speakNPC.SetSpeaking(false);
+            m_speakDokkabi.SetName(m_listScript[mIndex].m_strSpeaker);
+            if (mDicPortraits.ContainsKey(img))
+            {
+                m_speakDokkabi.SetImg(mDicPortraits[img]);
+            }
+            
         }
+        if (m_listScript[mIndex].IsNPC)
+        {
+            if(!m_speakNPC.m_goj.activeSelf)
+                m_speakNPC.m_goj.SetActive(true);
+            m_speakNPC.SetSpeaking(true);
+            if (m_speakDokkabi.m_goj.activeSelf)
+                m_speakDokkabi.SetSpeaking(false);
+            m_speakNPC.SetName(m_listScript[mIndex].m_strSpeaker);
+            if (mDicPortraits.ContainsKey(img))
+            {
+                m_speakNPC.SetImg(mDicPortraits[img]);
+            }
+        }
+
     }
     
-    private void LoadSpritePortraits()
+    private void SetSpritePortraits()
     {
-        string spriteFolder = "Portraits/";
-        string spriteFilepath = spriteFolder + "img_portrait_";
-        foreach (var kv in mListDialog)
+        foreach (var sprite in m_listSprites)
         {
-            string spriteFileName = kv.Key;
-            if(mDicPortraits.ContainsKey(spriteFileName))
+            if(mDicPortraits.ContainsKey(sprite.name))
                 continue;
             
-            spriteFilepath += spriteFileName;
-            var sprite = Resources.Load<Sprite>(spriteFilepath);
-            if (sprite == null)
-            {
-                Debug.Log("File Load Fail. " +spriteFileName);
-                spriteFilepath = spriteFolder + "img_portrait_"+spriteFileName.Substring(0,spriteFileName.Length-2)+"01";
-                sprite = Resources.Load<Sprite>(spriteFilepath);
-            }
-            mDicPortraits.Add(spriteFileName,sprite);
+            mDicPortraits.Add(sprite.name,sprite);
+            //Debug.Log(mDicPortraits[sprite.name]);
         }
     }
 

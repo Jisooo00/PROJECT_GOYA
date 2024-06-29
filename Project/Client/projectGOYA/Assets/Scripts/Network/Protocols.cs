@@ -54,6 +54,15 @@ namespace Protocols
 			public string nickname;
 			public string curMap;
 		};
+		
+		[Serializable]
+		public class QuestRes
+		{
+			public string questId;
+			public string state;
+			public int count;
+		}
+		
 
 		public ResData data;
 
@@ -136,7 +145,7 @@ public class ReqUserInfo : ReqBase
 	public ReqUserInfo()
 	{
 		api = "user/info";
-		userUid = UserData.myData.user_uid;
+		userUid = GameData.myData.user_uid;
 	}
 
 	// Response
@@ -156,7 +165,149 @@ public class ReqCreateUserInfo : ReqBase
 	public ReqCreateUserInfo()
 	{
 		api = "user/create";
-		userUid = UserData.myData.user_uid;
+		userUid = GameData.myData.user_uid;
+	}
+
+	// Response
+	[Serializable]
+	public class Res : ResBase
+	{
+	}
+}
+
+// Quest Info
+[Serializable]
+public class ReqQuestInfo : ReqBase
+{
+	public int userUid;
+
+	public ReqQuestInfo()
+	{
+		api = "quest/info";
+		userUid = GameData.myData.user_uid;
+	}
+
+	// Response
+	[Serializable]
+	public class Res : ResBase
+	{
+		[Serializable]
+		public class ResData
+		{
+			public string questId;
+			public string state;
+		}
+		
+		public List<ResData> data = new List<ResData>();
+	}
+}
+
+// Quest Accept
+[Serializable]
+public class ReqQuestAccept : ReqBase
+{
+	public int userUid;
+	public string questId;
+
+	public ReqQuestAccept()
+	{
+		api = "quest/accept";
+		userUid = GameData.myData.user_uid;
+	}
+
+	// Response
+	[Serializable]
+	public class Res : ResBase
+	{
+		[Serializable]
+		public class ResData
+		{
+			public string questId;
+			public string state;
+		}
+		
+		public List<ResData> data = new List<ResData>();
+	}
+}
+
+// Quest Clear
+[Serializable]
+public class ReqQuestClear : ReqBase
+{
+	public int userUid;
+	public string questId;
+
+	public ReqQuestClear()
+	{
+		api = "quest/clear";
+		userUid = GameData.myData.user_uid;
+	}
+
+	// Response
+	[Serializable]
+	public class Res : ResBase
+	{
+		[Serializable]
+		public class ResData
+		{
+			public string questId;
+			public string state;
+		}
+		
+		public List<ResData> data = new List<ResData>();
+	}
+}
+
+// Quest Action
+[Serializable]
+public class ReqQuestAction : ReqBase
+{
+	public int userUid;
+	public string type;
+	public string target;
+	public int count;
+
+	public enum eType
+	{
+		Game,
+		Dialog,
+		Item,
+		Monster
+	}
+
+	public ReqQuestAction()
+	{
+		api = "quest/action";
+		userUid = GameData.myData.user_uid;
+	}
+
+	// Response
+	[Serializable]
+	public class Res : ResBase
+	{
+		[Serializable]
+		public class ResData
+		{
+			public string questId;
+			public string state;
+		}
+		
+		public List<ResData> data = new List<ResData>();
+	}
+}
+
+// Create User Info
+[Serializable]
+public class ReqMapEnter : ReqBase
+{
+	public int userUid;
+	public string mapId;
+
+	public ReqMapEnter()
+	{
+		api = "map/enter";
+		userUid = GameData.myData.user_uid;
+		mapId = GameManager.Instance.Scene.GetCurrentSceneID();
 	}
 
 	// Response

@@ -9,7 +9,27 @@ public abstract class MonsterBase : MonoBehaviour{
     public GameObject mQuestionMark;
     private bool mIsInteractable = false;
     public string monsterID;
-    public GameData.DialogData mData;
+    public Animator animator;
+    public List<GameData.DialogData> mData;
+
+    public GameData.DialogData CurDialog
+    {
+        get
+        {
+            if (mData != null)
+            {
+                foreach (var dialog in mData)
+                {
+                    if (!dialog.m_bPlayed)
+                    {
+                        return dialog;
+                    }
+                }
+            }
+            return null;
+        }
+        
+    }
     private void Awake()
     {
         InitMonster();
@@ -19,8 +39,8 @@ public abstract class MonsterBase : MonoBehaviour{
 
     private void Update()
     {
-        if (mData==null || mData.bIsPlayed)
-            return;
+        //if (mData==null || mData.bIsPlayed)
+        //    return;
         if (Player.instance.mScanObject != null && Player.instance.mScanObject.name == this.name && !mIsInteractable)
         {
             mIsInteractable = true;
@@ -43,13 +63,13 @@ public abstract class MonsterBase : MonoBehaviour{
 
     public void SetDialogEnd()
     {
-        mData = GameData.SetDialogEnd(monsterID,mData.mIndex-1);
+        //mData = GameData.SetDialogEnd(monsterID,mData.mIndex-1);
     }
 
     public void RefreshData()
     {
         mIsInteractable = false;
         SetQuestionMark();
-        mData = GameData.GetDialog(monsterID);
+        //mData = GameData.GetDialog(monsterID);
     }
 }

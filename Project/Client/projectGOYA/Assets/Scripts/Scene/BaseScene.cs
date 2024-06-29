@@ -42,6 +42,7 @@ public abstract class BaseScene : MonoBehaviour
             if (ui != null)
             {
                ui.transform.SetParent(mCanvas.transform);
+               ui.transform.SetAsFirstSibling();
                var rect = ui.GetComponent<RectTransform>();
                rect.offsetMin = Vector2.zero;
                rect.offsetMax = Vector2.zero;
@@ -57,5 +58,7 @@ public abstract class BaseScene : MonoBehaviour
    
 
    public abstract void Clear(Action del);
-   
+
+   public abstract void DelFunc();
+
 }

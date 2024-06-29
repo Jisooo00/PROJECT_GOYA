@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,7 @@ public class UISignIn : MonoBehaviour
     public RectTransform mRectPW;
     public Button mBtnSignIn;
     public Button mBtnSignUp;
+    public Button mBtnPrev;
     public TMP_Text mTextBtnSingIn;
     public TMP_Text mTextBtnSignUp;
     public Action mDelLoginAfter;
@@ -63,6 +65,7 @@ public class UISignIn : MonoBehaviour
         
         mBtnSignIn.onClick.AddListener(delegate
         {
+            AudioManager.Instance.PlayClick();
             if (string.IsNullOrEmpty(mInputID.text))
             {
                 PopupManager.Instance.OpenPopupNotice("아이디를 입력하세요.");
@@ -91,32 +94,11 @@ public class UISignIn : MonoBehaviour
                 }
                 
             });
-
-/*
-            if (PlayerPrefs.HasKey(Global.KEY_USER_ID) && PlayerPrefs.HasKey(Global.KEY_USER_PW))
-            {
-                if (mInputID.text != PlayerPrefs.GetString(Global.KEY_USER_ID))
-                {
-                    PopupManager.Instance.OpenPopupNotice("아이디를 다시 확인하세요.");
-                    return;
-                }
-                if (mInputPW.text != PlayerPrefs.GetString(Global.KEY_USER_PW))
-                {
-                    PopupManager.Instance.OpenPopupNotice("비밀번호를 다시 확인하세요.");
-                    return;
-                }
-                SignInComplete();
-
-            }
-            else
-            {
-                PopupManager.Instance.OpenPopupNotice("회원가입을 먼저 진행해주세요.");
-            }*/
-
-
+            
         });
         mBtnSignUp.onClick.AddListener(delegate
         {
+            AudioManager.Instance.PlayClick();
             if (!mIsOnGoingSignUp)
             {
                 if (string.IsNullOrEmpty(mInputID.text))
@@ -176,24 +158,12 @@ public class UISignIn : MonoBehaviour
                     }
                 }
 
-                var req = new ReqSignUp();
-                req.id = mInputID.text;
-                req.pw = mInputPW.text;
-                
-                WebReq.Instance.Request(req, delegate(ReqSignUp.Res res)
-                {
-                    if(res.IsSuccess)
-                        SignUpComplete();
-                    else
-                    {
-                        PopupManager.Instance.OpenPopupNotice(res.responseMessage+string.Format("\n에러코드 : {0}",res.statusCode));
-                    }
-                
-                });
+                StartCoroutine("SignUpAfter");
             }
         });
         mBtnSetUID.onClick.AddListener(delegate
         {
+            AudioManager.Instance.PlayClick();
             if (string.IsNullOrEmpty(mInputUID.text))
             {
                 PopupManager.Instance.OpenPopupNotice("닉네임을 입력하세요.");
@@ -211,11 +181,15 @@ public class UISignIn : MonoBehaviour
                 {
                     PopupManager.Instance.OpenPopupNotice(res.responseMessage+string.Format("\n에러코드 : {0}",res.statusCode));
                 }
-                
             });
-            
-            
         });
+        
+        mBtnPrev.onClick.AddListener(delegate
+        {
+            AudioManager.Instance.PlayClick();
+            SetSingInUI();
+        });
+        
     }
 
     public void Init(Action del)
@@ -244,20 +218,56 @@ public class UISignIn : MonoBehaviour
 
     public void SignInComplete()
     {
-        Debug.Log("로그인 완료!");
-        
-        RequestUserInfo(delegate
+        Global.DebugLogText("로그인 완료!");
+
+        StartCoroutine("SignInCompleteAfter");
+    }
+
+    IEnumerator SignInCompleteAfter()
+    {
+        yield return null;
+        bool bUserCreate = false;
+        bool bReqComplete = false;
+        WebReq.Instance.Request(new ReqUserInfo(), delegate(ReqUserInfo.Res res)
         {
-            if (string.IsNullOrEmpty(UserData.myData.user_name))
-            {
-                SetUIDUI();
-            }
+            bReqComplete = true;
+            if (res.IsSuccess)
+                bUserCreate = true;
             else
             {
-                mDelLoginAfter();
+                if (res.statusCode == 400)
+                {
+                    bUserCreate = false;
+                }
+                else
+                    PopupManager.Instance.OpenPopupNotice(res.responseMessage+string.Format("\n에러코드 : {0}",res.statusCode));
             }
         });
-        
+        while (!bReqComplete)
+        {
+            yield return null;
+        }
+
+        if (!bUserCreate)
+        {
+            SetUIDUI();
+        }
+        else
+        {
+            Global.InitUserData(); 
+            bReqComplete = false;
+            WebReq.Instance.Request(new ReqQuestInfo(), delegate(ReqQuestInfo.Res res)
+            {
+                bReqComplete = true;
+            });
+            while (!bReqComplete)
+            {
+                yield return null;
+            }
+            WebReq.Instance.LoadDialogData();
+
+            mDelLoginAfter();
+        }
     }
 
     public void SetSingUpUI()
@@ -271,6 +281,7 @@ public class UISignIn : MonoBehaviour
         mBtnSignIn.gameObject.SetActive(false);
         var rectBtn = mBtnSignUp.gameObject.GetComponent<RectTransform>();
         rectBtn.localPosition = new Vector3(0, 0, 0);
+        mBtnPrev.gameObject.SetActive(true);
     }
     public void SetSingInUI()
     {
@@ -282,7 +293,8 @@ public class UISignIn : MonoBehaviour
         mGoSingUp.SetActive(false);
         mBtnSignIn.gameObject.SetActive(true);
         var rectBtn = mBtnSignUp.gameObject.GetComponent<RectTransform>();
-        rectBtn.localPosition = new Vector3(-90f, 0, 0);
+        rectBtn.localPosition = new Vector3(90f, 0, 0);
+        mBtnPrev.gameObject.SetActive(false);
     }
 
     public void SetUIDUI()
@@ -293,44 +305,79 @@ public class UISignIn : MonoBehaviour
 
     public void SignUpComplete()
     {
-        PlayerPrefs.SetString(Global.KEY_USER_ID,UserData.myData.user_id);
-        PlayerPrefs.SetString(Global.KEY_USER_PW,UserData.myData.user_pw);
+        PlayerPrefs.SetString(Global.KEY_USER_ID,GameData.myData.user_id);
+        PlayerPrefs.SetString(Global.KEY_USER_PW,GameData.myData.user_pw);
+        PlayerPrefs.Save();
         PopupManager.Instance.OpenPopupNotice("회원가입이 완료되었습니다.");
-        Debug.Log("회원가입 완료! ID : "+PlayerPrefs.GetString(Global.KEY_USER_ID)+" PW : "+PlayerPrefs.GetString(Global.KEY_USER_PW));
+        Global.DebugLogText("회원가입 완료! ID : "+PlayerPrefs.GetString(Global.KEY_USER_ID)+" PW : "+PlayerPrefs.GetString(Global.KEY_USER_PW));
        
         var req = new ReqLogin();
-        req.id = UserData.myData.user_id;
-        req.pw = UserData.myData.user_pw;
+        req.id = GameData.myData.user_id;
+        req.pw = GameData.myData.user_pw;
 
         WebReq.Instance.Request(req, delegate(ReqLogin.Res res)
         {
             if (res.IsSuccess)
             {
-                RequestUserInfo(delegate
-                {
-                    if (string.IsNullOrEmpty(UserData.myData.user_name))
-                    {
-                        SetUIDUI();
-                    }
-                    else
-                    {
-                        mDelLoginAfter();
-                    }
-                });
+                SignInComplete();
             }
 
             else
             {
-                PopupManager.Instance.OpenPopupNotice(res.responseMessage+string.Format("\n에러코드 : {0}",res.statusCode));
+                if (res.statusCode == 400)
+                {
+                    SetUIDUI();
+                }
+                else
+                    PopupManager.Instance.OpenPopupNotice(res.responseMessage+string.Format("\n에러코드 : {0}",res.statusCode));
             }
         });
+    }
 
+    IEnumerator SignUpAfter()
+    {
+        var req = new ReqSignUp();
+        req.id = mInputID.text;
+        req.pw = mInputPW.text;
+        bool bReqCompelete = false;
+                
+        WebReq.Instance.Request(req, delegate(ReqSignUp.Res res)
+        {
+            bReqCompelete = true;
+            
+            if(res.IsSuccess)
+                SignUpComplete();
+            else
+            {
+                PopupManager.Instance.OpenPopupNotice(res.responseMessage+string.Format("\n에러코드 : {0}",res.statusCode));
+            }
+                
+        });
+        while (!bReqCompelete)
+        {
+            yield return null;
+        }
     }
 
     public void SetNameComplete()
     {
         PlayerPrefs.SetString(Global.KEY_USER_NAME,mInputUID.text);
         PopupManager.Instance.OpenPopupNotice("닉네임이 등록되었습니다.");
+        
+        WebReq.Instance.Request(new ReqUserInfo(), delegate(ReqUserInfo.Res res)
+        {
+            if (res.IsSuccess)
+                WebReq.Instance.Request(new ReqQuestInfo(), delegate(ReqQuestInfo.Res res) { });
+            else
+            {
+                if (res.statusCode == 400)
+                {
+                    SetUIDUI();
+                }
+                else
+                    PopupManager.Instance.OpenPopupNotice(res.responseMessage+string.Format("\n에러코드 : {0}",res.statusCode));
+            }
+        });
         mDelLoginAfter();
     }
 
@@ -341,15 +388,7 @@ public class UISignIn : MonoBehaviour
         mGoSignUI.SetActive(true);
         mGoUIDUI.SetActive(false);
     }
-
-    public void RequestUserInfo(Action del)
-    {
-                        
-        WebReq.Instance.Request(new ReqUserInfo(), delegate(ReqUserInfo.Res res)
-        {
-            del();
-        });
-    }
+    
     
     
     

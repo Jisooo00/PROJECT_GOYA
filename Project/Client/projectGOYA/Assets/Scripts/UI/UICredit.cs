@@ -20,10 +20,10 @@ public class UICredit : MonoBehaviour
     {
         mBtnClose.onClick.AddListener(delegate
         {
+            AudioManager.Instance.PlayClick();
             if(IsActive)
                 gameObject.SetActive(false);
             
-            Debug.Log("buttonClose");
         });
     }
 }

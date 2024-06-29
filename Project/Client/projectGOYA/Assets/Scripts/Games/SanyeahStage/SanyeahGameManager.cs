@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
@@ -28,13 +29,19 @@ public class SanyeahGameManager : BaseScene
     [SerializeField] private TMP_Text mTextStartTimer;
     [SerializeField] private GameObject mGoBeforeStart;
     [SerializeField] private GameObject mGoGameResult;
+    [SerializeField] private TMP_Text mTextResult;
     [SerializeField] private TMP_Text mTextScore;
     [SerializeField] private Button mBtnR;
     [SerializeField] private Button mBtnL;
+    [SerializeField] private Image mImgGaugeValue;
     
     private AudioSource mAudioSrc;
     private AudioSource mEffectSrc;
     private AudioSource mEffectMissSrc;
+
+    private float mFDropLeftLastTime = 0f;
+    private float mFDropRightLastTime = 0f;
+    private bool mIsAllNoteDrop = false;
     
     //배경음과의 Sync를 위해 게임 시작 시점과 Note활성화 시점 분리
     private bool bStart = false;
@@ -45,10 +52,10 @@ public class SanyeahGameManager : BaseScene
     public enum eScore
     {
         PERFECT = 100,
-        GREAT = 80,
-        GOOD = 60,
-        BAD = 20,
-        MISS = 0,
+        GREAT = 75,
+        GOOD = 50,
+        BAD = -25,
+        MISS = -50,
         
     }
     
@@ -56,8 +63,14 @@ public class SanyeahGameManager : BaseScene
     {
         base.InitScene();
         m_eSceneType = GameData.eScene.IntroScene;
+        AudioManager.Instance.StopBgm();
 
         //m_uiManager.Init(m_eSceneType);
+    }
+    
+    public override void DelFunc()
+    {
+        
     }
 
     private void Start()
@@ -86,23 +99,65 @@ public class SanyeahGameManager : BaseScene
             mEffectMissSrc = gameObject.AddComponent<AudioSource>();
             mEffectMissSrc.clip = mEffectMissClip;
         }
+        
+        mNoteMgrLeft.SetDelJudgeMiss(delegate
+        {
+            mITotalScore += (int) eScore.MISS;
+            mImgGaugeValue.fillAmount += (int) eScore.MISS / 1000f;
+            mTextScore.text = string.Format("Score : {0:#,###}", mITotalScore);
+            mEffectMissSrc.Play();
+            PlayRhythmAniLeft(eScore.MISS);
+        });
+        mNoteMgrRight.SetDelJudgeMiss(delegate
+        {
+            mITotalScore += (int) eScore.MISS;
+            mImgGaugeValue.fillAmount += (int) eScore.MISS / 1000f;
+            mTextScore.text = string.Format("Score : {0:#,###}", mITotalScore);
+            mEffectMissSrc.Play();
+            PlayRhythmAniRight(eScore.MISS);
+        });
 
         StartCoroutine("StartGame");
     }
 
     private void Update()
     {
+
+#if UNITY_EDITOR
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_uid, "Dl_0006"), "true");
+            PlayerPrefs.Save();
+            GameData.SetDialogPlayed("np_0002","Dl_0006");
+            SetGameClear();
+        }
+        
+#endif
+        
         if (!bStart)
             return;
         
+        if(mImgGaugeValue.fillAmount == 0)
+            SetGameOver();
+        
         if (bStart && !mAudioSrc.isPlaying)
         {
-            mGoGameResult.SetActive(true);
-            bStart = false;
-            GameManager.Instance.bClearSanyeah = true;
-            Invoke("GoToSanyeahScene",2f);
+            if(mITotalScore >= 5000)
+                SetGameClear();
+            else
+            {
+                SetGameOver();
+            }
         }
-        
+
+        if (!mIsAllNoteDrop)
+        {
+            bool bDelay = mFDropRightLastTime > 1f || mFDropLeftLastTime > 1f;
+            mImgGaugeValue.fillAmount -= Time.deltaTime / (bDelay ? 15f : 7.5f);
+
+        }
+
 #if UNITY_EDITOR
         if(Input.GetKeyDown(KeyCode.A))
         {
@@ -113,6 +168,27 @@ public class SanyeahGameManager : BaseScene
             JudgeRight();
         }
 #endif
+    }
+
+    private void SetGameOver()
+    {
+        mGoGameResult.SetActive(true);
+        mTextResult.text = "Game Over";
+        bStart = false;
+        if(!mIsAllNoteDrop)
+            StopCoroutine("DropNoteData");
+        mAudioSrc.Stop();
+        GameManager.Instance.bClearSanyeah = false;
+        Invoke("GoToSanyeahScene",2f);
+    }
+    
+    private void SetGameClear()
+    {
+        mGoGameResult.SetActive(true);
+        mTextResult.text = "Game Clear";
+        bStart = false;
+        GameManager.Instance.bClearSanyeah = true;
+        Invoke("GoToSanyeahScene",2f);
     }
 
     private IEnumerator StartGame()
@@ -149,6 +225,7 @@ public class SanyeahGameManager : BaseScene
         int indexLeft = 0;
         int indexRight = 0;
         float currentTime = 0f;
+        float leftLastTime = 0f;
 
         bool bLeftDone = false;
         bool bRightDone = false;
@@ -162,6 +239,7 @@ public class SanyeahGameManager : BaseScene
                 if (mNoteDataLeft.noteDropTiming.Count > indexLeft)
                 {
                     mNoteMgrLeft.DropNoteObject();
+                    mFDropLeftLastTime = 0f;
                 }
                 else
                 {
@@ -176,17 +254,23 @@ public class SanyeahGameManager : BaseScene
                 if (mNoteDataRight.noteDropTiming.Count > indexRight)
                 {
                     mNoteMgrRight.DropNoteObject();
+                    mFDropRightLastTime = 0f;
                 }
                 else
                 {
                     bRightDone = true;
                 }
             }
-            
-            if(bLeftDone && bRightDone)
+
+            if (bLeftDone && bRightDone)
+            {
+                mIsAllNoteDrop = true;
                 yield break;
-            
+            }
+
             currentTime += Time.deltaTime;
+            mFDropLeftLastTime += Time.deltaTime;
+            mFDropRightLastTime += Time.deltaTime;
             yield return null;
         }
     }
@@ -271,7 +355,7 @@ public class SanyeahGameManager : BaseScene
         }
         
         mITotalScore += (int) score;
-        //mImgGaugeValue.fillAmount = (float) mITotalScore / MAX_SCORE;
+        mImgGaugeValue.fillAmount += (float) score / 1000f;
         mTextScore.text = string.Format("Score : {0:#,###}", mITotalScore);
 
         return score;
@@ -315,6 +399,21 @@ public class SanyeahGameManager : BaseScene
 
     void GoToSanyeahScene()
     {
+        var req = new ReqQuestAction();
+        req.type = ReqQuestAction.eType.Game.ToString();
+        req.target = "Np_0002";
+        req.count = mITotalScore;
+        
+        WebReq.Instance.Request(req, delegate(ReqQuestAction.Res res)
+        {
+            if (res.IsSuccess)
+            {
+                var _req = new ReqQuestClear();
+                _req.questId = "Qu_0002";
+                WebReq.Instance.Request(_req, delegate(ReqQuestClear.Res res) { });
+            }
+        });
+        
         GameManager.Instance.Scene.LoadScene(GameData.eScene.SanyeahScene);
     }
 

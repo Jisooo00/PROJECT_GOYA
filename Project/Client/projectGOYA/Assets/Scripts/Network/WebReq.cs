@@ -35,7 +35,29 @@ public class WebReq : MonoBehaviour
 		
 	}
 
+	public readonly string GoogleSheetAddress= "https://docs.google.com/spreadsheets/d/1WobN-MMi-Nigpe19jeNTL7J377Ffpy3LPnjHB0qLwu4/export?format=tsv&range={0}&gid={1}";
+	public readonly long DialogDataSheetID = 1957841210;
+	public readonly string DialogeDataRange = "A3:F";
+	public readonly long ScriptDataSheetID = 198592244;
+	public readonly string ScriptDatRange = "A2:E";
 
+	public void LoadDialogData()
+	{
+		StartCoroutine("RequestData");
+	}
+	IEnumerator RequestData()
+	{
+		UnityWebRequest www =
+			UnityWebRequest.Get(string.Format(GoogleSheetAddress, DialogeDataRange, DialogDataSheetID));
+		yield return www.SendWebRequest();
+		GameData.InitDialogData(www.downloadHandler.text);
+		
+		www = UnityWebRequest.Get(string.Format(GoogleSheetAddress, ScriptDatRange, ScriptDataSheetID));
+		yield return www.SendWebRequest();
+		GameData.InitScriptData(www.downloadHandler.text);
+		
+	}
+	
 
 	// 재전송 구현
 	IEnumerator Proc<T>(ReqBase req, Action<T> func) where T : ResBase, new()
@@ -92,11 +114,11 @@ public class WebReq : MonoBehaviour
 		var res = JsonUtility.FromJson<T>(res_text);
 		if(res.statusCode == ResBase.SUCCESS)
 		{
-			Debug.Log("res " + res.GetType() + " " + res);
+			Global.DebugLogText("res " + res.GetType() + " " + res);
 		}
 		else
 		{
-			Debug.LogWarning("res " + res.GetType() + " " + res);
+			Global.DebugLogText("res " + res.GetType() + " " + res,-1);
 		}
 
 		PreProc(res);
@@ -112,22 +134,19 @@ public class WebReq : MonoBehaviour
 		if (res_type == typeof(ReqLogin.Res))
 		{
 			var res = (ReqLogin.Res)res_base;
-
-
+			
 			if (res.IsSuccess)
 			{
 				user_uid = res.data.userUid;
-				UserData.myData.user_uid = res.data.userUid;
-				UserData.myData.user_id = res.data.id;
-				UserData.myData.user_pw = res.data.pw;
-				if((PlayerPrefs.GetInt(Global.KEY_USER_UID) != UserData.myData.user_uid))
-				{
-					PlayerPrefs.SetString(Global.KEY_USER_ID,res.data.id);
-					PlayerPrefs.SetInt(Global.KEY_USER_UID,res.data.userUid);
-					PlayerPrefs.SetString(Global.KEY_USER_PW,res.data.pw);
-					PlayerPrefs.Save();
-				}
-				Debug.Log("login success");
+				GameData.myData.user_uid = res.data.userUid;
+				GameData.myData.user_id = res.data.id;
+				GameData.myData.user_pw = res.data.pw;
+
+				PlayerPrefs.SetString(Global.KEY_USER_ID,res.data.id);
+				PlayerPrefs.SetInt(Global.KEY_USER_UID,res.data.userUid);
+				PlayerPrefs.SetString(Global.KEY_USER_PW,res.data.pw);
+				PlayerPrefs.Save();
+				
 			}
 		}
 		
@@ -135,12 +154,13 @@ public class WebReq : MonoBehaviour
 		{
 			var res = (ReqSignUp.Res)res_base;
 			user_uid = res.data.userUid;
-			UserData.myData.user_uid = res.data.userUid;
-			UserData.myData.user_id = res.data.id;
+			GameData.myData.user_uid = res.data.userUid;
+			GameData.myData.user_id = res.data.id;
+			GameData.myData.user_pw = res.data.pw;
 
 			if (res.IsSuccess)
 			{
-				Debug.Log("Sign-Up success");
+				Global.DebugLogText("Sign-Up success");
 			}
 		}
 		
@@ -150,13 +170,85 @@ public class WebReq : MonoBehaviour
 
 			if (res.IsSuccess)
 			{
-				UserData.myData.user_name = res.data.nickname;
-				UserData.myData.cur_map = res.data.curMap;
-				Debug.Log("Set nickname success");
+				GameData.myData.user_name = res.data.nickname;
+				GameData.myData.cur_map = res.data.curMap;
 			}
 			else
 			{
-				Debug.Log("Need Set nickname");
+				Global.DebugLogText("Need Set nickname");
+			}
+		}
+		
+		if (res_type == typeof(ReqQuestInfo.Res))
+		{
+			var res = (ReqQuestInfo.Res)res_base;
+
+			if (res.IsSuccess)
+			{
+				foreach (var quest in res.data)
+				{
+					if(!GameData.QuestDatas.ContainsKey(quest.questId))
+						GameData.QuestDatas.Add(quest.questId,new GameData.QuestData(quest.questId,quest.state));
+				}
+			}
+			else
+			{
+			}
+		}
+		
+		if (res_type == typeof(ReqQuestAccept.Res))
+		{
+			var res = (ReqQuestAccept.Res) res_base;
+
+			if (res.IsSuccess)
+			{
+				foreach (var quest in res.data)
+				{
+					if (GameData.QuestDatas.ContainsKey(quest.questId) &&
+					    GameData.QuestDatas[quest.questId].state != quest.state)
+						GameData.QuestDatas[quest.questId].state = quest.state;
+				}
+			}
+			else
+			{
+			}
+		}
+		
+		if (res_type == typeof(ReqQuestClear.Res))
+		{
+			var res = (ReqQuestClear.Res) res_base;
+
+			if (res.IsSuccess)
+			{
+				foreach (var quest in res.data)
+				{
+					if (GameData.QuestDatas.ContainsKey(quest.questId) &&
+					    GameData.QuestDatas[quest.questId].state != quest.state)
+						GameData.QuestDatas[quest.questId].state = quest.state;
+					
+				}
+				
+			}
+			else
+			{
+			}
+		}
+		
+		if (res_type == typeof(ReqQuestAction.Res))
+		{
+			var res = (ReqQuestAction.Res) res_base;
+
+			if (res.IsSuccess)
+			{
+				foreach (var quest in res.data)
+				{
+					if (GameData.QuestDatas.ContainsKey(quest.questId) &&
+					    GameData.QuestDatas[quest.questId].state != quest.state)
+						GameData.QuestDatas[quest.questId].state = quest.state;
+				}
+			}
+			else
+			{
 			}
 		}
 		
@@ -194,11 +286,45 @@ public class WebReq : MonoBehaviour
 		
 	}
 	
+	// Create User
 	public void Request(ReqCreateUserInfo req, Action<ReqCreateUserInfo.Res> func)
 	{
 
 		StartCoroutine(Proc< ReqCreateUserInfo.Res>(req, func));
 		
+	}
+	
+	// Map Enter
+	public void Request(ReqMapEnter req, Action<ReqMapEnter.Res> func)
+	{
+
+		StartCoroutine(Proc< ReqMapEnter.Res>(req, func));
+	}
+	
+	// Quest Info
+	public void Request(ReqQuestInfo req, Action<ReqQuestInfo.Res> func)
+	{
+
+		StartCoroutine(Proc< ReqQuestInfo.Res>(req, func));
+	}
+	
+	// Quest Accept
+	public void Request(ReqQuestAccept req, Action<ReqQuestAccept.Res> func)
+	{
+
+		StartCoroutine(Proc< ReqQuestAccept.Res>(req, func));
+	}
+	
+	// Quest Clear
+	public void Request(ReqQuestClear req, Action<ReqQuestClear.Res> func)
+	{
+		StartCoroutine(Proc< ReqQuestClear.Res>(req, func));
+	}
+	
+	// Quest Action
+	public void Request(ReqQuestAction req, Action<ReqQuestAction.Res> func)
+	{
+		StartCoroutine(Proc< ReqQuestAction.Res>(req, func));
 	}
 
 	

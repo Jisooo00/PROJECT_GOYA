@@ -11,6 +11,7 @@ public class NoteManager : MonoBehaviour
        [SerializeField] private RectTransform mRTEndPoint;
        [SerializeField] private RectTransform mRTStartPoint;
        [SerializeField] private NoteObject.eSide mESide;
+       public Action mDelJudgeMiss;
        
        private int mIFirstObjectIdx = 0;
        private int mILastObjectIdx = -1;
@@ -22,6 +23,11 @@ public class NoteManager : MonoBehaviour
               {
                      MakeNoteObject();
               }
+       }
+
+       public void SetDelJudgeMiss(Action del)
+       {
+              mDelJudgeMiss = del;
        }
 
        private void MakeNoteObject()
@@ -36,6 +42,9 @@ public class NoteManager : MonoBehaviour
               {
                      // 활성화 되어있는 Object중 제일 뒤에 있는 Object Index 판별
                      mILastObjectIdx = mILastObjectIdx + 1 == mListNotesPool.Count ? 0 : mILastObjectIdx + 1; 
+              }, delegate
+              {
+                     mDelJudgeMiss();
               });
               
               mListNotesPool.Add(obj);

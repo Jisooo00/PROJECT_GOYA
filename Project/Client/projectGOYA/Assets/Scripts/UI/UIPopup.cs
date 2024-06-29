@@ -18,7 +18,11 @@ public class UIPopup : MonoBehaviour
         
         if (del != null)
             m_delClose = del;
-        m_delClose += delegate { PopupManager.Instance.SetClosePopup(); };
+        m_delClose += delegate
+        {
+            AudioManager.Instance.PlayClick();
+            PopupManager.Instance.SetClosePopup();
+        };
     }
 
     public void SetBG(bool bSet)

@@ -12,6 +12,7 @@ public class NoteObject : MonoBehaviour
     private RectTransform mRTStartPoint;
     private Action mDelInitAfter = null;
     private Action mDelShowAfter = null;
+    private Action mDelJudgeMiss = null;
     private Color mClrInvisible = new Color(1, 1, 1, 0);
     private Color mClrVisible = new Color(1, 1, 1, 1);
     
@@ -51,19 +52,26 @@ public class NoteObject : MonoBehaviour
         if (mRTEndPoint != null)
         {
             if ((mESide == eSide.LEFT && posX >= mRTEndPoint.position.x + 3f) ||
-                (mESide == eSide.RIGHT && posX <= mRTEndPoint.position.x - 3f)) 
+                (mESide == eSide.RIGHT && posX <= mRTEndPoint.position.x - 3f))
+            {
                 SetShow(false);
+                if (mDelJudgeMiss != null)
+                    mDelJudgeMiss();
+            }
         }
         
     }
 
-    public void Init(eSide eSide, RectTransform rtEnd, RectTransform rtStart, Action delInit = null, Action delShow = null)
+    public void Init(eSide eSide, RectTransform rtEnd, RectTransform rtStart, Action delInit = null, Action delShow = null,Action delMiss = null)
     {
         if (delInit != null)
             mDelInitAfter = delInit;
 
         if (delShow != null)
             mDelShowAfter = delShow;
+
+        if (delMiss != null)
+            mDelJudgeMiss = delMiss;
 
         mESide = eSide;
         mRTEndPoint = rtEnd;

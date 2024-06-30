@@ -86,12 +86,8 @@ public class IntroScene : BaseScene
 
         });
         
-#if UNITY_EDITOR
+
         mBtnSignOut.gameObject.SetActive(true);
-#else
-        mBtnSignOut.gameObject.SetActive(false);
-#endif
-        
         
         if(mUICredit.IsActive)
             mUICredit.gameObject.SetActive(false);

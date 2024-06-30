@@ -162,7 +162,8 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.projectGOYA.DokkabiDream
-    Standalone: com.DefaultCompany.2DProject
+    Standalone: com.projectGOYA.DokkabiDream
+    iPhone: com.projectGOYA.DokkabiDream
   buildNumber:
     Standalone: 0
     VisionOS: 0

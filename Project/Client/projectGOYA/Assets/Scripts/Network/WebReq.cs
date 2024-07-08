@@ -22,7 +22,7 @@ public class WebReq : MonoBehaviour
 		}
 	}
 
-	string url = "http://43.201.26.129:8888/";
+	string url = "http://13.125.205.86:8888/";
 
 	long user_uid = 0;
 	bool sending = false;

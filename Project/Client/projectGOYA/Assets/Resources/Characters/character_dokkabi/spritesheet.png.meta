@@ -139,8 +139,8 @@ TextureImporter:
       name: spritesheet_10
       rect:
         serializedVersion: 2
-        x: 16
-        y: 20
+        x: 17
+        y: 21
         width: 16
         height: 20
       alignment: 0
@@ -160,8 +160,8 @@ TextureImporter:
       name: spritesheet_11
       rect:
         serializedVersion: 2
-        x: 32
-        y: 20
+        x: 34
+        y: 21
         width: 16
         height: 20
       alignment: 0
@@ -182,7 +182,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 80
+        y: 84
         width: 16
         height: 20
       alignment: 0
@@ -202,8 +202,8 @@ TextureImporter:
       name: spritesheet_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 80
+        x: 17
+        y: 84
         width: 16
         height: 20
       alignment: 0
@@ -223,8 +223,8 @@ TextureImporter:
       name: spritesheet_2
       rect:
         serializedVersion: 2
-        x: 32
-        y: 80
+        x: 34
+        y: 84
         width: 16
         height: 20
       alignment: 0
@@ -245,7 +245,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 60
+        y: 63
         width: 16
         height: 20
       alignment: 0
@@ -265,8 +265,8 @@ TextureImporter:
       name: spritesheet_4
       rect:
         serializedVersion: 2
-        x: 16
-        y: 60
+        x: 17
+        y: 63
         width: 16
         height: 20
       alignment: 0
@@ -286,8 +286,8 @@ TextureImporter:
       name: spritesheet_5
       rect:
         serializedVersion: 2
-        x: 32
-        y: 60
+        x: 34
+        y: 63
         width: 16
         height: 20
       alignment: 0
@@ -308,7 +308,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 40
+        y: 42
         width: 16
         height: 20
       alignment: 0
@@ -328,8 +328,8 @@ TextureImporter:
       name: spritesheet_7
       rect:
         serializedVersion: 2
-        x: 16
-        y: 40
+        x: 17
+        y: 42
         width: 16
         height: 20
       alignment: 0
@@ -349,8 +349,8 @@ TextureImporter:
       name: spritesheet_8
       rect:
         serializedVersion: 2
-        x: 32
-        y: 40
+        x: 34
+        y: 42
         width: 16
         height: 20
       alignment: 0
@@ -371,7 +371,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 20
+        y: 21
         width: 16
         height: 20
       alignment: 0
@@ -412,7 +412,7 @@ TextureImporter:
       name: spritesheet_13
       rect:
         serializedVersion: 2
-        x: 16
+        x: 17
         y: 0
         width: 16
         height: 20
@@ -433,7 +433,7 @@ TextureImporter:
       name: spritesheet_14
       rect:
         serializedVersion: 2
-        x: 32
+        x: 34
         y: 0
         width: 16
         height: 20

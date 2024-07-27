@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class MainScene : BaseScene
 {
     public GameObject SceneMoveBox;
+    public GameObject m_uiLoading;
     protected override void InitScene()
     {
         base.InitScene();
@@ -20,24 +21,7 @@ public class MainScene : BaseScene
 
     public void Start()
     {
-        if (GameData.QuestDatas.ContainsKey("Qu_0001") && GameData.QuestDatas["Qu_0001"].GetState() ==
-            GameData.QuestData.eState.UNAVAILABLE)
-        {
-            var req = new ReqQuestAccept();
-            req.questId = "Qu_0001";
-            WebReq.Instance.Request(req, delegate(ReqQuestAccept.Res res)
-            {
-            });
-        }
-
-        foreach (var dialog in GameData.GetDialog("np_0001"))
-        {
-            if (dialog.m_strDialogID == "Dl_0002")
-            {
-                SceneMoveBox.SetActive(dialog.m_bPlayed);
-            }
-        }
-            
+        StartCoroutine(StartAfter());
     }
 
     public override void Clear(Action del)
@@ -55,6 +39,31 @@ public class MainScene : BaseScene
     {
         yield return new WaitForSeconds(0.5f);
         del();
+    }
+
+    IEnumerator StartAfter()
+    {
+        m_uiLoading.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        m_uiLoading.gameObject.SetActive(false);
+        
+        if (GameData.QuestDatas.ContainsKey("Qu_0001") && GameData.QuestDatas["Qu_0001"].GetState() ==
+            GameData.QuestData.eState.UNAVAILABLE)
+        {
+            var req = new ReqQuestAccept();
+            req.questId = "Qu_0001";
+            WebReq.Instance.Request(req, delegate(ReqQuestAccept.Res res)
+            {
+            });
+        }
+
+        foreach (var dialog in GameData.GetDialog("np_0001"))
+        {
+            if (dialog.m_strDialogID == "Dl_0002")
+            {
+                SceneMoveBox.SetActive(dialog.m_bPlayed);
+            }
+        }
     }
     
     public override void DelFunc()

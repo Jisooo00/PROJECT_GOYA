@@ -38,6 +38,12 @@ public class UIDialog : MonoBehaviour
 
         public void SetName(string name)
         {
+            if (name == "dokkabi")
+                name = GameData.myData.user_name;
+            if (name == "np_0001")
+                name = "주막주인"; //TODO 로컬 적용
+            if (name == "np_0002")
+                name = "산예"; //TODO 로컬 적용
             mTextName.text = name;
         }
 
@@ -79,7 +85,7 @@ public class UIDialog : MonoBehaviour
             {
                 if (data.m_eAction != GameManager.eDialogAction.SAVE_EXCEPTION)
                 {
-                    PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_uid, data.m_strDialogID), "true");
+                    PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_name, data.m_strDialogID), "true");
                     PlayerPrefs.Save();
                     GameData.SetDialogPlayed(data.mObjectID,data.m_strDialogID);
                 }
@@ -118,7 +124,10 @@ public class UIDialog : MonoBehaviour
 
     public void SetDialog()
     {
-        mTextScript.text = m_listScript[mIndex].m_strScript;
+        var script = m_listScript[mIndex].m_strScript;
+        if (script.Contains("#NICK_NAME"))
+            script = script.Replace("#NICK_NAME", GameData.myData.user_name);
+        mTextScript.text = script;
         string img = string.Format("img_portrait_{0}",m_listScript[mIndex].GetPortraitImgName());
         if (m_listScript[mIndex].IsDokkabi)
         {

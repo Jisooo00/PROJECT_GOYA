@@ -9,6 +9,7 @@ public class UIPopupNotice : UIPopup
     // Start is called before the first frame update
     public TMPro.TMP_Text m_textTitle;
     public Button m_btnConfirm;
+    public Button m_btnClose;
     public TMPro.TMP_Text m_textConfirm;
     public TMPro.TMP_Text m_textNotice;
 
@@ -16,7 +17,7 @@ public class UIPopupNotice : UIPopup
     {
     }
 
-    public void Init(Action del, string msg, string title = "")
+    public void Init(Action del, string msg, string title = "", bool bNoBtn = false)
     {
         base.Init(del);
 
@@ -36,6 +37,14 @@ public class UIPopupNotice : UIPopup
             this.gameObject.SetActive(false);
 
         });
+
+        m_btnClose.gameObject.SetActive(bNoBtn);
+        m_btnClose.onClick.AddListener(delegate
+        {
+            AudioManager.Instance.PlayClick();
+            PopupManager.Instance.SetClosePopup();
+        });
+        
     }
 
     // Update is called once per frame

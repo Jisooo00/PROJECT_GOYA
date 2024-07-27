@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     }
 
     public bool bClearSanyeah = false;
+    public static bool isGuestMode = false;
 
     static void Init()
     {
@@ -59,7 +60,7 @@ public class GameManager : MonoBehaviour
                 req0.questId = questId;
                 if (questId == "Qu_0002")
                 {
-                    PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_uid, "Dl_0006"), "true");
+                    PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_name, "Dl_0006"), "true");
                     PlayerPrefs.Save();
                     GameData.SetDialogPlayed("np_0002","Dl_0006");
                 }
@@ -73,16 +74,16 @@ public class GameManager : MonoBehaviour
                     Instance.Scene.currentScene.DelFunc();
                 break;
             case eDialogAction.PLAY_SANYEAH:
-                if (PlayerPrefs.HasKey(string.Format("{0}_{1}", GameData.myData.user_uid, "Dl_0006")))
+                if (PlayerPrefs.HasKey(string.Format("{0}_{1}", GameData.myData.user_name, "Dl_0006")))
                 {
-                    PlayerPrefs.DeleteKey(string.Format("{0}_{1}", GameData.myData.user_uid, "Dl_0006"));
+                    PlayerPrefs.DeleteKey(string.Format("{0}_{1}", GameData.myData.user_name, "Dl_0006"));
                     GameData.SetDialogPlayed("np_0002","Dl_0006",false);
                 }
                 Instance.Scene.LoadScene(GameData.eScene.SanyeahGameScene);
             
                 break;
             case eDialogAction.SAVE_DIALOG_01 :
-                PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_uid, "Dl_0003"), "true");
+                PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_name, "Dl_0003"), "true");
                 PlayerPrefs.Save();
                 GameData.SetDialogPlayed("np_0001","Dl_0003");
                 Instance.Scene.LoadScene(GameData.eScene.MainScene);

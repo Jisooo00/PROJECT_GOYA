@@ -40,6 +40,12 @@ public class UIPopup : MonoBehaviour
             m_bg.color = clr;
         }
     }
+
+    public void OnClose()
+    {
+        m_delClose();
+        gameObject.SetActive(false);
+    }
     
     
 }

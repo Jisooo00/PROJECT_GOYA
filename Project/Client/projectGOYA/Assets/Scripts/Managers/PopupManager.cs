@@ -77,7 +77,7 @@ public class PopupManager : MonoBehaviour
         
     }
 
-    public void OpenPopupNotice(string msg, Action del = null, string title = "")
+    public void OpenPopupNotice(string msg, Action del = null, string title = "",bool bNoBtn = false)
     {
         var go = Load("Prefabs/UI/UIPopupNotice", m_rectTransform);
         var popupNotice= go.GetComponent<UIPopupNotice>();
@@ -85,7 +85,7 @@ public class PopupManager : MonoBehaviour
         {
             if (del != null)
                 del();
-        }, msg, title);
+        }, msg, title,bNoBtn);
         popupNotice.gameObject.SetActive(true);
         SetOpenPopup(popupNotice);
     }
@@ -102,6 +102,57 @@ public class PopupManager : MonoBehaviour
         popupSetting.gameObject.SetActive(true);
         SetOpenPopup(popupSetting);
     }
+
+    public void OpenPopupAccount(Action del = null)
+    {
+        var go = Load("Prefabs/UI/UIPopupAccount", m_rectTransform);
+        var popupAccount= go.GetComponent<UIPopupAccount>();
+        popupAccount.Init(delegate
+        {
+            if (del != null)
+                del();
+        });
+        popupAccount.gameObject.SetActive(true);
+        SetOpenPopup(popupAccount);
+    }
+    public void OpenPopupSignIn(Action del = null)
+    {
+        var go = Load("Prefabs/UI/UIPopupSignIn", m_rectTransform);
+        var popupSignIn= go.GetComponent<UIPopupSignIn>();
+        popupSignIn.Init(delegate
+        {
+            if (del != null)
+                del();
+        });
+        popupSignIn.gameObject.SetActive(true);
+        SetOpenPopup(popupSignIn);
+    }
+    
+    public void OpenPopupSignUp(Action del = null)
+    {
+        var go = Load("Prefabs/UI/UIPopupSignUp", m_rectTransform);
+        var popupSignUp= go.GetComponent<UIPopupSignUp>();
+        popupSignUp.Init(delegate
+        {
+            if (del != null)
+                del();
+        });
+        popupSignUp.gameObject.SetActive(true);
+        SetOpenPopup(popupSignUp);
+    }
+    public void OpenPopupSetNickname(Action del = null)
+    {
+        var go = Load("Prefabs/UI/UIPopupSetNickname", m_rectTransform);
+        var popupSetNickname= go.GetComponent<UIPopupSetNickname>();
+        popupSetNickname.Init(delegate
+        {
+            if (del != null)
+                del();
+        });
+        popupSetNickname.gameObject.SetActive(true);
+        SetOpenPopup(popupSetNickname);
+    }
+
 
     private GameObject Load(string name, RectTransform rect)
     {

@@ -10,7 +10,7 @@ public static class GameData
     public enum eScene
     {
         None = -1,
-        LoadingScene,
+        FirstScene,
         IntroScene,
         PrologScene,
         MainScene,
@@ -118,6 +118,8 @@ public static class GameData
             UNAVAILABLE = 0,
             ACCOMPLISHING = 1,
             COMPLETED = 2,
+            FINISHED = 3,
+
             
         }
 
@@ -151,6 +153,11 @@ public static class GameData
         public float SET_VOLUME = 1f;
 
         public bool bInitDialog = false;
+
+        public bool bUserInfoExist
+        {
+            get { return !string.IsNullOrEmpty(user_name); }
+        }
     
         public void SetBgmOn(bool value)
         {
@@ -204,7 +211,7 @@ public static class GameData
             string action= columns[5].Split('\r')[0];
             
             var data = new GameData.DialogData(id,type,npcId,condition,questId,action);
-            if (PlayerPrefs.HasKey(string.Format("{0}_{1}", myData.user_uid, id)))
+            if (PlayerPrefs.HasKey(string.Format("{0}_{1}", myData.user_name, id)))
             {
                 data.m_bPlayed = true;
             }
@@ -316,7 +323,7 @@ public class Global
     {
         var data = new GameData.UserData();
         data.user_id = PlayerPrefs.HasKey(KEY_USER_ID) ? PlayerPrefs.GetString(KEY_USER_ID):"";
-        data.user_uid = PlayerPrefs.HasKey(KEY_USER_UID) ? PlayerPrefs.GetInt(KEY_USER_UID):2;
+        data.user_uid = PlayerPrefs.HasKey(KEY_USER_UID) ? PlayerPrefs.GetInt(KEY_USER_UID):-1;
         data.user_pw = PlayerPrefs.HasKey(KEY_USER_PW) ? PlayerPrefs.GetString(KEY_USER_PW):"";
         data.IS_BGM_ON = GameData.myData.IS_BGM_ON;
         data.IS_EFFECT_ON = GameData.myData.IS_EFFECT_ON;

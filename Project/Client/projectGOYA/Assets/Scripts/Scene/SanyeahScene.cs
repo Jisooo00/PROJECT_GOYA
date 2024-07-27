@@ -7,11 +7,23 @@ public class SanyeahScene : BaseScene
 {
     public MonsterSanyeah Sanyeah;
     public GameObject mUIEnding;
+    public GameObject m_uiLoading;
     
     protected override void InitScene()
     {
         base.InitScene();
         m_eSceneType = GameData.eScene.SanyeahScene;
+        StartCoroutine(StartAfter());
+
+    }
+    
+    
+    IEnumerator StartAfter()
+    {
+        m_uiLoading.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        m_uiLoading.gameObject.SetActive(false);
+        
         WebReq.Instance.Request(new ReqMapEnter(), delegate(ReqMapEnter.Res res) { });
         mUIEnding.SetActive(false);
         mUIEnding.transform.SetAsLastSibling();
@@ -34,13 +46,15 @@ public class SanyeahScene : BaseScene
         
         AudioManager.Instance.PlayBgm();
         
+
     }
+
     
     IEnumerator ShowEnding()
     {
         mUIEnding.SetActive(true);
         
-        PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_uid, "Dl_0006"), "true");
+        PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_name, "Dl_0006"), "true");
         PlayerPrefs.Save();
         GameData.SetDialogPlayed("np_0002","Dl_0006");
         

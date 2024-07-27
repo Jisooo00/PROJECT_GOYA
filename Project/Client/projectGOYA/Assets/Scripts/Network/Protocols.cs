@@ -75,6 +75,26 @@ namespace Protocols
 
 #region 웹통신 WebReq
 
+// Guset Sign Up
+
+[Serializable]
+public class ReqGuestSignUp : ReqBase
+{
+	public ReqGuestSignUp()
+	{
+		api = "account/guest";
+	}
+
+	// Response
+	[Serializable]
+	public class Res : ResBase
+	{
+		public string id;
+		public string pw;
+		public long userUid;
+	}
+}
+
 // Sign In
 [Serializable]
 public class ReqLogin : ReqBase
@@ -296,7 +316,7 @@ public class ReqQuestAction : ReqBase
 	}
 }
 
-// Create User Info
+// Mep Enter
 [Serializable]
 public class ReqMapEnter : ReqBase
 {
@@ -316,6 +336,26 @@ public class ReqMapEnter : ReqBase
 	{
 	}
 }
+
+// Init User Info
+[Serializable]
+public class ReqInitUser : ReqBase
+{
+	public int userUid;
+
+	public ReqInitUser()
+	{
+		api = "user/init";
+		userUid = GameData.myData.user_uid;
+	}
+
+	// Response
+	[Serializable]
+	public class Res : ResBase
+	{
+	}
+}
+
 
 #endregion
 

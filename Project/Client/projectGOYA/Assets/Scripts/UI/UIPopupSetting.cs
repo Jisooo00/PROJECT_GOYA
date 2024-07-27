@@ -13,6 +13,8 @@ public class UIPopupSetting : UIPopup
     public CheckButton mBgmBtn;
     public CheckButton mEffectBtn;
     public Slider mSliderVol;
+    public Button mBtnHome;
+    public RectTransform m_rectSound;
     
     [Serializable]
     public class CheckButton
@@ -74,6 +76,7 @@ public class UIPopupSetting : UIPopup
                 AudioManager.Instance.SetVolume();
             }
         };
+        
 
         base.Init(del);
 
@@ -84,12 +87,28 @@ public class UIPopupSetting : UIPopup
 
         m_btnConfirm.onClick.AddListener(delegate
         {
+            AudioManager.Instance.PlayClick();
             m_delClose();
             this.gameObject.SetActive(false);
 
         });
+        
+        mBtnHome.onClick.AddListener(delegate
+        {
+            AudioManager.Instance.PlayClick();
+            GameManager.Instance.Scene.LoadScene(GameData.eScene.IntroScene);
+        });
 
         mSliderVol.onValueChanged.AddListener(delegate { AudioManager.Instance.SetVolumeCheck(mSliderVol.value); });
+
+        bool isIntroScene = GameManager.Instance.Scene.currentScene.m_eSceneType == GameData.eScene.IntroScene;
+        
+        mBtnHome.gameObject.SetActive(!isIntroScene);
+
+        if (isIntroScene)
+        {
+            m_rectSound.position = new Vector2(m_rectSound.position.x, m_rectSound.position.y-47f);
+        }
 
     }
 

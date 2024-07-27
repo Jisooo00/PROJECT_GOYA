@@ -71,10 +71,11 @@ public class WebReq : MonoBehaviour
 			yield return null;
 		}
 		sending = true;
-		
 
+#if UNITY_EDITOR
 		Debug.Log("req " + req.GetType() + " " + req);
-
+#endif
+		
 		var req_text = req.ToJson();
 		int try_count = 0;
 		int max_count = 5;
@@ -133,6 +134,21 @@ public class WebReq : MonoBehaviour
 	{
 		// 패킷별 별도 처리
 		var res_type = res_base.GetType();;
+
+		if (res_type == typeof(ReqGuestSignUp))
+		{
+			var res = (ReqGuestSignUp.Res)res_base;
+			
+			user_uid = res.data.userUid;
+			GameData.myData.user_uid = res.data.userUid;
+			GameData.myData.user_id = res.data.id;
+			GameData.myData.user_pw = res.data.pw;
+
+			PlayerPrefs.SetString(Global.KEY_USER_ID,res.data.id);
+			PlayerPrefs.SetInt(Global.KEY_USER_UID,res.data.userUid);
+			PlayerPrefs.SetString(Global.KEY_USER_PW,res.data.pw);
+			PlayerPrefs.Save();
+		}
 		
 		if (res_type == typeof(ReqLogin.Res))
 		{
@@ -180,6 +196,33 @@ public class WebReq : MonoBehaviour
 			{
 				Global.DebugLogText("Need Set nickname");
 			}
+		}
+		
+		if (res_type == typeof(ReqCreateUserInfo.Res))
+		{
+			var res = (ReqCreateUserInfo.Res)res_base;
+
+			if (res.IsSuccess)
+			{
+				GameData.myData.user_name = res.data.nickname;
+				GameData.myData.cur_map = res.data.curMap;
+			}
+			else
+			{
+				Global.DebugLogText("Need Set nickname");
+			}
+		}
+
+		if (res_type == typeof(ReqInitUser.Res))
+		{
+			var res = (ReqInitUser.Res) res_base;
+
+			if (res.IsSuccess)
+			{
+				GameData.myData.user_name = "";
+				GameData.myData.cur_map = "";
+			}
+
 		}
 		
 		if (res_type == typeof(ReqQuestInfo.Res))
@@ -258,51 +301,54 @@ public class WebReq : MonoBehaviour
 		}
 		
 	}
+	
+	// Guest Sign Up
+	
+	public void Request(ReqGuestSignUp req, Action<ReqGuestSignUp.Res> func)
+	{
+		StartCoroutine(Proc< ReqGuestSignUp.Res>(req, func));
+	}
 
 	// Sign in
 	public void Request(ReqLogin req, Action<ReqLogin.Res> func)
 	{
-
-		StartCoroutine(Proc< ReqLogin.Res>(req, func));
-		
+		StartCoroutine(Proc<ReqLogin.Res>(req, func));
 	}
-	
+
+
 	// Sign up
 	public void Request(ReqSignUp req, Action<ReqSignUp.Res> func)
 	{
-
 		StartCoroutine(Proc< ReqSignUp.Res>(req, func));
-		
 	}
 	
 	// Sign out
 	public void Request(ReqSignOut req, Action<ReqSignOut.Res> func)
 	{
-
 		StartCoroutine(Proc< ReqSignOut.Res>(req, func));
-		
 	}
 	
 	// User Info
 	public void Request(ReqUserInfo req, Action<ReqUserInfo.Res> func)
 	{
-
 		StartCoroutine(Proc< ReqUserInfo.Res>(req, func));
-		
 	}
 	
 	// Create User
 	public void Request(ReqCreateUserInfo req, Action<ReqCreateUserInfo.Res> func)
 	{
-
 		StartCoroutine(Proc< ReqCreateUserInfo.Res>(req, func));
-		
+	}
+	
+	// Init User
+	public void Request(ReqInitUser req, Action<ReqInitUser.Res> func)
+	{
+		StartCoroutine(Proc<ReqInitUser.Res>(req,func));
 	}
 	
 	// Map Enter
 	public void Request(ReqMapEnter req, Action<ReqMapEnter.Res> func)
 	{
-
 		StartCoroutine(Proc< ReqMapEnter.Res>(req, func));
 	}
 	

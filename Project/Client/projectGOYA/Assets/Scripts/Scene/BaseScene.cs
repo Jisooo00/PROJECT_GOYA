@@ -18,8 +18,6 @@ public abstract class BaseScene : MonoBehaviour
 
    protected virtual void InitScene()
    {
-      
-      GameManager mgr = GameManager.Instance;
          
       Object obj = FindObjectOfType(typeof(EventSystem));
       if (obj == null)

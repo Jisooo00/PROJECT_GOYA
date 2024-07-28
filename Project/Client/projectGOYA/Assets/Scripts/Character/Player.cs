@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
         {
             if (mFPlayFootstep > 0.4f)
             {
-                AudioManager.Instance.PlayFootstep();
+                //AudioManager.Instance.PlayFootstep();
                 mFPlayFootstep = 0;
             }
             movement.x = bInputLeft ? -1 : bInputRight ? 1: 0;
@@ -132,4 +132,17 @@ public class Player : MonoBehaviour
             GameManager.Instance.Scene.LoadScene(GameData.eScene.SanyeahScene);
         }
     }
+
+    public void SetInputPos(Vector2 inputPos)
+    {
+        float moveX = inputPos.x;
+        float moveY = inputPos.y;
+
+        bInputUp    = Math.Abs(moveX) < Math.Abs(moveY) && moveY > 0;
+        bInputDown  = Math.Abs(moveX) < Math.Abs(moveY) && moveY < 0;
+        bInputLeft  = Math.Abs(moveX) >= Math.Abs(moveY) && moveX < 0;
+        bInputRight = Math.Abs(moveX) >= Math.Abs(moveY) && moveX > 0;
+        
+    }
+    
 }

@@ -50,40 +50,6 @@ public class UIManager : MonoBehaviour
             SetDialogEnable(false);
         }
     }
-
-    public void UpKeyDown()
-    {
-        Player.instance.bInputUp = true;
-    }
-    public void UpKeyUp()
-    {
-        Player.instance.bInputUp = false;
-    }
-    public void DownKeyDown()
-    {
-        Player.instance.bInputDown = true;
-    }
-    public void DownKeyUp()
-    {
-        Player.instance.bInputDown = false;
-    }
-    public void LeftKeyDown()
-    {
-        Player.instance.bInputLeft = true;
-    }
-    public void LeftKeyUp()
-    {
-        Player.instance.bInputLeft = false;
-    }
-    public void RightKeyDown()
-    {
-        Player.instance.bInputRight = true;
-    }
-    public void RightKeyUp()
-    {
-        Player.instance.bInputRight = false;
-    }
-
     public void DialogKeyOnClick()
     {
         AudioManager.Instance.PlayClick();

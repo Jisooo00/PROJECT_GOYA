@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,14 +9,24 @@ public class UIVirtualJostick : MonoBehaviour,IPointerDownHandler,IDragHandler,I
     public GameObject mGobJoyStick;
     public Image mImgBg;
     public Image mImgController;
-    public UIButton[] mBtns;
+    private Vector3 mV3Origin;
+    private RectTransform mRect;
+
+    public void Start()
+    {
+        mRect = mGobJoyStick.GetComponent<RectTransform>();
+        mV3Origin = mRect.position;
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
+        mGobJoyStick.transform.position = eventData.position;
+        /*
         if (!mGobJoyStick.activeSelf)
         {
             mGobJoyStick.transform.position = eventData.position;
             mGobJoyStick.SetActive(true);
-        }
+        }*/
 
     }
 
@@ -34,12 +45,19 @@ public class UIVirtualJostick : MonoBehaviour,IPointerDownHandler,IDragHandler,I
             mImgController.rectTransform.anchoredPosition = new Vector2(
                 touchPosition.x * mImgBg.rectTransform.sizeDelta.x / 2,
                 touchPosition.y * mImgBg.rectTransform.sizeDelta.y / 2);
+            
+            Player.instance.SetInputPos(touchPosition);
+            
         }
 
     }
 
     public void OnPointerUp(PointerEventData eventData)
-    {        
+    {  
+        mRect.position = mV3Origin;
+        mImgController.rectTransform.anchoredPosition = new Vector2(0,0);
+        Player.instance.SetInputPos(Vector2.zero);
+        /*     
         if (mGobJoyStick.activeSelf)
         {
             foreach (var btn in mBtns)
@@ -50,6 +68,8 @@ public class UIVirtualJostick : MonoBehaviour,IPointerDownHandler,IDragHandler,I
             mImgController.rectTransform.anchoredPosition = new Vector2(0,0);
             mGobJoyStick.SetActive(false);
         }
+        */
+        
     }
     
 }

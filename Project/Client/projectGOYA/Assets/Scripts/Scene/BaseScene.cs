@@ -44,6 +44,7 @@ public abstract class BaseScene : MonoBehaviour
                var rect = ui.GetComponent<RectTransform>();
                rect.offsetMin = Vector2.zero;
                rect.offsetMax = Vector2.zero;
+               rect.localScale = Vector2.one;
             }
             else
             {

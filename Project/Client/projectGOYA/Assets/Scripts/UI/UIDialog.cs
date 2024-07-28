@@ -55,10 +55,10 @@ public class UIDialog : MonoBehaviour
             float multiple = 1f;
             if (img.name.Contains("np_0002"))
             {
-                multiple = 1.75f;
-                rect.anchoredPosition= new Vector2(500, rect.anchoredPosition.y);
+                multiple = 1.75f; 
+                //rect.anchoredPosition= new Vector2(700f, rect.anchoredPosition.y);
             }
-            rect.sizeDelta = new Vector2(350*multiple, 350*multiple * rect.sizeDelta.y / rect.sizeDelta.x);
+            rect.sizeDelta = new Vector2(350f*multiple, 350f*multiple * rect.sizeDelta.y / rect.sizeDelta.x);
             
         }
     }

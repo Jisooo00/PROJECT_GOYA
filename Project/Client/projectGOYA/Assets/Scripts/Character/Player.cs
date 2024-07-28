@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
         {
             if (mFPlayFootstep > 0.4f)
             {
-                //AudioManager.Instance.PlayFootstep();
+                AudioManager.Instance.PlayFootstep();
                 mFPlayFootstep = 0;
             }
             movement.x = bInputLeft ? -1 : bInputRight ? 1: 0;

@@ -6,8 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/FirstScene.unity
+    guid: 1649c277735f97f4da6ea38c6574bb70
+  - enabled: 1
     path: Assets/Scenes/IntroScene.unity
     guid: 8868d2dc25b318048ba349fd7c0c3fca
+  - enabled: 1
+    path: Assets/Scenes/PrologScene.unity
+    guid: ae0acea89213247cd802f6084868cf7e
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
     guid: 53e1f5f267d9b9a45b1c7cd1ba15dd12
@@ -17,7 +23,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SanyeahGameScene.unity
     guid: db44361575111ed4495f577c66a7e07c
-  - enabled: 1
-    path: Assets/Scenes/PrologScene.unity
-    guid: ae0acea89213247cd802f6084868cf7e
   m_configObjects: {}

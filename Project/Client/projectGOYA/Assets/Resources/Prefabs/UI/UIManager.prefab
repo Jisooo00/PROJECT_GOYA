@@ -393,7 +393,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 275}
-  m_SizeDelta: {x: 267.75, y: 382.5}
+  m_SizeDelta: {x: 360, y: 480}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &383375367152619219
 CanvasRenderer:
@@ -505,7 +505,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 275}
-  m_SizeDelta: {x: 267.75, y: 382.5}
+  m_SizeDelta: {x: 360, y: 480}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1782796798136186263
 CanvasRenderer:
@@ -1640,11 +1640,13 @@ MonoBehaviour:
     mTextName: {fileID: 7378885931306223341}
     mImgPortrait: {fileID: 8668302638396171562}
     mImgNameBg: {fileID: 1593445663348530869}
+    mfWidth: 0
   m_speakNPC:
     m_goj: {fileID: 2496083569162195767}
     mTextName: {fileID: 8438580087048341691}
     mImgPortrait: {fileID: 3525925235730980479}
     mImgNameBg: {fileID: 5590188053971637295}
+    mfWidth: 0
 --- !u!1 &8609007963274522335
 GameObject:
   m_ObjectHideFlags: 0

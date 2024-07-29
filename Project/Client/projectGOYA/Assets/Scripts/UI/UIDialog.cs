@@ -20,6 +20,7 @@ public class UIDialog : MonoBehaviour
         public TMP_Text mTextName;
         public Image mImgPortrait;
         public Image mImgNameBg;
+        public float mfWidth;
         private bool isSpeaking;
         public void SetSpeaking(bool speak)
         {
@@ -49,17 +50,18 @@ public class UIDialog : MonoBehaviour
 
         public void SetImg(Sprite img)
         {
+            var rect = mImgPortrait.GetComponent<RectTransform>();
+            float fWidth = rect.sizeDelta.x;
             mImgPortrait.sprite = img;
             mImgPortrait.SetNativeSize();
-            var rect = mImgPortrait.GetComponent<RectTransform>();
             float multiple = 1f;
             if (img.name.Contains("np_0002"))
             {
                 multiple = 1.75f; 
-                //rect.anchoredPosition= new Vector2(700f, rect.anchoredPosition.y);
             }
-            rect.sizeDelta = new Vector2(350f*multiple, 350f*multiple * rect.sizeDelta.y / rect.sizeDelta.x);
-            
+
+            rect.sizeDelta = new Vector2(fWidth*multiple, fWidth*multiple * rect.sizeDelta.y / rect.sizeDelta.x); ;
+
         }
     }
 
@@ -104,8 +106,6 @@ public class UIDialog : MonoBehaviour
     {
         m_speakDokkabi.m_goj.SetActive(false);
         m_speakNPC.m_goj.SetActive(false);
-
-        
     }
 
     
@@ -167,7 +167,6 @@ public class UIDialog : MonoBehaviour
                 continue;
             
             mDicPortraits.Add(sprite.name,sprite);
-            //Debug.Log(mDicPortraits[sprite.name]);
         }
     }
 

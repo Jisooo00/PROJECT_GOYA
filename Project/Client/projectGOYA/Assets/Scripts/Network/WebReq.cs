@@ -29,13 +29,11 @@ public class WebReq : MonoBehaviour
 	
 	public bool IsBusy {  get { return sending; } }
 
-
 	private void Awake()
 	{
 		GameObject.DontDestroyOnLoad(gameObject);
 		
 	}
-
 	public readonly string GoogleSheetAddress= "https://docs.google.com/spreadsheets/d/1WobN-MMi-Nigpe19jeNTL7J377Ffpy3LPnjHB0qLwu4/export?format=tsv&range={0}&gid={1}";
 	public readonly long DialogDataSheetID = 1957841210;
 	public readonly string DialogeDataRange = "A3:F";
@@ -273,7 +271,6 @@ public class WebReq : MonoBehaviour
 					if (GameData.QuestDatas.ContainsKey(quest.questId) &&
 					    GameData.QuestDatas[quest.questId].state != quest.state)
 						GameData.QuestDatas[quest.questId].state = quest.state;
-					
 				}
 				
 			}

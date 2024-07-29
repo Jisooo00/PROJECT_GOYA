@@ -35,7 +35,7 @@ namespace Protocols
 	public abstract class ResBase : JsonBase
 	{
 		public const int SUCCESS = 200;
-		public const int SUCCESS_ = 201; // 로그인 성공
+		//public const int SUCCESS_ = 201; // 로그인 성공
 		//public const int ERR_NO_API = 100; // 없는거 호출
 		//public const int ERR_API_FAIL = 101; // throw 발생
 
@@ -67,7 +67,7 @@ namespace Protocols
 		public ResData data;
 
 		
-		public bool IsSuccess { get { return statusCode == SUCCESS || statusCode == SUCCESS_; } }
+		public bool IsSuccess { get { return statusCode == SUCCESS; } }
 		public bool IsFail { get { return !IsSuccess; } }
 		
 	}

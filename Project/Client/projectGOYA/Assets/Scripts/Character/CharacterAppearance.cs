@@ -81,16 +81,17 @@ public class CharacterAppearance : MonoBehaviour
     public void animationUpdate()
     {
         animator.SetFloat("speed", Mathf.Abs(movement.x) + Mathf.Abs(movement.y));
-        if (movement.x > 0)
-            animator.SetInteger("orientation", 6);
-        if (movement.x < 0)
-            animator.SetInteger("orientation", 2);
+        
         if (movement.y > 0)
             animator.SetInteger("orientation", 0);
         if (movement.y < 0)
             animator.SetInteger("orientation", 4);
-        //if(movement == Vector2.zero)
-        //    animator.SetInteger("orientation", 4);
+        if (movement.x > 0)
+            animator.SetInteger("orientation", 6);
+        if (movement.x < 0)
+            animator.SetInteger("orientation", 2);
+        if(movement == Vector2.zero)
+            animator.SetInteger("orientation", 4);
     }
 
     public Vector3 GetDirection()

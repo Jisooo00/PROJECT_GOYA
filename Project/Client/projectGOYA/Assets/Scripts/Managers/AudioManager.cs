@@ -120,7 +120,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayFootstep()
     {
-        if (!GameData.myData.IS_EFFECT_ON)
+        if (GameData.myData==null || !GameData.myData.IS_EFFECT_ON)
             return;
         PlayClip(mFootstepClip);
     }

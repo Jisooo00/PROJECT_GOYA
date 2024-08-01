@@ -74,11 +74,13 @@ public class Player : MonoBehaviour
             }
             movement.x = bInputLeft ? -1 : bInputRight ? 1: 0;
             movement.y = bInputUp ? 1 : bInputDown ? -1 : 0;
-
+/*
             if(movement.x != 0)
                 dirVec = bInputLeft ? Vector3.left : Vector3.right;
             else
                 dirVec = bInputUp ? Vector3.up : Vector3.down;
+*/
+
         }
         else
         {
@@ -95,10 +97,17 @@ public class Player : MonoBehaviour
 
     void CheckMovement()
     {
+        /*
         bool bMoveX = (bInputLeft && bInputRight) || (!bInputRight && !bInputLeft);
         bool bMoveY = (bInputUp && bInputDown) || (!bInputUp && !bInputDown);
 
         bIsMoving = (bMoveX && !bMoveY) || (!bMoveX && bMoveY);
+        */
+
+        bool bMoveX = (bInputLeft || bInputRight);
+        bool bMoveY = (bInputUp || bInputDown);
+
+        bIsMoving = (bMoveX  || bMoveY);
         
     }
     void FixedUpdate()
@@ -137,11 +146,13 @@ public class Player : MonoBehaviour
     {
         float moveX = inputPos.x;
         float moveY = inputPos.y;
-
-        bInputUp    = Math.Abs(moveX) < Math.Abs(moveY) && moveY > 0;
-        bInputDown  = Math.Abs(moveX) < Math.Abs(moveY) && moveY < 0;
-        bInputLeft  = Math.Abs(moveX) >= Math.Abs(moveY) && moveX < 0;
-        bInputRight = Math.Abs(moveX) >= Math.Abs(moveY) && moveX > 0;
+        Debug.Log(inputPos);
+        
+        
+        bInputUp    = moveX == 0 ? moveY > 0 : moveY > 0.25f; //Math.Abs(moveX) < Math.Abs(moveY) && moveY > 0;
+        bInputDown = moveX == 0 ? moveY < 0 : moveY < -0.25f; //Math.Abs(moveX) < Math.Abs(moveY) && moveY < 0;
+        bInputLeft  = moveY == 0? moveX < 0 : moveX < -0.25f; //Math.Abs(moveX) >= Math.Abs(moveY) && moveX < 0;
+        bInputRight = moveY == 0? moveX > 0 : moveX > 0.25f; //Math.Abs(moveX) >= Math.Abs(moveY) && moveX > 0;
         
     }
     

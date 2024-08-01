@@ -12,6 +12,10 @@ public class UIDialog : MonoBehaviour
     [SerializeField] private Sprite[] m_listSprites;
     public UISpeaker m_speakDokkabi;
     public UISpeaker m_speakNPC;
+    public float m_fScaleDokkabi = 1f;
+    public float m_fScaleNP0001 = 1f;
+    public float m_fScaleNP0002 = 1f;
+    public float m_fScaleNP0003 = 1f;
 
     [Serializable]
     public class UISpeaker
@@ -20,7 +24,6 @@ public class UIDialog : MonoBehaviour
         public TMP_Text mTextName;
         public Image mImgPortrait;
         public Image mImgNameBg;
-        public float mfWidth;
         private bool isSpeaking;
         public void SetSpeaking(bool speak)
         {
@@ -48,19 +51,12 @@ public class UIDialog : MonoBehaviour
             mTextName.text = name;
         }
 
-        public void SetImg(Sprite img)
+        public void SetImg(Sprite img, float fScale)
         {
             var rect = mImgPortrait.GetComponent<RectTransform>();
-            float fWidth = rect.sizeDelta.x;
             mImgPortrait.sprite = img;
             mImgPortrait.SetNativeSize();
-            float multiple = 1f;
-            if (img.name.Contains("np_0002"))
-            {
-                multiple = 1.75f; 
-            }
-
-            rect.sizeDelta = new Vector2(fWidth*multiple, fWidth*multiple * rect.sizeDelta.y / rect.sizeDelta.x); ;
+            rect.localScale = Vector2.one * fScale;
 
         }
     }
@@ -139,7 +135,7 @@ public class UIDialog : MonoBehaviour
             m_speakDokkabi.SetName(m_listScript[mIndex].m_strSpeaker);
             if (mDicPortraits.ContainsKey(img))
             {
-                m_speakDokkabi.SetImg(mDicPortraits[img]);
+                m_speakDokkabi.SetImg(mDicPortraits[img],m_fScaleDokkabi);
             }
             
         }
@@ -151,9 +147,17 @@ public class UIDialog : MonoBehaviour
             if (m_speakDokkabi.m_goj.activeSelf)
                 m_speakDokkabi.SetSpeaking(false);
             m_speakNPC.SetName(m_listScript[mIndex].m_strSpeaker);
+            float fScale = 1f;
             if (mDicPortraits.ContainsKey(img))
             {
-                m_speakNPC.SetImg(mDicPortraits[img]);
+
+                if (m_listScript[mIndex].m_strSpeaker == "np_0001")
+                    fScale = m_fScaleNP0001; 
+                else if (m_listScript[mIndex].m_strSpeaker == "np_0002")
+                    fScale = m_fScaleNP0002; 
+                else if (m_listScript[mIndex].m_strSpeaker == "np_0003")
+                    fScale = m_fScaleNP0003; 
+                m_speakNPC.SetImg(mDicPortraits[img],fScale);
             }
         }
 

@@ -1635,20 +1635,33 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 847be7616e444bc4b9ae7b6760f47ec6, type: 3}
   - {fileID: 21300000, guid: 23dd3ef56add052418dba5194ff34166, type: 3}
   - {fileID: 21300000, guid: ff60adbf28c1e7e439bfe4988d13e3f7, type: 3}
+  - {fileID: 21300000, guid: d05815fe923654dc3956a57e282c22b4, type: 3}
+  - {fileID: 21300000, guid: c34eec41d16fb4d199549390c91899ec, type: 3}
   - {fileID: 21300000, guid: d29d5be470fa0084896fbe18f1b2d89d, type: 3}
   - {fileID: 21300000, guid: ef3a4382320247f4688a4ae99b0fe020, type: 3}
+  - {fileID: 21300000, guid: 12382c08755df45c9bfe38959b7d6013, type: 3}
+  - {fileID: 21300000, guid: 390e12474c202420ba5a83cfe921e628, type: 3}
+  - {fileID: 21300000, guid: 50dbfaaa00e7f458981d6fb25314c058, type: 3}
+  - {fileID: 21300000, guid: 42728b6e04d9b4512807078835dbb19b, type: 3}
+  - {fileID: 21300000, guid: a41187835476d44548b5c2cba2a266d9, type: 3}
+  - {fileID: 21300000, guid: 4c5191adf91ec47648831e966cac42fc, type: 3}
+  - {fileID: 21300000, guid: cc3c1778a1625480d8b8ab55c02ce803, type: 3}
+  - {fileID: 21300000, guid: 0863577c2f8894970a9f8f1af8fe06da, type: 3}
+  - {fileID: 21300000, guid: cc3c1778a1625480d8b8ab55c02ce803, type: 3}
   m_speakDokkabi:
     m_goj: {fileID: 2044290159630952428}
     mTextName: {fileID: 7378885931306223341}
     mImgPortrait: {fileID: 8668302638396171562}
     mImgNameBg: {fileID: 1593445663348530869}
-    mfWidth: 0
   m_speakNPC:
     m_goj: {fileID: 2496083569162195767}
     mTextName: {fileID: 8438580087048341691}
     mImgPortrait: {fileID: 3525925235730980479}
     mImgNameBg: {fileID: 5590188053971637295}
-    mfWidth: 0
+  m_fScaleDokkabi: 3
+  m_fScaleNP0001: 3
+  m_fScaleNP0002: 3
+  m_fScaleNP0003: 3
 --- !u!1 &8609007963274522335
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 public class UILoading : MonoBehaviour
 {
     public TMPro.TMP_Text mTxtLoading;
-    private string text = "Loading";
+    private string text = "돗가비 이동중";
     void Start()
     {
         

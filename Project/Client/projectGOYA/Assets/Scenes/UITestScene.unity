@@ -462,6 +462,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1185765728}
     m_Modifications:
+    - target: {fileID: 873373915368583871, guid: 1a6f874dccb971d41b0b91b786ab3b39, type: 3}
+      propertyPath: m_listSprites.Array.size
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 873373915368583871, guid: 1a6f874dccb971d41b0b91b786ab3b39, type: 3}
+      propertyPath: m_listSprites.Array.data[7]
+      value: 
+      objectReference: {fileID: 21300000, guid: 12382c08755df45c9bfe38959b7d6013, type: 3}
+    - target: {fileID: 873373915368583871, guid: 1a6f874dccb971d41b0b91b786ab3b39, type: 3}
+      propertyPath: m_listSprites.Array.data[8]
+      value: 
+      objectReference: {fileID: 21300000, guid: 390e12474c202420ba5a83cfe921e628, type: 3}
+    - target: {fileID: 873373915368583871, guid: 1a6f874dccb971d41b0b91b786ab3b39, type: 3}
+      propertyPath: m_listSprites.Array.data[9]
+      value: 
+      objectReference: {fileID: 21300000, guid: 50dbfaaa00e7f458981d6fb25314c058, type: 3}
+    - target: {fileID: 873373915368583871, guid: 1a6f874dccb971d41b0b91b786ab3b39, type: 3}
+      propertyPath: m_listSprites.Array.data[10]
+      value: 
+      objectReference: {fileID: 21300000, guid: ef3a4382320247f4688a4ae99b0fe020, type: 3}
     - target: {fileID: 2642313333009594970, guid: 1a6f874dccb971d41b0b91b786ab3b39, type: 3}
       propertyPath: m_Name
       value: UIManager

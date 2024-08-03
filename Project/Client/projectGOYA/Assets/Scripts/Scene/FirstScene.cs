@@ -33,6 +33,12 @@ public class FirstScene : BaseScene
     IEnumerator StartAfter()
     {
         yield return new WaitForSeconds(1.5f);
+        WebReq.Instance.CheckNoticeData();
+        while (!GameData.bInitNoticeData)
+        {
+            yield return null;
+        }
         GameManager.Instance.Scene.LoadScene(GameData.eScene.IntroScene);
+        
     }
 }

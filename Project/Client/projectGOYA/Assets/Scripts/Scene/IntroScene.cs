@@ -132,6 +132,33 @@ public class IntroScene : BaseScene
     {
         
         mUILoading.gameObject.SetActive(true);
+
+        bool checkNotice = false;
+        if (GameData.IsServerMaintainance)
+        {
+            PopupManager.Instance.OpenPopupNotice(GameData.MaintainanceNoticeMsg, delegate()
+            {
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
+            },"서버 점검 안내");
+        }
+        else
+        {
+            checkNotice = true;
+        }
+
+        while (!checkNotice)
+        {
+            yield return null;
+        }
+        
+        if (GameData.IsNoticeExist)
+        {
+            PopupManager.Instance.OpenPopupNotice(GameData.NoticeMsg, title:"공지");
+        }
         
         bool bFailLogin = false;
         

@@ -190,13 +190,55 @@ public static class GameData
     public static UserData myData;
     
     #endregion
-    
+
+    #region NoticeData
+
+    public static bool IsServerMaintainance = false;
+    public static string MaintainanceNoticeMsg = "";
+
+    public static bool IsNoticeExist = false;
+    public static string NoticeMsg = "";
+
+    public static string ScriptVersion = "1.0";
+    public static bool NeedDownloadDialog = false;
+
+    public static bool bInitNoticeData = false;
+
+    #endregion
     
     public static Dictionary<string,QuestData> QuestDatas;
     public static Dictionary<string, List<DialogData>> DialogDatas;
     public static Dictionary<string, List<ScriptData>> ScriptDatas;
 
     #region InitDatas
+    public static void InitNoticeData(string sheetData)
+    {
+        string[] rows = sheetData.Split('\n');
+        for (int i = 0; i < rows.Length; i++)
+        {
+            string[] columns = rows[i].Split('\t');
+            if (i == 0) //서버 점검 확인
+            {
+                IsServerMaintainance = columns[0] == "1";
+                MaintainanceNoticeMsg = columns[1];
+            }else if (i == 1) //공지사항 확인
+            {
+                IsNoticeExist = columns[0] == "1";
+                NoticeMsg = columns[1];
+            }else if (i == 2)
+            {
+                if (ScriptVersion != columns[0])
+                {
+                    ScriptVersion = columns[0];
+                    NeedDownloadDialog = true;
+                }
+
+            }
+        }
+
+        bInitNoticeData = true;
+    }
+    
     public static void InitDialogData(string sheetData)
     {
         string[] rows = sheetData.Split('\n');

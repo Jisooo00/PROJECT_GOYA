@@ -8,8 +8,7 @@ public class UIManager : MonoBehaviour
 {
     public Button mBtnDialog;
     [NonSerialized] public bool mIsDialogEnable = false;
-
-    [SerializeField] private GameObject mLoginUI;
+    
     [SerializeField] private GameObject mActionUI;
     [SerializeField] private GameObject mDialogUI;
     public Button mBtnSetting;
@@ -34,6 +33,12 @@ public class UIManager : MonoBehaviour
             AudioManager.Instance.PlayClick();
             PopupManager.Instance.OpenPopupSetting();
         });
+    }
+
+    public void SetPrologScene()
+    {
+        mActionUI.SetActive(false);
+        mDialogUI.SetActive(false);
     }
 
     

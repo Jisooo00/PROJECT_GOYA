@@ -28,7 +28,7 @@ public abstract class BaseScene : MonoBehaviour
       
    }
 
-   public void SetUIManager(GameData.eScene eScene)
+   public void SetUIManager()
    {
       if (m_uiManager == null)
       {

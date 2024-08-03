@@ -11,7 +11,8 @@ public class Prolog : BaseScene
     {
         base.InitScene();
         m_eSceneType = GameData.eScene.PrologScene;
-        //m_uiManager.Init(m_eSceneType);
+        SetUIManager();
+        m_uiManager.SetPrologScene();
     }
     
     public override void Clear(Action del)
@@ -27,6 +28,7 @@ public class Prolog : BaseScene
     
     public Image m_imgFade;
     public Button m_btnSkip;
+    public Monster_np0003 m_npc;
     
     void Start()
     {
@@ -38,10 +40,13 @@ public class Prolog : BaseScene
                 StartCoroutine(RequestTutorialClear());
             },bNoBtn:true);
         });
+        Player.instance.SetSleep(true);
+        
         StartCoroutine(StartAfter());
+        
     }
     IEnumerator StartAfter()
-    {
+    {/*
         if(GameData.GetQuestData("Qu_0000").GetState() == GameData.QuestData.eState.UNAVAILABLE)
         {
             var req = new ReqQuestAccept();
@@ -49,7 +54,7 @@ public class Prolog : BaseScene
             WebReq.Instance.Request(req, delegate(ReqQuestAccept.Res res)
             {
             });
-        }
+        }*/
         
         if (m_imgFade != null)
         {
@@ -64,6 +69,23 @@ public class Prolog : BaseScene
                 yield return null;
             }
         }
+        
+        m_npc.MoveTo(new Vector2(1.2f,0f));
+        while (m_npc.IS_MOVING)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        Player.instance.SetSleep(false);
+        
+    }
+
+    IEnumerator SkipAfter()
+    {
+        m_npc.MoveTo(new Vector2(0f,3.5f));
+        yield return new WaitForSeconds(0.5f);
+        Player.instance.SetSleep(false);
     }
 
     IEnumerator RequestTutorialClear()

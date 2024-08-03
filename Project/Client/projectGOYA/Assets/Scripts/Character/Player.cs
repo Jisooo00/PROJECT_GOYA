@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public Rigidbody2D rb;
     
     private Vector2 movement;
+    private Vector2 dest;
     
     [NonSerialized] public bool bInputUp = false;
     [NonSerialized] public bool bInputDown = false;
@@ -85,6 +86,7 @@ public class Player : MonoBehaviour
         else
         {
             movement = Vector2.zero;
+            
 #if UNITY_EDITOR
             movement.x = Input.GetAxisRaw("Horizontal");
             movement.y = Input.GetAxisRaw("Vertical");
@@ -153,6 +155,16 @@ public class Player : MonoBehaviour
         bInputDown = moveX == 0 ? moveY < 0 : moveY < -0.25f; //Math.Abs(moveX) < Math.Abs(moveY) && moveY < 0;
         bInputLeft  = moveY == 0? moveX < 0 : moveX < -0.25f; //Math.Abs(moveX) >= Math.Abs(moveY) && moveX < 0;
         bInputRight = moveY == 0? moveX > 0 : moveX > 0.25f; //Math.Abs(moveX) >= Math.Abs(moveY) && moveX > 0;
+        
+    }
+
+    public void SetSleep(bool bSleep)
+    {
+        CharacterAppearance.instance.SetSleep(bSleep);
+    }
+
+    public void ForceMoveTo(Vector2 dest)
+    {
         
     }
     

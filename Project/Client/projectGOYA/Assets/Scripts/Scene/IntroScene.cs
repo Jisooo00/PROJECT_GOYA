@@ -47,9 +47,6 @@ public class IntroScene : BaseScene
     private void Start()
     {
         
-        //PlayerPrefs.DeleteKey(Global.KEY_USER_ID);
-        //PlayerPrefs.DeleteKey(Global.KEY_USER_PW);
-        
         if (GameData.myData == null)
             GameData.myData = new GameData.UserData();
         
@@ -206,7 +203,11 @@ public class IntroScene : BaseScene
         }
         else
         {
-            PopupManager.Instance.OpenPopupAccount();
+            PopupManager.Instance.OpenPopupAccount(
+                delegate
+                {
+                    RefreshUI();
+                });
             mUILoading.gameObject.SetActive(false);
         }
         

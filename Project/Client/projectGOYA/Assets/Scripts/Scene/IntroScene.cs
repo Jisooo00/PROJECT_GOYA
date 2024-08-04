@@ -47,9 +47,6 @@ public class IntroScene : BaseScene
     private void Start()
     {
         
-        //PlayerPrefs.DeleteKey(Global.KEY_USER_ID);
-        //PlayerPrefs.DeleteKey(Global.KEY_USER_PW);
-        
         if (GameData.myData == null)
             GameData.myData = new GameData.UserData();
         
@@ -132,6 +129,33 @@ public class IntroScene : BaseScene
     {
         
         mUILoading.gameObject.SetActive(true);
+
+        bool checkNotice = false;
+        if (GameData.IsServerMaintainance)
+        {
+            PopupManager.Instance.OpenPopupNotice(GameData.MaintainanceNoticeMsg, delegate()
+            {
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
+            },"서버 점검 안내");
+        }
+        else
+        {
+            checkNotice = true;
+        }
+
+        while (!checkNotice)
+        {
+            yield return null;
+        }
+        
+        if (GameData.IsNoticeExist)
+        {
+            PopupManager.Instance.OpenPopupNotice(GameData.NoticeMsg, title:"공지");
+        }
         
         bool bFailLogin = false;
         
@@ -179,7 +203,11 @@ public class IntroScene : BaseScene
         }
         else
         {
-            PopupManager.Instance.OpenPopupAccount();
+            PopupManager.Instance.OpenPopupAccount(
+                delegate
+                {
+                    RefreshUI();
+                });
             mUILoading.gameObject.SetActive(false);
         }
         

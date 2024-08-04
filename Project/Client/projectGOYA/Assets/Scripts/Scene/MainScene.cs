@@ -13,7 +13,7 @@ public class MainScene : BaseScene
         base.InitScene();
         m_eSceneType = GameData.eScene.MainScene;
         WebReq.Instance.Request(new ReqMapEnter(), delegate(ReqMapEnter.Res res) { });
-        SetUIManager(m_eSceneType);
+        SetUIManager();
         AudioManager.Instance.StopBgm();
         AudioManager.Instance.PlayBgm();
         Player.instance.PlayEffect("Chara_APPEAR");

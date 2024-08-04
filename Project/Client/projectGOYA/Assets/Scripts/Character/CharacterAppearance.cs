@@ -18,6 +18,7 @@ public class CharacterAppearance : MonoBehaviour
     public Vector2 movement;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
+    private float footstep = 0f;
 
     // The name of the sprite sheet to use
     public string SpriteSheetName;
@@ -32,6 +33,8 @@ public class CharacterAppearance : MonoBehaviour
     // The dictionary containing all the sliced up sprites in the sprite sheet
     private Dictionary<string, Sprite> spriteSheet;
 
+    private bool bNpc = false;
+
     // -----------------------------------------------------------------------------------------
     // awake method to initialisation
     void Awake()
@@ -42,6 +45,8 @@ public class CharacterAppearance : MonoBehaviour
         this.LoadSpriteSheet();
         animator.SetFloat("speed", 0);
         animator.SetInteger("orientation", 4);
+        animator.SetBool("sleep",false);
+        bNpc = SpriteSheetName.Contains("np");
     }
     // -----------------------------------------------------------------------------------------
     // Update is called once per frame
@@ -58,11 +63,29 @@ public class CharacterAppearance : MonoBehaviour
 
         previousPosition = tf.position;
 
-        animationUpdate();
+        footstep += Time.deltaTime;
+
+        if (bNpc)
+        {
+            aniNpcUpdate();
+        }
+        else
+        {
+            animationUpdate();
+
+            var speed = animator.GetFloat("speed");
+            
+            if (footstep > 0.35f && speed>0.05f)
+            {
+                AudioManager.Instance.PlayFootstep();
+                footstep = 0;
+            }
+        }
+
     }
 
         // Runs after the animation has done its work
-        private void LateUpdate()
+    private void LateUpdate()
     {
         // Check if the sprite sheet name has changed (possibly manually in the inspector)
         if (this.LoadedSpriteSheetName != this.SpriteSheetName)
@@ -90,8 +113,24 @@ public class CharacterAppearance : MonoBehaviour
             animator.SetInteger("orientation", 6);
         if (movement.x < 0)
             animator.SetInteger("orientation", 2);
-        if(movement == Vector2.zero)
+        if(movement == Vector2.zero && !animator.GetBool("sleep"))
             animator.SetInteger("orientation", 4);
+    }
+
+    public void aniNpcUpdate()
+    {
+        animator.SetFloat("speed", Mathf.Abs(movement.x) + Mathf.Abs(movement.y));
+        
+        if (movement.x > 0)
+            animator.SetInteger("orientation", 6);
+        if (movement.x < 0)
+            animator.SetInteger("orientation", 2);
+        
+        if (movement.y > 0)
+            animator.SetInteger("orientation", 0);
+        if (movement.y < 0)
+            animator.SetInteger("orientation", 4);
+
     }
 
     public Vector3 GetDirection()
@@ -139,8 +178,14 @@ public class CharacterAppearance : MonoBehaviour
         }
 
         this.spriteSheet = sprites.ToDictionary(x => x.name, x => x);
+        
 
         // Remember the name of the sprite sheet in case it is changed later
         this.LoadedSpriteSheetName = this.SpriteSheetName;
+    }
+
+    public void SetSleep(bool bSleep)
+    {
+        animator.SetBool("sleep",bSleep);
     }
 }

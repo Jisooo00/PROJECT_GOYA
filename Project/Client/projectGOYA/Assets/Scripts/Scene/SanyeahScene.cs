@@ -27,7 +27,7 @@ public class SanyeahScene : BaseScene
         WebReq.Instance.Request(new ReqMapEnter(), delegate(ReqMapEnter.Res res) { });
         mUIEnding.SetActive(false);
         mUIEnding.transform.SetAsLastSibling();
-        SetUIManager(m_eSceneType);
+        SetUIManager();
         if (GameData.GetQuestData("Qu_0002").GetState() == GameData.QuestData.eState.UNAVAILABLE)
         {
             Sanyeah.animator.SetBool("idle",false);

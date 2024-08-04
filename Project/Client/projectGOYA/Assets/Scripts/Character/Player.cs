@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public Rigidbody2D rb;
     
     private Vector2 movement;
+    private Vector2 dest;
     
     [NonSerialized] public bool bInputUp = false;
     [NonSerialized] public bool bInputDown = false;
@@ -26,8 +27,6 @@ public class Player : MonoBehaviour
     private bool bIsMoving = false;
     public Vector3 dirVec;
     [NonSerialized] public GameObject mScanObject = null;
-
-    private float mFPlayFootstep = 0f;
 
     public GameData.DialogData GetScannedMonster()
     {
@@ -59,7 +58,6 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        mFPlayFootstep += Time.deltaTime;
         
         if (bIsDialogPlaying)
             return;
@@ -67,11 +65,6 @@ public class Player : MonoBehaviour
 
         if (bIsMoving)
         {
-            if (mFPlayFootstep > 0.4f)
-            {
-                AudioManager.Instance.PlayFootstep();
-                mFPlayFootstep = 0;
-            }
             movement.x = bInputLeft ? -1 : bInputRight ? 1: 0;
             movement.y = bInputUp ? 1 : bInputDown ? -1 : 0;
 /*
@@ -85,6 +78,7 @@ public class Player : MonoBehaviour
         else
         {
             movement = Vector2.zero;
+            
 #if UNITY_EDITOR
             movement.x = Input.GetAxisRaw("Horizontal");
             movement.y = Input.GetAxisRaw("Vertical");
@@ -146,13 +140,23 @@ public class Player : MonoBehaviour
     {
         float moveX = inputPos.x;
         float moveY = inputPos.y;
-        Debug.Log(inputPos);
+//        Debug.Log(inputPos);
         
         
         bInputUp    = moveX == 0 ? moveY > 0 : moveY > 0.25f; //Math.Abs(moveX) < Math.Abs(moveY) && moveY > 0;
         bInputDown = moveX == 0 ? moveY < 0 : moveY < -0.25f; //Math.Abs(moveX) < Math.Abs(moveY) && moveY < 0;
         bInputLeft  = moveY == 0? moveX < 0 : moveX < -0.25f; //Math.Abs(moveX) >= Math.Abs(moveY) && moveX < 0;
         bInputRight = moveY == 0? moveX > 0 : moveX > 0.25f; //Math.Abs(moveX) >= Math.Abs(moveY) && moveX > 0;
+        
+    }
+
+    public void SetSleep(bool bSleep)
+    {
+        CharacterAppearance.instance.SetSleep(bSleep);
+    }
+
+    public void ForceMoveTo(Vector2 dest)
+    {
         
     }
     

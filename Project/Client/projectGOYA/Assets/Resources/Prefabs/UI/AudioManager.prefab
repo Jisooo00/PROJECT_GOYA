@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26082670a923114fbc1c871183f6ac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mAudioBGMClip: {fileID: 8300000, guid: fa4655931be9e44429a9500d6003888b, type: 3}
+  mAudioBGMClip: {fileID: 8300000, guid: cd97816a64d2f4740abba9d036a3526a, type: 3}
   mFootstepClip: {fileID: 8300000, guid: bb1d762062fc5b940a1d3bb345bf4883, type: 3}
   mClickClip: {fileID: 8300000, guid: f7a45c730d112834db6f9aa81b1027ab, type: 3}
   mSanyeahGameClip: {fileID: 8300000, guid: 4d4c8ba74e2ac404c88acdeeec66ccbc, type: 3}

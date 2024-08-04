@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,6 +35,10 @@ public class UIPopupSetNickname : UIPopup
             }
             StartCoroutine(RequestSetNickname());
         });
+        
+        mInputNickname.onValueChanged.AddListener(
+            (word) => mInputNickname.text = Regex.Replace(word, @"[^0-9a-zA-Z가-힣]", "")
+        );
         
         mTextConfirm.text = "확인"; //TODO 로컬 적용
         

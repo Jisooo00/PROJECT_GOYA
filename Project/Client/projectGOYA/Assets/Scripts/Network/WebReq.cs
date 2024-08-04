@@ -39,6 +39,22 @@ public class WebReq : MonoBehaviour
 	public readonly string DialogeDataRange = "A3:F";
 	public readonly long ScriptDataSheetID = 198592244;
 	public readonly string ScriptDatRange = "A2:E";
+	public readonly long NoticeDataSheetID = 794120212;
+	public readonly string NoticeDataRange = "B2:C";
+	
+	
+	public void CheckNoticeData()
+	{
+		StartCoroutine("RequestCheckNoticeData");
+	}
+	IEnumerator RequestCheckNoticeData()
+	{
+		UnityWebRequest www =
+			UnityWebRequest.Get(string.Format(GoogleSheetAddress, NoticeDataRange, NoticeDataSheetID));
+		yield return www.SendWebRequest();
+		GameData.InitNoticeData(www.downloadHandler.text);
+	}
+	
 
 	public void LoadDialogData()
 	{

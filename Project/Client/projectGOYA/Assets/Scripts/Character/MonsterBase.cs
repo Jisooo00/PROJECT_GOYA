@@ -49,6 +49,7 @@ public abstract class MonsterBase : MonoBehaviour{
             mIsInteractable = false;
         }
         SetQuestionMark();
+
     }
 
     private void SetQuestionMark()
@@ -60,7 +61,6 @@ public abstract class MonsterBase : MonoBehaviour{
     protected virtual void InitMonster()
     {
     }
-    
 
     public void RefreshData()
     {
@@ -68,4 +68,53 @@ public abstract class MonsterBase : MonoBehaviour{
         SetQuestionMark();
         //mData = GameData.GetDialog(monsterID);
     }
+    
+    public float moveSpeed;
+    public Rigidbody2D rb;
+    
+    private Vector2 movement;
+    private Vector2 dest;
+    
+    private Vector3 dirVec;
+    
+    private bool bMoving = false;
+
+    public bool IS_MOVING
+    {
+        get
+        {
+            return bMoving;
+        }
+    }
+
+    
+    void FixedUpdate()
+    {
+       
+        if (rb != null && bMoving)
+        {
+            var dir = dest - rb.position;
+            if (dir.magnitude <= 0.1f)
+            {
+                rb.position  = dest;
+                bMoving = false;
+                return;
+            }
+            else
+            {
+                rb.MovePosition(rb.position + dir.normalized * moveSpeed * Time.fixedDeltaTime);
+                dirVec = CharacterAppearance.instance.GetDirection();
+            }
+            
+        }
+    }
+
+    public void MoveTo(Vector2 destination)
+    {
+        bMoving = true;
+        dest = destination;
+    }
+
+
+    
 }

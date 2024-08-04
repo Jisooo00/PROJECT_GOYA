@@ -148,7 +148,7 @@ public class Player : MonoBehaviour
     {
         float moveX = inputPos.x;
         float moveY = inputPos.y;
-        Debug.Log(inputPos);
+//        Debug.Log(inputPos);
         
         
         bInputUp    = moveX == 0 ? moveY > 0 : moveY > 0.25f; //Math.Abs(moveX) < Math.Abs(moveY) && moveY > 0;

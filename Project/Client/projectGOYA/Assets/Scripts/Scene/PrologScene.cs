@@ -46,7 +46,7 @@ public class Prolog : BaseScene
         
     }
     IEnumerator StartAfter()
-    {/*
+    {
         if(GameData.GetQuestData("Qu_0000").GetState() == GameData.QuestData.eState.UNAVAILABLE)
         {
             var req = new ReqQuestAccept();
@@ -54,7 +54,7 @@ public class Prolog : BaseScene
             WebReq.Instance.Request(req, delegate(ReqQuestAccept.Res res)
             {
             });
-        }*/
+        }
         
         if (m_imgFade != null)
         {

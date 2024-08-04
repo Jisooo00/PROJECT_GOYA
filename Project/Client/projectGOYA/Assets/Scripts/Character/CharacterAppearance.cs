@@ -18,6 +18,7 @@ public class CharacterAppearance : MonoBehaviour
     public Vector2 movement;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
+    private float footstep = 0f;
 
     // The name of the sprite sheet to use
     public string SpriteSheetName;
@@ -62,6 +63,8 @@ public class CharacterAppearance : MonoBehaviour
 
         previousPosition = tf.position;
 
+        footstep += Time.deltaTime;
+
         if (bNpc)
         {
             aniNpcUpdate();
@@ -69,6 +72,14 @@ public class CharacterAppearance : MonoBehaviour
         else
         {
             animationUpdate();
+
+            var speed = animator.GetFloat("speed");
+            
+            if (footstep > 0.35f && speed>0.05f)
+            {
+                AudioManager.Instance.PlayFootstep();
+                footstep = 0;
+            }
         }
 
     }

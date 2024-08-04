@@ -28,8 +28,6 @@ public class Player : MonoBehaviour
     public Vector3 dirVec;
     [NonSerialized] public GameObject mScanObject = null;
 
-    private float mFPlayFootstep = 0f;
-
     public GameData.DialogData GetScannedMonster()
     {
         if (mScanObject == null)
@@ -60,7 +58,6 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        mFPlayFootstep += Time.deltaTime;
         
         if (bIsDialogPlaying)
             return;
@@ -68,11 +65,6 @@ public class Player : MonoBehaviour
 
         if (bIsMoving)
         {
-            if (mFPlayFootstep > 0.4f)
-            {
-                AudioManager.Instance.PlayFootstep();
-                mFPlayFootstep = 0;
-            }
             movement.x = bInputLeft ? -1 : bInputRight ? 1: 0;
             movement.y = bInputUp ? 1 : bInputDown ? -1 : 0;
 /*

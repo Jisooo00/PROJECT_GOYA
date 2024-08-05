@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneMgr
 {
+    public GameData.eScene prevScene= GameData.eScene.FirstScene;
     public BaseScene currentScene
     {
         get
@@ -64,6 +65,7 @@ public class SceneMgr
     {
         currentScene.Clear(delegate
         {
+            prevScene = currentScene.m_eSceneType;
             SceneManager.LoadScene(GetSceneName(sceneType));
             if (del != null)
                 del();

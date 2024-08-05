@@ -132,7 +132,26 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.layer == 7)
         {
-            GameManager.Instance.Scene.LoadScene(GameData.eScene.SanyeahScene);
+            foreach (var dialog in GameData.GetDialog("np_0001"))
+            {
+                if (dialog.m_strDialogID == "Dl_0002")
+                {
+                    if (dialog.m_bPlayed)
+                    {
+                        GameManager.Instance.Scene.LoadScene(GameData.eScene.SanyeahScene);
+                        return;
+                    }
+                }
+            }
+
+            var cur = transform.localPosition;
+            cur = new Vector3(cur.x + 1, cur.y, cur.z);
+            transform.localPosition = cur;
+            PopupManager.Instance.OpenPopupNotice("아직 산예의 숲으로 갈 수 없다는 내용 안내 (추후 대체))");
+        }
+        if (other.gameObject.layer == 8)
+        {
+            GameManager.Instance.Scene.LoadScene(GameData.eScene.MainScene);
         }
     }
 

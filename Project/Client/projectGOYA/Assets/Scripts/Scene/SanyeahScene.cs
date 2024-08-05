@@ -8,6 +8,7 @@ public class SanyeahScene : BaseScene
     public MonsterSanyeah Sanyeah;
     public GameObject mUIEnding;
     public GameObject m_uiLoading;
+    public Transform m_tmPosFromMain;
     
     protected override void InitScene()
     {
@@ -15,14 +16,29 @@ public class SanyeahScene : BaseScene
         m_eSceneType = GameData.eScene.SanyeahScene;
         StartCoroutine(StartAfter());
 
+
     }
     
     
     IEnumerator StartAfter()
     {
+        var moveFirst = new Vector2(0, 0);
+        
         m_uiLoading.gameObject.SetActive(true);
+        if (GameManager.Instance.Scene.prevScene == GameData.eScene.IntroScene)
+        {
+            Player.instance.transform.localPosition = m_tmPosFromMain.localPosition;
+            moveFirst = Vector2.left;
+        }
         yield return new WaitForSeconds(0.5f);
         m_uiLoading.gameObject.SetActive(false);
+        
+        if (moveFirst != Vector2.zero)
+        {
+            Player.instance.SetInputPos(moveFirst);
+            yield return new WaitForSeconds(0.5f);
+            Player.instance.SetInputPos(new Vector2(0,0f));
+        }
         
         WebReq.Instance.Request(new ReqMapEnter(), delegate(ReqMapEnter.Res res) { });
         mUIEnding.SetActive(false);
@@ -42,7 +58,7 @@ public class SanyeahScene : BaseScene
                 StartCoroutine("ShowEnding");
             }
         }
-        Player.instance.PlayEffect("Chara_APPEAR");
+        //Player.instance.PlayEffect("Chara_APPEAR");
         
         AudioManager.Instance.PlayBgm();
         
@@ -74,7 +90,7 @@ public class SanyeahScene : BaseScene
     public override void Clear(Action del)
     {
         Debug.Log("SanyeahScene is clear.");
-        Player.instance.PlayEffect("Chara_DISAPPEAR");
+        //Player.instance.PlayEffect("Chara_DISAPPEAR");
         del();
     }
     

@@ -8,6 +8,8 @@ public class MainScene : BaseScene
 {
     public GameObject SceneMoveBox;
     public GameObject m_uiLoading;
+    public Transform m_tmPosFromCave;
+    public Transform m_tmPosFromSanyeah;
     protected override void InitScene()
     {
         base.InitScene();
@@ -16,7 +18,7 @@ public class MainScene : BaseScene
         SetUIManager();
         AudioManager.Instance.StopBgm();
         AudioManager.Instance.PlayBgm();
-        Player.instance.PlayEffect("Chara_APPEAR");
+        //Player.instance.PlayEffect("Chara_APPEAR");
     }
 
     public void Start()
@@ -26,7 +28,7 @@ public class MainScene : BaseScene
 
     public override void Clear(Action del)
     {
-        Player.instance.PlayEffect("Chara_DISAPPEAR");
+        //Player.instance.PlayEffect("Chara_DISAPPEAR");
         if (del != null)
         {
             StartCoroutine(ClearSceneAfter(del));
@@ -44,8 +46,30 @@ public class MainScene : BaseScene
     IEnumerator StartAfter()
     {
         m_uiLoading.gameObject.SetActive(true);
+
+        var moveFirst = new Vector2(0, 0);
+        
+        if (GameManager.Instance.Scene.prevScene == GameData.eScene.PrologScene)
+        {
+            Player.instance.transform.localPosition = m_tmPosFromCave.localPosition;
+            moveFirst = Vector2.up;
+        }
+        
+        if (GameManager.Instance.Scene.prevScene == GameData.eScene.SanyeahScene)
+        {
+            Player.instance.transform.localPosition = m_tmPosFromSanyeah.localPosition;
+            moveFirst = Vector2.right;
+        }
         yield return new WaitForSeconds(0.5f);
         m_uiLoading.gameObject.SetActive(false);
+
+        if (moveFirst != Vector2.zero)
+        {
+            Player.instance.SetInputPos(moveFirst);
+            yield return new WaitForSeconds(0.5f);
+            Player.instance.SetInputPos(new Vector2(0,0f));
+        }
+
         
         if (GameData.QuestDatas.ContainsKey("Qu_0001") && GameData.QuestDatas["Qu_0001"].GetState() ==
             GameData.QuestData.eState.UNAVAILABLE)
@@ -56,24 +80,11 @@ public class MainScene : BaseScene
             {
             });
         }
-
-        foreach (var dialog in GameData.GetDialog("np_0001"))
-        {
-            if (dialog.m_strDialogID == "Dl_0002")
-            {
-                SceneMoveBox.SetActive(dialog.m_bPlayed);
-            }
-        }
+        
     }
     
     public override void DelFunc()
     {
-        foreach (var dialog in GameData.GetDialog("np_0001"))
-        {
-            if (dialog.m_strDialogID == "Dl_0002")
-            {
-                SceneMoveBox.SetActive(dialog.m_bPlayed);
-            }
-        }
+
     }
 }

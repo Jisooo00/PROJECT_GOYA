@@ -8,7 +8,7 @@ public class Monster_np0003 : MonsterBase
     {
         base.InitMonster();
         monsterID = "np_0003";
-        //mData = GameData.GetDialog(monsterID);
+        mData = GameData.GetDialog(monsterID);
     }
     
 

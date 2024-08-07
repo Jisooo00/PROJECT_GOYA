@@ -127,8 +127,8 @@ public class SanyeahGameManager : BaseScene
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_uid, "Dl_0006"), "true");
-            PlayerPrefs.Save();
+            //PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_uid, "Dl_0006"), "true");
+            //PlayerPrefs.Save();
             GameData.SetDialogPlayed("np_0002","Dl_0006");
             mITotalScore = 5000;
             SetGameClear();

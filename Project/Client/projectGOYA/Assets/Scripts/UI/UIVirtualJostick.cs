@@ -11,16 +11,35 @@ public class UIVirtualJostick : MonoBehaviour,IPointerDownHandler,IDragHandler,I
     public Image mImgController;
     private Vector3 mV3Origin;
     private RectTransform mRect;
+    public GameObject m_goTutoPointer_action = null;
+
+
+    public void Awake()
+    {
+        m_goTutoPointer_action.SetActive(false);
+    }
 
     public void Start()
     {
+
         mRect = mGobJoyStick.GetComponent<RectTransform>();
         mV3Origin = mRect.position;
+        
+    }
+
+    public void SetTutorialPointer()
+    {
+        Debug.Log("Set Pointer");
+        m_goTutoPointer_action.SetActive(true);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        Debug.Log("on Pointer Down");
         mGobJoyStick.transform.position = eventData.position;
+        
+        if(m_goTutoPointer_action.activeSelf)
+            m_goTutoPointer_action.SetActive(false);
         /*
         if (!mGobJoyStick.activeSelf)
         {
@@ -47,6 +66,7 @@ public class UIVirtualJostick : MonoBehaviour,IPointerDownHandler,IDragHandler,I
                 touchPosition.y * mImgBg.rectTransform.sizeDelta.y / 2);
             
             Player.instance.SetInputPos(touchPosition);
+            
             
         }
 

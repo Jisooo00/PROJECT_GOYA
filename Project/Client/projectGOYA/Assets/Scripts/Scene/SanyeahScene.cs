@@ -70,8 +70,8 @@ public class SanyeahScene : BaseScene
     {
         mUIEnding.SetActive(true);
         
-        PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_name, "Dl_0006"), "true");
-        PlayerPrefs.Save();
+        //PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_name, "Dl_0006"), "true");
+        //PlayerPrefs.Save();
         GameData.SetDialogPlayed("np_0002","Dl_0006");
         
         float playTime = 0f;

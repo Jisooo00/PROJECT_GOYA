@@ -33,32 +33,57 @@ public static class GameData
 
     #region Dialog
 
+    [Serializable]
     public class DialogData
     {
-        public enum eType
+        public enum ePlayCondition
         {
-            IN_ORDER = 1,
-            RANDOM = 2,
+            OBJECT_INTERACTION = -2,
+            PREV_DIALOG = -1,
+            OUEST_UNAVAILABLE = 0,
+            OUEST_ACCOMPLISHING = 1,
+            OUEST_COMPLETED = 2,
+            OUEST_FINISHED = 3,
         }
        
         public string m_strDialogID;
-        public eType m_eType;
         public string mObjectID;
-        public QuestData.eState m_eCondition;
-        public string m_strQuestID;
+        public ePlayCondition m_ePlayCondition;
+        public string m_strConditionID = ""; //Quest이거나 Dialog
         public bool m_bPlayed = false;
         public GameManager.eDialogAction m_eAction;
-        
-        public int mIndex;
+        public List<string>m_listActionQuest = new List<string>(); 
+        public List<string> m_listActionDialog = new List<string>(); 
+        public bool m_bReplay = false;
+        public List<ScriptData> m_scriptList = new List<ScriptData>();
 
-        public DialogData(string ID,string type, string npcId, string condition,string questId,string action)
+
+        public DialogData(string ID,string npcId, string playCondition,  string condition,string actionQuest,string actionDialog,string action,string replay)
         {
             m_strDialogID = ID;
-            m_eType = (eType) int.Parse(type);
             mObjectID = npcId;
-            m_eCondition = (QuestData.eState) int.Parse(condition);
-            m_strQuestID = questId;
+            m_ePlayCondition = (ePlayCondition) int.Parse(playCondition);
+            m_strConditionID = condition;
+            string[] quests = actionQuest.Split('/');
+            if (quests.Length > 0)
+            {
+                foreach (var quest in quests)
+                {
+                    if(!string.IsNullOrEmpty(quest))
+                        m_listActionQuest.Add(quest);
+                }
+            }
+            string[] dialogs = actionDialog.Split('/');
+            if (dialogs.Length > 0)
+            {
+                foreach (var dialog in dialogs)
+                {
+                    if(!string.IsNullOrEmpty(dialog))
+                        m_listActionDialog.Add(dialog);
+                }
+            }
             m_eAction = (GameManager.eDialogAction)int.Parse(action);
+            m_bReplay = replay == "1";
         }
 
     }
@@ -67,6 +92,7 @@ public static class GameData
 
     #region ScriptData
 
+    [Serializable]
     public class ScriptData
     {
         public string m_strSpeaker;
@@ -198,8 +224,7 @@ public static class GameData
 
     public static bool IsNoticeExist = false;
     public static string NoticeMsg = "";
-
-    public static string ScriptVersion = "1.0";
+    
     public static bool NeedDownloadDialog = false;
 
     public static bool bInitNoticeData = false;
@@ -207,8 +232,8 @@ public static class GameData
     #endregion
     
     public static Dictionary<string,QuestData> QuestDatas;
-    public static Dictionary<string, List<DialogData>> DialogDatas;
-    public static Dictionary<string, List<ScriptData>> ScriptDatas;
+    public static Dictionary<string, List<DialogData>> DialogDatas = new Dictionary<string, List<DialogData>>();
+    public static Dictionary<string, List<ScriptData>> ScriptDatas = new Dictionary<string, List<ScriptData>>() ;
 
     #region InitDatas
     public static void InitNoticeData(string sheetData)
@@ -227,9 +252,9 @@ public static class GameData
                 NoticeMsg = columns[1];
             }else if (i == 2)
             {
-                if (ScriptVersion != columns[0])
+                if (GameManager.Instance.saveData.ScriptVersion != columns[0])
                 {
-                    ScriptVersion = columns[0];
+                    GameManager.Instance.saveData.ScriptVersion = columns[0];
                     NeedDownloadDialog = true;
                 }
 
@@ -245,24 +270,20 @@ public static class GameData
         foreach (var row in rows)
         {
             string[] columns = row.Split('\t');
-            string id = columns[0];
-            string type= columns[1];
-            string npcId= columns[2];
-            string condition= columns[3];
-            string questId= columns[4];
-            string action= columns[5].Split('\r')[0];
             
-            var data = new GameData.DialogData(id,type,npcId,condition,questId,action);
-            if (PlayerPrefs.HasKey(string.Format("{0}_{1}", myData.user_name, id)))
-            {
-                data.m_bPlayed = true;
-            }
+            string id = columns[0];
+            string npcId = columns[1];
+            string playCondition = columns[2];
+            string condition = columns[3];
+            string actionQuest = columns[4];
+            string actionDialog = columns[5];
+            string action = columns[6];
+            string replay = columns[7].Split('\r')[0];
+            
+            var data = new DialogData(id,npcId,playCondition,condition,actionQuest,actionDialog,action,replay);
+            
+            GameManager.Instance.saveData.AddDialog(data);
 
-            if (!DialogDatas.ContainsKey(npcId))
-            {
-                DialogDatas.Add(npcId,new List<GameData.DialogData>(){data});
-            }else
-                DialogDatas[npcId].Add(data);
         }
     }
 
@@ -277,17 +298,42 @@ public static class GameData
             string Portrait = columns[3];
             string Script = columns[4].Split('\r')[0];
 
-            var data = new GameData.ScriptData(Speaker, Portrait, Script);
-            if (!ScriptDatas.ContainsKey(DialogId))
+            var data = new ScriptData(Speaker, Portrait, Script);
+            GameManager.Instance.saveData.AddScript(data,DialogId);
+
+        }
+    }
+
+    public static void SetGameDialogData()
+    {
+        var list = GameManager.Instance.saveData.GetDialogList();
+
+        foreach (var data in list)
+        {
+            string npcId = data.mObjectID;
+            string DialogId = data.m_strDialogID;
+            if (!DialogDatas.ContainsKey(data.mObjectID))
             {
-                ScriptDatas.Add(DialogId, new List<GameData.ScriptData>() { data });
-            }
-            else
+                DialogDatas.Add(npcId,new List<GameData.DialogData>(){data});
+            }else
+                DialogDatas[npcId].Add(data);
+
+            if (data.m_scriptList.Count > 0)
             {
-                ScriptDatas[DialogId].Add(data);
+                foreach (var script in data.m_scriptList)
+                {
+                    if (!ScriptDatas.ContainsKey(DialogId))
+                    {
+                        ScriptDatas.Add(DialogId, new List<GameData.ScriptData>() { script });
+                    }
+                    else
+                    {
+                        ScriptDatas[DialogId].Add(script);
+                    }
+                }
             }
         }
-
+        
     }
     #endregion
 
@@ -314,6 +360,12 @@ public static class GameData
                 if (dialog.m_strDialogID == id)
                     dialog.m_bPlayed = played;
             }
+        }
+        
+        foreach (var dialog in GameManager.Instance.saveData.GetDialogList())
+        {
+            if (dialog.m_strDialogID == id)
+                dialog.m_bPlayed = played;
         }
         
     }
@@ -364,9 +416,9 @@ public class Global
     public static void InitUserData()
     {
         var data = new GameData.UserData();
-        data.user_id = PlayerPrefs.HasKey(KEY_USER_ID) ? PlayerPrefs.GetString(KEY_USER_ID):"";
-        data.user_uid = PlayerPrefs.HasKey(KEY_USER_UID) ? PlayerPrefs.GetInt(KEY_USER_UID):-1;
-        data.user_pw = PlayerPrefs.HasKey(KEY_USER_PW) ? PlayerPrefs.GetString(KEY_USER_PW):"";
+        data.user_id = string.IsNullOrEmpty(GameManager.Instance.saveData.LoginID) ? "" : GameManager.Instance.saveData.LoginID;
+        data.user_uid = GameManager.Instance.saveData.LoginUid;
+        data.user_pw = string.IsNullOrEmpty(GameManager.Instance.saveData.LoginPW) ? "" : GameManager.Instance.saveData.LoginPW;
         data.IS_BGM_ON = GameData.myData.IS_BGM_ON;
         data.IS_EFFECT_ON = GameData.myData.IS_EFFECT_ON;
         data.SET_VOLUME = GameData.myData.SET_VOLUME;

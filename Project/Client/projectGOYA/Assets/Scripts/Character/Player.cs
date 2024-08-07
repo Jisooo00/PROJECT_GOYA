@@ -20,6 +20,14 @@ public class Player : MonoBehaviour
     [NonSerialized] public bool bInputLeft = false;
     [NonSerialized] public bool bInputRight = false;
     [NonSerialized] public bool bIsDialogPlaying = false;
+    public bool bIsOnGoingTutorial
+    {
+        get
+        {
+            return (GameData.QuestDatas.ContainsKey("Qu_0000") && GameData.QuestDatas["Qu_0000"].GetState() !=
+                GameData.QuestData.eState.FINISHED);
+        }
+    }
 
     public Animation mAniEffect;
     public GameObject mGoEffect;
@@ -109,7 +117,7 @@ public class Player : MonoBehaviour
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
         
         Debug.DrawRay(rb.position,dirVec,new Color(0,1,0));
-        RaycastHit2D rayHit = Physics2D.Raycast(rb.position, dirVec, 1f, LayerMask.GetMask("InteractiveObject"));
+        RaycastHit2D rayHit = Physics2D.Raycast(rb.position, dirVec, 2f, LayerMask.GetMask("InteractiveObject"));
         if (rayHit.collider != null)
         {
             mScanObject = rayHit.collider.gameObject;
@@ -160,7 +168,6 @@ public class Player : MonoBehaviour
         float moveX = inputPos.x;
         float moveY = inputPos.y;
 //        Debug.Log(inputPos);
-        
         
         bInputUp    = moveX == 0 ? moveY > 0 : moveY > 0.25f; //Math.Abs(moveX) < Math.Abs(moveY) && moveY > 0;
         bInputDown = moveX == 0 ? moveY < 0 : moveY < -0.25f; //Math.Abs(moveX) < Math.Abs(moveY) && moveY < 0;

@@ -16,7 +16,7 @@ public class UIDialog : MonoBehaviour
     public float m_fScaleNP0001 = 1f;
     public float m_fScaleNP0002 = 1f;
     public float m_fScaleNP0003 = 1f;
-
+    
     [Serializable]
     public class UISpeaker
     {
@@ -48,6 +48,8 @@ public class UIDialog : MonoBehaviour
                 name = "주막주인"; //TODO 로컬 적용
             if (name == "np_0002")
                 name = "산예"; //TODO 로컬 적용
+            if (name == "np_0003")
+                name = "여우"; 
             mTextName.text = name;
         }
 
@@ -70,25 +72,26 @@ public class UIDialog : MonoBehaviour
     
     public void Init(GameData.DialogData data,Action del)
     {
+        Debug.Log("InitDialogSystem");
         m_listScript = GameData.GetScript(data.m_strDialogID);
         mIndex = 0;
         if (m_listScript.Count== 0)
         {
-            GameManager.DialogAction(data.m_strQuestID,data.m_eAction);
+            GameManager.DialogAction(data);
         }
         else
         {
             mData = data;
             mDelDialogAfter = del + delegate
             {
-                if (data.m_eAction != GameManager.eDialogAction.SAVE_EXCEPTION)
+                if (!data.m_bReplay)
                 {
-                    PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_name, data.m_strDialogID), "true");
-                    PlayerPrefs.Save();
+                    //PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_name, data.m_strDialogID), "true");
+                    //PlayerPrefs.Save();
                     GameData.SetDialogPlayed(data.mObjectID,data.m_strDialogID);
                 }
 
-                GameManager.DialogAction(data.m_strQuestID, data.m_eAction);
+                GameManager.DialogAction(data);
             };
             
             mDicPortraits = new Dictionary<string, Sprite>();

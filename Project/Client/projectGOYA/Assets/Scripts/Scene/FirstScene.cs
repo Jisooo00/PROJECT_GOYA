@@ -8,6 +8,7 @@ public class FirstScene : BaseScene
 {
 
     public bool bTestGuestMode = false;
+    public SaveDataManager SaveDataManager;
     protected override void InitScene()
     {
         base.InitScene();
@@ -27,14 +28,19 @@ public class FirstScene : BaseScene
     }
     
     public Image m_imgTeamLogo;
+
+    void Awake()
+    {
+        
+//        DontDestroyOnLoad(SaveDataManager.gameObject);
+    }
     void Start()
     {
 #if UNITY_EDITOR
 
         if (bTestGuestMode)
         {
-            PlayerPrefs.DeleteKey(Global.KEY_USER_ID);
-            PlayerPrefs.DeleteKey(Global.KEY_USER_PW);
+            SaveDataManager.InitializeData();
         }
         
 #endif
@@ -43,6 +49,7 @@ public class FirstScene : BaseScene
     }
     IEnumerator StartAfter()
     {
+        GameManager.Instance.saveData = SaveDataManager;
         yield return new WaitForSeconds(1.5f);
         WebReq.Instance.CheckNoticeData();
         while (!GameData.bInitNoticeData)

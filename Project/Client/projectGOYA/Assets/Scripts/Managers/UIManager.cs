@@ -11,14 +11,21 @@ public class UIManager : MonoBehaviour
     
     [SerializeField] private GameObject mActionUI;
     [SerializeField] private GameObject mDialogUI;
+    [SerializeField] private UIVirtualJostick mJostick;
     public Button mBtnSetting;
 
     //public SanyeahGame mSanyeahGame;
     private UIDialog mDialogSystem;
+    
+    
+    public GameObject m_goTutoPointer_dialog1 = null;
+    public GameObject m_goTutoPointer_dialog2 = null;
 
+    public Action delTuto = null;
+    
+    
     void Start()
     {
-        Init();
     }
 
     public void Init()
@@ -33,12 +40,24 @@ public class UIManager : MonoBehaviour
             AudioManager.Instance.PlayClick();
             PopupManager.Instance.OpenPopupSetting();
         });
+        
+        m_goTutoPointer_dialog1.SetActive(false);
+        m_goTutoPointer_dialog2.SetActive(false);
     }
 
     public void SetPrologScene()
     {
         mActionUI.SetActive(false);
         mDialogUI.SetActive(false);
+    }
+
+    public void SetTutorialAction()
+    {
+        Debug.Log("tutoAction");
+        mActionUI.SetActive(true);
+        mJostick.SetTutorialPointer();
+        mDialogUI.SetActive(false);
+        mBtnSetting.gameObject.SetActive(false);
     }
 
     
@@ -58,6 +77,12 @@ public class UIManager : MonoBehaviour
     public void DialogKeyOnClick()
     {
         AudioManager.Instance.PlayClick();
+        if (delTuto != null)
+        {
+            delTuto();
+            return;
+        }
+
         Player.instance.bIsDialogPlaying = true;
         PlayDialog();
     }
@@ -67,6 +92,7 @@ public class UIManager : MonoBehaviour
         mIsDialogEnable = bEnable;
         if(mBtnDialog != null)
             mBtnDialog.gameObject.SetActive(mIsDialogEnable);
+        m_goTutoPointer_dialog2.gameObject.SetActive(bEnable&&Player.instance.bIsOnGoingTutorial);
     }
 
     public void PlayDialog()
@@ -84,12 +110,39 @@ public class UIManager : MonoBehaviour
 
         }
     }
+    
+    public void PlayDialogForce(string DialogID, Action del)
+    {
+        Debug.Log("PlayDialogForce");
+        mActionUI.SetActive(false);
+        mDialogUI.SetActive(true);
+        Player.instance.bIsDialogPlaying = true;
+        if (mDialogSystem != null)
+        {
+            var data = GameManager.Instance.saveData.GetDialogByID(DialogID);
+            if (data == null)
+            {
+                Debug.Log("dialog "+DialogID+"is null");
+                return;
+            }
+            
+            mDialogSystem.Init(data, delegate { EndDialog();
+                del();
+            });
+            
+            m_goTutoPointer_dialog1.SetActive(Player.instance.bIsOnGoingTutorial);
+        }
+    }
 
     public void EndDialog()
     {
         mActionUI.SetActive(true);
         mDialogUI.SetActive(false);
+        m_goTutoPointer_dialog1.SetActive(false);
+            
         Player.instance.bIsDialogPlaying = false;
+        
+        Debug.Log("EndDialog"+Player.instance.bIsDialogPlaying);
         
         /*
         if (GameManager.Instance.Scene.currentScene.name == "@SanyeahScene" && data.mIndex == 1)
@@ -103,6 +156,14 @@ public class UIManager : MonoBehaviour
 
         }*/
 
+    }
+
+    public void SetDelTuto(Action del = null)
+    {
+        if(del != null)
+            delTuto = del;
+        else
+            delTuto = null;
     }
 
 }

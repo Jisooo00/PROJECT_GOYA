@@ -35,9 +35,9 @@ public class WebReq : MonoBehaviour
 		
 	}
 	public readonly string GoogleSheetAddress= "https://docs.google.com/spreadsheets/d/1WobN-MMi-Nigpe19jeNTL7J377Ffpy3LPnjHB0qLwu4/export?format=tsv&range={0}&gid={1}";
-	public readonly long DialogDataSheetID = 1957841210;
-	public readonly string DialogeDataRange = "A3:F";
-	public readonly long ScriptDataSheetID = 198592244;
+	public readonly long DialogDataSheetID = 759206480;
+	public readonly string DialogeDataRange = "A2:H";
+	public readonly long ScriptDataSheetID = 727933320;
 	public readonly string ScriptDatRange = "A2:E";
 	public readonly long NoticeDataSheetID = 794120212;
 	public readonly string NoticeDataRange = "B2:C";
@@ -60,6 +60,8 @@ public class WebReq : MonoBehaviour
 	{
 		StartCoroutine("RequestData");
 	}
+	
+	
 	IEnumerator RequestData()
 	{
 		UnityWebRequest www =
@@ -74,6 +76,30 @@ public class WebReq : MonoBehaviour
 		GameData.myData.bInitDialog = true;
 
 	}
+	
+
+/*
+	public delegate void DelTest(string str1, string str2);
+	public void LoadDialogDataTest(DelTest action)
+	{
+		StartCoroutine(RequestDataTest(action));
+	}
+	
+	IEnumerator RequestData()
+	{
+		UnityWebRequest www =
+			UnityWebRequest.Get(string.Format(GoogleSheetAddress, DialogeDataRange, DialogDataSheetID));
+		yield return www.SendWebRequest();
+		string result1 = www.downloadHandler.text;
+		
+		www = UnityWebRequest.Get(string.Format(GoogleSheetAddress, ScriptDatRange, ScriptDataSheetID));
+		yield return www.SendWebRequest();
+		string result2 = www.downloadHandler.text;
+		
+		
+		action(result1,result2);
+
+	}*/
 	
 
 	// 재전송 구현
@@ -158,10 +184,15 @@ public class WebReq : MonoBehaviour
 			GameData.myData.user_id = res.data.id;
 			GameData.myData.user_pw = res.data.pw;
 
+			GameManager.Instance.saveData.LoginID = res.data.id;
+			GameManager.Instance.saveData.LoginUid = res.data.userUid;
+			GameManager.Instance.saveData.LoginPW = res.data.pw;
+			/*
 			PlayerPrefs.SetString(Global.KEY_USER_ID,res.data.id);
 			PlayerPrefs.SetInt(Global.KEY_USER_UID,res.data.userUid);
 			PlayerPrefs.SetString(Global.KEY_USER_PW,res.data.pw);
 			PlayerPrefs.Save();
+			*/
 		}
 		
 		if (res_type == typeof(ReqLogin.Res))
@@ -174,11 +205,17 @@ public class WebReq : MonoBehaviour
 				GameData.myData.user_uid = res.data.userUid;
 				GameData.myData.user_id = res.data.id;
 				GameData.myData.user_pw = res.data.pw;
-
+				
+				GameManager.Instance.saveData.LoginID = res.data.id;
+				GameManager.Instance.saveData.LoginUid = res.data.userUid;
+				GameManager.Instance.saveData.LoginPW = res.data.pw;
+				
+				/*
 				PlayerPrefs.SetString(Global.KEY_USER_ID,res.data.id);
 				PlayerPrefs.SetInt(Global.KEY_USER_UID,res.data.userUid);
 				PlayerPrefs.SetString(Global.KEY_USER_PW,res.data.pw);
 				PlayerPrefs.Save();
+				*/
 				
 			}
 		}
@@ -205,6 +242,8 @@ public class WebReq : MonoBehaviour
 			{
 				GameData.myData.user_name = res.data.nickname;
 				GameData.myData.cur_map = res.data.curMap;
+
+				GameManager.Instance.saveData.LoginNickname = res.data.nickname;
 			}
 			else
 			{
@@ -220,6 +259,7 @@ public class WebReq : MonoBehaviour
 			{
 				GameData.myData.user_name = res.data.nickname;
 				GameData.myData.cur_map = res.data.curMap;
+				GameManager.Instance.saveData.LoginNickname = res.data.nickname;
 			}
 			else
 			{

@@ -10,6 +10,7 @@ public class MainScene : BaseScene
     public GameObject m_uiLoading;
     public Transform m_tmPosFromCave;
     public Transform m_tmPosFromSanyeah;
+    public Monster_np0003 m_npcFox;
     protected override void InitScene()
     {
         base.InitScene();
@@ -23,7 +24,17 @@ public class MainScene : BaseScene
 
     public void Start()
     {
-        StartCoroutine(StartAfter());
+        if (Player.instance.bIsOnGoingTutorial)
+        {
+            StartCoroutine(StartTutorial());
+            m_uiManager.SetPrologScene();
+        }
+        else
+        {
+            m_npcFox.gameObject.SetActive(false);
+            StartCoroutine(StartAfter());
+        }
+        
     }
 
     public override void Clear(Action del)
@@ -80,6 +91,78 @@ public class MainScene : BaseScene
             {
             });
         }
+        
+    }
+    
+    IEnumerator StartTutorial()
+    {
+        m_uiLoading.gameObject.SetActive(true);
+        Player.instance.transform.localPosition = m_tmPosFromCave.localPosition;
+        Player.instance.gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        m_uiLoading.gameObject.SetActive(false);
+        
+        m_npcFox.MoveTo(new Vector2(-2.0f,-11f));
+        while (m_npcFox.IS_MOVING)
+        {
+            yield return null;
+        }
+        m_npcFox.MoveTo(new Vector2(-2.0f,-11.1f));
+        Player.instance.gameObject.SetActive(true);
+        Player.instance.SetInputPos(Vector2.up);
+        yield return new WaitForSeconds(0.75f);
+        Player.instance.SetInputPos(new Vector2(0,0f));
+        yield return new WaitForSeconds(0.1f);
+        
+        bool bTutorialStep = false;
+        m_uiManager.PlayDialogForce("Dl_0000_05", delegate
+        {
+            bTutorialStep = true;
+            m_uiManager.SetPrologScene();
+        });
+        while (!bTutorialStep)
+            yield return null;
+        
+        m_npcFox.MoveTo(new Vector2(-2.0f,-15f));
+        while (m_npcFox.IS_MOVING)
+        {
+            yield return null;
+        }
+        m_npcFox.gameObject.SetActive(false);
+        
+        yield return null;
+        bool bReqComplete = false;
+        /*
+        var req = new ReqQuestClear();
+        req.questId = "Qu_0000";
+        WebReq.Instance.Request(req, delegate(ReqQuestClear.Res res)
+        {
+            bReqComplete = true;
+        });
+
+        while (!bReqComplete)
+        {
+            yield return null;
+        }
+        */
+        bReqComplete = false;
+        if (GameData.QuestDatas.ContainsKey("Qu_0001") && GameData.QuestDatas["Qu_0001"].GetState() ==
+            GameData.QuestData.eState.UNAVAILABLE)
+        {
+            var _req = new ReqQuestAccept();
+            _req.questId = "Qu_0001";
+            WebReq.Instance.Request(_req, delegate(ReqQuestAccept.Res res)
+            {
+                bReqComplete = true;
+            });
+        }
+        
+        while (!bReqComplete)
+        {
+            yield return null;
+        }
+                
+        m_uiManager.Init();
         
     }
     

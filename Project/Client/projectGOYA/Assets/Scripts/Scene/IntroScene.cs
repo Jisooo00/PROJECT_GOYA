@@ -92,32 +92,6 @@ public class IntroScene : BaseScene
             if(!mUICredit.IsActive)
                 mUICredit.gameObject.SetActive(true); 
         });
-        /*
-        mBtnSignOut.onClick.AddListener(delegate
-        {
-            //PlayerPrefs.DeleteAll();
-            AudioManager.Instance.PlayClick();
-            var req = new ReqSignOut();
-            req.userUid = GameData.myData.user_uid;
-            WebReq.Instance.Request(req, delegate(ReqSignOut.Res res)
-            {
-                if (res.IsSuccess)
-                {
-                    PopupManager.Instance.OpenPopupNotice(res.responseMessage);
-                    PlayerPrefs.DeleteKey(Global.KEY_USER_ID);
-                    PlayerPrefs.DeleteKey(Global.KEY_USER_PW);
-                    PlayerPrefs.DeleteKey(Global.KEY_USER_NAME);
-                    RefreshUI();
-                }
-                else
-                {
-                    PopupManager.Instance.OpenPopupNotice(res.responseMessage+string.Format("\n에러코드 : {0}",res.statusCode));
-                }
-            });
-
-        });*/
-        
-//        mBtnSignOut.gameObject.SetActive(true);
         
         if(mUICredit.IsActive)
             mUICredit.gameObject.SetActive(false);
@@ -156,15 +130,25 @@ public class IntroScene : BaseScene
         {
             PopupManager.Instance.OpenPopupNotice(GameData.NoticeMsg, title:"공지");
         }
+
+        if (GameData.NeedDownloadDialog)
+        {
+            WebReq.Instance.LoadDialogData();
+            while (!GameData.myData.bInitDialog)
+            {
+                yield return null;
+            }
+        }
+       
         
         bool bFailLogin = false;
         
         //저장된 정보 있으면 로그인 시도
-        if (PlayerPrefs.HasKey(Global.KEY_USER_ID) && PlayerPrefs.HasKey(Global.KEY_USER_PW))
+        if (GameManager.Instance.saveData.bLoginInfo)
         {
             var req = new ReqLogin();
-            req.id = PlayerPrefs.GetString(Global.KEY_USER_ID);
-            req.pw = PlayerPrefs.GetString(Global.KEY_USER_PW);
+            req.id = GameManager.Instance.saveData.LoginID;
+            req.pw = GameManager.Instance.saveData.LoginPW;
             
             WebReq.Instance.Request(req, delegate(ReqLogin.Res res)
             {
@@ -262,17 +246,14 @@ public class IntroScene : BaseScene
         {
             if(!mUILoading.gameObject.activeSelf)
                 mUILoading.gameObject.SetActive(true);
+            
+            GameData.SetGameDialogData();
             bool bReqComplete = false;
             WebReq.Instance.Request(new ReqQuestInfo(), delegate(ReqQuestInfo.Res res)
             {
                 bReqComplete = true;
             });
             while (!bReqComplete)
-            {
-                yield return null;
-            }
-            WebReq.Instance.LoadDialogData();
-            while (!GameData.myData.bInitDialog)
             {
                 yield return null;
             }
@@ -316,6 +297,9 @@ public class IntroScene : BaseScene
         {
             yield return null;
         }
+        
+        GameManager.Instance.saveData.InitDialog();
+        
 
         isBusy = false;
     }

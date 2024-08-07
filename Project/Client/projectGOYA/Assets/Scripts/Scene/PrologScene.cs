@@ -4,15 +4,18 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-public class Prolog : BaseScene
+public class PrologScene : BaseScene
 {
-
+    //public SaveDataManager SaveDataManager;
     protected override void InitScene()
     {
         base.InitScene();
+        
+        //GameManager.Instance.saveData = SaveDataManager;
+        //GameData.SetGameDialogData();
         m_eSceneType = GameData.eScene.PrologScene;
-        SetUIManager();
-        m_uiManager.SetPrologScene();
+        SetUIManager(delegate { m_uiManager.SetPrologScene();});
+        
     }
     
     public override void Clear(Action del)
@@ -43,7 +46,7 @@ public class Prolog : BaseScene
         Player.instance.SetSleep(true);
         
         StartCoroutine(StartAfter());
-        
+
     }
     IEnumerator StartAfter()
     {
@@ -69,15 +72,76 @@ public class Prolog : BaseScene
                 yield return null;
             }
         }
+
+        yield return new WaitForSeconds(0.5f);
+
+        bool bTutorialStep = false;
+        m_uiManager.PlayDialogForce("Dl_0000_01", delegate
+        {
+            bTutorialStep = true;
+            m_uiManager.SetPrologScene();
+        });
+        while (!bTutorialStep)
+            yield return null;
         
         m_npc.MoveTo(new Vector2(1.2f,0f));
         while (m_npc.IS_MOVING)
         {
             yield return null;
         }
-
-        yield return new WaitForSeconds(0.5f);
+        m_npc.rb.isKinematic = true;
+        
+        bTutorialStep = false;
+        m_uiManager.PlayDialogForce("Dl_0000_02", delegate
+        {
+            bTutorialStep = true;
+            m_uiManager.SetPrologScene();
+        });
+        while (!bTutorialStep)
+            yield return null;
+        
         Player.instance.SetSleep(false);
+        yield return new WaitForSeconds(0.25f);
+        
+        bTutorialStep = false;
+        m_uiManager.PlayDialogForce("Dl_0000_03", delegate
+        {
+            bTutorialStep = true;
+            m_uiManager.SetPrologScene();
+        });
+        while (!bTutorialStep)
+            yield return null;
+        
+        m_npc.MoveTo(new Vector2(0f,1f));
+        while (m_npc.IS_MOVING)
+        {
+            yield return null;
+        }
+        m_npc.MoveTo(new Vector2(0f,0.99f));
+        m_uiManager.SetDelTuto(delegate
+        {
+            m_uiManager.PlayDialogForce("Dl_0000_04", delegate
+            {
+                bTutorialStep = true;
+                m_uiManager.SetPrologScene();
+                m_btnSkip.gameObject.SetActive(false);
+            });
+        });
+        m_uiManager.SetTutorialAction();
+               
+        bTutorialStep = false;
+
+        while (!bTutorialStep)
+            yield return null;
+        
+        m_npc.MoveTo(new Vector2(0f,3.5f));
+        while (m_npc.IS_MOVING)
+        {
+            yield return null;
+        }
+        Player.instance.SetInputPos(Vector2.up);
+        yield return new WaitForSeconds(0.3f);
+        GameManager.Instance.Scene.LoadSceneByID(GameData.myData.cur_map);
         
     }
 
@@ -121,7 +185,6 @@ public class Prolog : BaseScene
         {
             yield return null;
         }
-        
         GameManager.Instance.Scene.LoadSceneByID(GameData.myData.cur_map);
         
     }

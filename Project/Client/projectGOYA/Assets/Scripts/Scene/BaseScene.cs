@@ -28,7 +28,7 @@ public abstract class BaseScene : MonoBehaviour
       
    }
 
-   public void SetUIManager()
+   public void SetUIManager(Action del = null)
    {
       if (m_uiManager == null)
       {
@@ -52,6 +52,11 @@ public abstract class BaseScene : MonoBehaviour
             }
          }
       }
+      
+      m_uiManager.Init();
+
+      if (del != null)
+         del();
 
    }
    

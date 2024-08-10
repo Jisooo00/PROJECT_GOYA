@@ -116,6 +116,7 @@ public class Player : MonoBehaviour
     {
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
         
+        /*
         Debug.DrawRay(rb.position,dirVec,new Color(0,1,0));
         RaycastHit2D rayHit = Physics2D.Raycast(rb.position, dirVec, 2f, LayerMask.GetMask("InteractiveObject"));
         if (rayHit.collider != null)
@@ -125,7 +126,8 @@ public class Player : MonoBehaviour
         else
         {
             mScanObject = null;
-        }
+        }*/
+        
     }
 
     public void PlayEffect(string AniClip)
@@ -160,6 +162,23 @@ public class Player : MonoBehaviour
         if (other.gameObject.layer == 8)
         {
             GameManager.Instance.Scene.LoadScene(GameData.eScene.MainScene);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.layer == 6)
+        {
+            mScanObject = other.transform.parent.gameObject;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        Debug.Log("??");
+        if (other.gameObject.layer == 6 && other.transform.parent.gameObject)
+        {
+            mScanObject = null;
         }
     }
 

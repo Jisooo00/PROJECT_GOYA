@@ -13,10 +13,339 @@ MonoBehaviour:
   m_Name: SaveUserData
   m_EditorClassIdentifier: 
   SaveData:
-    id: 
-    pw: 
-    uid: -1
+    id: guestId767861
+    pw: guestPw924273
+    uid: 177
     nickname: 
     curMapID: 
-    dialogVersion: 
-    listDialogData: []
+    dialogVersion: 1.0
+    listDialogData:
+    - m_strDialogID: Dl_0000_01
+      mObjectID: np_0003
+      m_ePlayCondition: 1
+      m_strConditionID: Qu_0000
+      m_bPlayed: 0
+      m_eAction: 0
+      m_listActionQuest: []
+      m_listActionDialog: []
+      m_bReplay: 0
+      m_scriptList:
+      - m_strSpeaker: dokkabi
+        m_iPortrait: 1
+        m_strScript: "\uD760\uB0D0.. \uC0AC\uB78C\uC774 \uB418\uACE0\uC2F6\uC740\uB514...zzz..."
+    - m_strDialogID: Dl_0000_02
+      mObjectID: np_0003
+      m_ePlayCondition: -1
+      m_strConditionID: Dl_0000_01
+      m_bPlayed: 0
+      m_eAction: 0
+      m_listActionQuest: []
+      m_listActionDialog: []
+      m_bReplay: 0
+      m_scriptList:
+      - m_strSpeaker: np_0003
+        m_iPortrait: 1
+        m_strScript: "\uC774\uBCF4\uC288 \uC77C\uC5B4\uB098\uC288 ~"
+    - m_strDialogID: Dl_0000_03
+      mObjectID: np_0003
+      m_ePlayCondition: -1
+      m_strConditionID: Dl_0000_01
+      m_bPlayed: 0
+      m_eAction: 0
+      m_listActionQuest: []
+      m_listActionDialog: []
+      m_bReplay: 0
+      m_scriptList:
+      - m_strSpeaker: dokkabi
+        m_iPortrait: 1
+        m_strScript: "\uB204\uAD6C\uC58F! ~"
+      - m_strSpeaker: np_0003
+        m_iPortrait: 1
+        m_strScript: "\uC5B4\uCA4C\uAD6C\uC800\uCA4C\uAD6C \uAD81\uAE08\uD558\uBA74
+          \uC77C\uB2E8 \uB530\uB77C\uC640\uBD10"
+    - m_strDialogID: Dl_0000_04
+      mObjectID: np_0003
+      m_ePlayCondition: -1
+      m_strConditionID: Dl_0000_02
+      m_bPlayed: 0
+      m_eAction: 0
+      m_listActionQuest: []
+      m_listActionDialog: []
+      m_bReplay: 0
+      m_scriptList:
+      - m_strSpeaker: np_0003
+        m_iPortrait: 1
+        m_strScript: "\uC8FC\uB9C9\uC73C\uB85C \uAC00\uC57C\uD558\uB294 \uC774\uC720
+          \uC124\uBA85"
+    - m_strDialogID: Dl_0000_05
+      mObjectID: np_0003
+      m_ePlayCondition: -1
+      m_strConditionID: Dl_0000_03
+      m_bPlayed: 0
+      m_eAction: 2
+      m_listActionQuest:
+      - Qu_0000
+      m_listActionDialog: []
+      m_bReplay: 0
+      m_scriptList:
+      - m_strSpeaker: np_0003
+        m_iPortrait: 1
+        m_strScript: "\uC8FC\uB9C9 \uBC29\uD5A5 \uC124\uBA85"
+    - m_strDialogID: Dl_0001
+      mObjectID: np_0001
+      m_ePlayCondition: 1
+      m_strConditionID: Qu_0001
+      m_bPlayed: 0
+      m_eAction: -1
+      m_listActionQuest: []
+      m_listActionDialog:
+      - Dl_0002
+      m_bReplay: 0
+      m_scriptList:
+      - m_strSpeaker: dokkabi
+        m_iPortrait: 1
+        m_strScript: "\uD081\uD081. \uB9DB\uC788\uB294 \uB0C4\uC0C8! \uC5EC\uAE30\uAC00
+          \uC5EC\uC6B0\uAC00 \uB9D0\uD55C \uC8FC\uB9C9\uC778\uAC00\uBD10!"
+      - m_strSpeaker: np_0001
+        m_iPortrait: 2
+        m_strScript: "\uC5B4\uBA38\uB098? \uAC70\uAE30 \uAF2C\uC9C8\uAF2C\uC9C8\uD55C
+          \uAF2C\uB9C8\uB3C4\uAE68\uBE44\uC57C."
+      - m_strSpeaker: np_0001
+        m_iPortrait: 1
+        m_strScript: "\uC5EC\uAE34 \uB3C4\uAE68\uBE44\uAC00 \uC62C \uACF3\uC740 \uC544\uB2CC\uB370,
+          \uC5B4\uCA4C\uB2E4 \uC5EC\uAE30\uAE4C\uC9C0 \uC628\uAC70\uC57C?"
+      - m_strSpeaker: dokkabi
+        m_iPortrait: 3
+        m_strScript: "\uB098\uB294 #NICK_NAME! \uAE40\uC11C\uBC29\uC774 \uB420\uAC70\uC57C.
+          \uC5EC\uC6B0\uAC00 \uB3D9\uAD74 \uBD81\uCABD \uB9DB\uC788\uB294 \uB0C4\uC0C8
+          \uB530\uB77C\uAC00\uB7AC\uC5B4."
+      - m_strSpeaker: dokkabi
+        m_iPortrait: 3
+        m_strScript: "\uD081\uD081. \uC5EC\uAE30\uAC00 \uC8FC\uB9C9 \uB9DE\uC9C0?"
+      - m_strSpeaker: np_0001
+        m_iPortrait: 2
+        m_strScript: "\uC5EC\uC6B0..? \uAE40\uC11C\uBC29\uC774 \uB418\uB824\uACE0
+          \uCC3E\uC544\uC654\uB2E4\uB77C.."
+      - m_strSpeaker: np_0001
+        m_iPortrait: 1
+        m_strScript: "\uADF8\uB798, \uC798 \uCC3E\uC544\uC654\uC5B4~ \uB0B4\uAC00
+          \uB3C4\uC640\uC904\uAC8C. \uAE40\uC11C\uBC29\uC774 \uB418\uB824\uBA74 \uC900\uBE44\uD560\uAC8C
+          \uB9CE\uAC70\uB4E0."
+      - m_strSpeaker: np_0001
+        m_iPortrait: 1
+        m_strScript: "\uB0B4\uAC00 \uC900\uBE44\uB97C \uB3C4\uC6B8\uD14C\uB2C8 \uB10C
+          \uD544\uC694\uD55C \uC7AC\uB8CC\uB97C \uAC00\uC838\uC624\uB3C4\uB85D\uD574."
+    - m_strDialogID: Dl_0002
+      mObjectID: np_0001
+      m_ePlayCondition: -1
+      m_strConditionID: Dl_0001
+      m_bPlayed: 0
+      m_eAction: 0
+      m_listActionQuest: []
+      m_listActionDialog: []
+      m_bReplay: 0
+      m_scriptList:
+      - m_strSpeaker: np_0001
+        m_iPortrait: 1
+        m_strScript: "\uBA3C\uC800 \uC11C\uCABD \uD48D\uBB3C\uC758 \uC232\uC758 \uC0B0\uC608\uB97C
+          \uCC3E\uC544\uAC00. \uADF8\uB9AC\uACE0 [\uD558\uC580 \uC0B0\uC608\uC758
+          \uC218\uC5FC]\uC744 \uC5BB\uC5B4\uC624\uB294 \uAC70\uC57C. \uAC04\uB2E8\uD558\uC9C0?"
+      - m_strSpeaker: dokkabi
+        m_iPortrait: 3
+        m_strScript: "\uC6C5! \uAC00\uC838\uC62C\uAC8C [\uD558\uC580 \uC0B0\uC608\uC758
+          \uC218\uC5FC]!"
+      - m_strSpeaker: np_0001
+        m_iPortrait: 1
+        m_strScript: "\uADF8\uB798, \uAF2D [\uD558\uC580 \uC0B0\uC608\uC758 \uC218\uC5FC]\uC73C\uB85C."
+      - m_strSpeaker: np_0001
+        m_iPortrait: 1
+        m_strScript: "\uC544, \uADF8\uB9AC\uACE0 \uC774\uAC8C \uD544\uC694\uD560
+          \uAC70\uC57C."
+      - m_strSpeaker: dokkabi
+        m_iPortrait: 1
+        m_strScript: "(\uC8FC\uB9C9\uC8FC\uC778\uC5D0\uAC8C [\uC18C\uACE0]\uB97C
+          \uAC74\uB0B4 \uBC1B\uC558\uB2E4.)"
+    - m_strDialogID: Dl_0003
+      mObjectID: np_0001
+      m_ePlayCondition: 1
+      m_strConditionID: Qu_0001
+      m_bPlayed: 0
+      m_eAction: 0
+      m_listActionQuest: []
+      m_listActionDialog: []
+      m_bReplay: 1
+      m_scriptList:
+      - m_strSpeaker: np_0001
+        m_iPortrait: 1
+        m_strScript: ".....(\uC8FC\uB9C9 \uC77C\uC744 \uD558\uB290\uB77C \uBC14\uC058\uB2E4)"
+      - m_strSpeaker: np_0001
+        m_iPortrait: 1
+        m_strScript: "\uC544\uC9C1\uB3C4 \uC548 \uAC04\uAC70\uC57C? \uC5B4\uC11C
+          \uCD9C\uBC1C\uD558\uC9C0 \uC54A\uC73C\uBA74 \uD574\uAC00 \uB5A8\uC5B4\uC838
+          \uBC84\uB9B4\uAC70\uC57C."
+      - m_strSpeaker: np_0001
+        m_iPortrait: 3
+        m_strScript: "\uBC24\uC758 \uC232\uC740 \uC5B4\uB9B0 \uB3D7\uAC00\uBE44\uC5D0\uAC90
+          \uC704\uD5D8\uD558\uAC70\uB4E0."
+    - m_strDialogID: Dl_0004
+      mObjectID: np_0002
+      m_ePlayCondition: 1
+      m_strConditionID: Qu_0002
+      m_bPlayed: 0
+      m_eAction: 5
+      m_listActionQuest:
+      - Qu_0002
+      m_listActionDialog: []
+      m_bReplay: 0
+      m_scriptList:
+      - m_strSpeaker: np_0002
+        m_iPortrait: 4
+        m_strScript: "...(\uC7A0\uC744 \uC790\uACE0 \uC788\uB2E4.)"
+      - m_strSpeaker: dokkabi
+        m_iPortrait: 3
+        m_strScript: "\uC0B0\uC608\uB2E4! \uCFE8\uCFE8 \uC790\uACE0 \uC788\uB124!
+          \uB178\uB780 \uC218\uC5FC\uC774 \uC800\uAE30 \uC788\uB2E4!"
+      - m_strSpeaker: dokkabi
+        m_iPortrait: 1
+        m_strScript: "(\uC0B0\uC608\uC758 \uC218\uC5FC\uC744 \uC720\uC2EC\uD788 \uBC14\uB77C\uBCF8\uB2E4)"
+      - m_strSpeaker: dokkabi
+        m_iPortrait: 1
+        m_strScript: "\uC7A0\uAE50, \uD558\uC580 \uC0B0\uC608\uB77C\uACE0 \uD588\uB294\uB370...?
+          \uC0C9\uC774 \uB2E4\uB978 \uAC78?"
+      - m_strSpeaker: dokkabi
+        m_iPortrait: 3
+        m_strScript: "\uC5D0\uC787. \uC77C\uB2E8 \uBF51\uACE0 \uBCF4\uC790\uAD6C!"
+    - m_strDialogID: Dl_0005
+      mObjectID: np_0002
+      m_ePlayCondition: 1
+      m_strConditionID: Qu_0002
+      m_bPlayed: 0
+      m_eAction: 4
+      m_listActionQuest: []
+      m_listActionDialog: []
+      m_bReplay: 0
+      m_scriptList:
+      - m_strSpeaker: np_0002
+        m_iPortrait: 3
+        m_strScript: "\uC774\uB178~~~~\uC624\uC634!!"
+      - m_strSpeaker: np_0002
+        m_iPortrait: 3
+        m_strScript: "\uC774\uB7F0 \uBC84\uB987\uC5C6\uB294 \uAF2C\uB9F9\uC774 \uB3D7\uAC00\uBE44
+          \uAC19\uC73C\uB2C8! \uAC10\uD788 \uC0B0\uC608\uB2D8\uC758 \uC218\uC5FC\uC744
+          \uAC74\uB4DC\uB824~!?"
+      - m_strSpeaker: dokkabi
+        m_iPortrait: 2
+        m_strScript: "\uC73C\uC545! \uC0B0\uC608\uB97C \uAE68\uC6CC\uBC84\uB838\uB2E4!"
+      - m_strSpeaker: np_0002
+        m_iPortrait: 3
+        m_strScript: "\uAFC8 \uC18D\uC5D0\uC11C \uC2E0\uB098\uB294 \uB9C8\uB2F9\uB180\uC774\uB97C
+          \uC990\uAE30\uACE0 \uC788\uC5C8\uB294\uB370..!"
+      - m_strSpeaker: np_0002
+        m_iPortrait: 3
+        m_strScript: "\uB108\uB54C\uBB38\uC5D0 \uD765\uC774 \uB2E4 \uAE68\uC838\uBC84\uB838\uC73C\uB2C8
+          \uB313\uAC00\uB97C \uCE58\uB904\uC57C\uD560\uAC8C\uB2E4!"
+      - m_strSpeaker: np_0002
+        m_iPortrait: 1
+        m_strScript: "\uC624\uD638\uB77C.. \uC774\uC81C\uBCF4\uB2C8 \uB108 \uC88B\uC740\uAC78
+          \uAC00\uC9C0\uACE0 \uC788\uAD6C\uB098?"
+      - m_strSpeaker: np_0002
+        m_iPortrait: 2
+        m_strScript: "\uADF8 [\uC18C\uACE0]\uB85C \uC5B4\uB514 \uB369\uC2E4\uB369\uC2E4
+          \uD765\uC774\uB098\uB294 \uC7A5\uB2E8\uC744 \uC5F0\uC8FC\uD574\uBD10! \uC790~~\uD48D\uC545\uC744
+          \uC6B8\uB824\uB77C~"
+    - m_strDialogID: Dl_0006
+      mObjectID: np_0002
+      m_ePlayCondition: 1
+      m_strConditionID: Qu_0002
+      m_bPlayed: 0
+      m_eAction: 4
+      m_listActionQuest: []
+      m_listActionDialog: []
+      m_bReplay: 1
+      m_scriptList:
+      - m_strSpeaker: np_0002
+        m_iPortrait: 3
+        m_strScript: "\uB09C \uC544\uC9C1 \uC9C0\uCE58\uC9C0 \uC54A\uC558\uC5B4~~~!!
+          \uB2E4\uC2DC \uC7A5\uB2E8\uC744 \uC2DC\uC791\uD574!!"
+    - m_strDialogID: Dl_0007
+      mObjectID: np_0002
+      m_ePlayCondition: 2
+      m_strConditionID: Qu_0002
+      m_bPlayed: 0
+      m_eAction: 2
+      m_listActionQuest:
+      - Qu_0002
+      m_listActionDialog:
+      - Dl_0002
+      - Dl_0006
+      m_bReplay: 0
+      m_scriptList:
+      - m_strSpeaker: np_0002
+        m_iPortrait: 10
+        m_strScript: "\uB0A0 \uC774\uB807\uAC8C \uC9C0\uCE58\uAC8C \uD558\uB2E4\uB2C8..! "
+      - m_strSpeaker: np_0002
+        m_iPortrait: 11
+        m_strScript: "\uC88B\uC740 \uC7A5\uB2E8\uC744 \uCC3E\uC73C\uBA74 \uB098\uB97C
+          \uCC3E\uC544\uC640 \uC8FC\uACA0\uC5B4? \uB2E4\uC2DC \uD55C\uBC14\uD0D5
+          \uB180\uC544\uBCF4\uC790\uAD6C!"
+      - m_strSpeaker: dokkabi
+        m_iPortrait: 3
+        m_strScript: "\uC88B\uC558\uC5B4, \uC8FC\uB9C9\uC73C\uB85C \uB3CC\uC544\uAC00\uC790!"
+    - m_strDialogID: Dl_0008
+      mObjectID: np_0001
+      m_ePlayCondition: 2
+      m_strConditionID: Qu_0002
+      m_bPlayed: 0
+      m_eAction: 0
+      m_listActionQuest:
+      - Qu_0001
+      m_listActionDialog: []
+      m_bReplay: 0
+      m_scriptList:
+      - m_strSpeaker: dokkabi
+        m_iPortrait: 3
+        m_strScript: "\uC8FC\uB9C9\uC8FC\uC778! \uB0B4\uAC00 [\uD558\uC580 \uC0B0\uC608\uC758
+          \uC218\uC5FC]\uC744 \uAC00\uC838\uC654\uC5B4! \uC6D0\uB798 \uB178\uB780\uC218\uC5FC\uC774\uC5C8\uB294\uB370!
+          \uC0B0\uC608\uAC00 \uC774\uB178\uC624\uC624\uC634~~...(\uC8FC\uC808\uC8FC\uC808)"
+      - m_strSpeaker: np_0001
+        m_iPortrait: 2
+        m_strScript: "\uC5B4\uBA38, \uC81C\uBC95\uC778\uAC78. \uC774\uB9AC \uB0B4
+          \uBD10."
+      - m_strSpeaker: dokkabi
+        m_iPortrait: 1
+        m_strScript: "\uB098 \uC774\uC81C \uAE40\uC11C\uBC29\uC774 \uB420 \uC218
+          \uC788\uB294 \uAC70\uC57C?"
+      - m_strSpeaker: np_0001
+        m_iPortrait: 3
+        m_strScript: "\uC0AC\uB78C\uC774 \uB41C\uB2E4\uB294\uAC8C \uADF8\uB9AC \uAC04\uB2E8\uD55C
+          \uC77C\uC774 \uC544\uB2C8\uB780\uB2E4~"
+      - m_strSpeaker: np_0001
+        m_iPortrait: 1
+        m_strScript: "\uC544\uC9C1 \uC900\uBE44\uAC00 \uC548\uB05D\uB0AC\uC73C\uB2C8
+          \uC77C\uB2E8 \uC774\uAC74 \uB0B4\uAC00 \uBCF4\uAD00\uD574\uB458\uAC8C."
+      - m_strSpeaker: dokkabi
+        m_iPortrait: 2
+        m_strScript: "\uD544\uC694\uD55C \uAC8C \uB354 \uB0A8\uC558\uB2E8 \uB9D0\uC774\uC57C?
+          \uB09C \uC9C0\uAE08 \uB2F9\uC7A5 \uAE40\uC11C\uBC29\uC774 \uB418\uACE0\uC2F6\uB2E4\uAD6C!"
+      - m_strSpeaker: np_0001
+        m_iPortrait: 1
+        m_strScript: "\uC0AC\uB78C\uC774 \uB418\uACE0\uC2F6\uC73C\uBA74 \uC778\uB0B4\uC2EC\uBD80\uD130
+          \uAE38\uB7EC\uC57C\uACA0\uB2E4."
+      - m_strSpeaker: np_0001
+        m_iPortrait: 1
+        m_strScript: "\uB54C\uAC00 \uB418\uBA74 \uB2E4\uC74C \uD560 \uC77C\uC744
+          \uC54C\uB824\uC904\uD14C\uB2C8\uAE4C \uB098\uC911\uC5D0 \uB2E4\uC2DC \uCC3E\uC544\uC640"
+    - m_strDialogID: Dl_0009
+      mObjectID: np_0001
+      m_ePlayCondition: 3
+      m_strConditionID: Qu_0002
+      m_bPlayed: 0
+      m_eAction: 0
+      m_listActionQuest: []
+      m_listActionDialog: []
+      m_bReplay: 1
+      m_scriptList:
+      - m_strSpeaker: np_0001
+        m_iPortrait: 1
+        m_strScript: "\uB54C\uAC00 \uB418\uBA74 \uB2E4\uC74C \uD560 \uC77C\uC744
+          \uC54C\uB824\uC904\uD14C\uB2C8\uAE4C \uB098\uC911\uC5D0 \uB2E4\uC2DC \uCC3E\uC544\uC640"

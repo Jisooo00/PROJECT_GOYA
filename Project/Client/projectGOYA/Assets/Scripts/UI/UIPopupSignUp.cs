@@ -129,15 +129,13 @@ public class UIPopupSignUp : UIPopup
                     }
                     else
                     {
-                        PopupManager.Instance.OpenPopupNotice(res2.responseMessage +
-                                                              string.Format("\n에러코드 : {0}", res2.statusCode));
+                        PopupManager.Instance.OpenPopupNotice(res2.responseMessage );
                     }
                 });
             }
             else
             {
-                PopupManager.Instance.OpenPopupNotice(res.responseMessage +
-                                                      string.Format("\n에러코드 : {0}", res.statusCode));
+                PopupManager.Instance.OpenPopupNotice(res.responseMessage );
                 isBusy = false;
             }
         });

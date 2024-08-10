@@ -12,6 +12,7 @@ public class UIPopupSetNickname : UIPopup
     public TMP_InputField mInputNickname;
     public Button mBtnConfirm;
     public TMP_Text mTextConfirm;
+    public Button mBtnPrev;
     private bool isBusy = false;
 
     void Start()
@@ -37,8 +38,16 @@ public class UIPopupSetNickname : UIPopup
         });
         
         mInputNickname.onValueChanged.AddListener(
-            (word) => mInputNickname.text = Regex.Replace(word, @"[^0-9a-zA-Z가-힣]", "")
+            (word) => mInputNickname.text = Regex.Replace(word, @"[^0-9a-zA-Z가-힇ㄱ-ㅎㅏ-ㅣ]", "")
         );
+        mBtnPrev.onClick.AddListener(delegate
+        {
+            if (isBusy)
+                return;
+            AudioManager.Instance.PlayClick();
+            PopupManager.Instance.SetClosePopup();
+            gameObject.SetActive(false);
+        });
         
         mTextConfirm.text = "확인"; //TODO 로컬 적용
         
@@ -62,8 +71,7 @@ public class UIPopupSetNickname : UIPopup
             }
             else
             {
-                PopupManager.Instance.OpenPopupNotice(res.responseMessage +
-                                                      string.Format("\n에러코드 : {0}", res.statusCode));
+                PopupManager.Instance.OpenPopupNotice(res.responseMessage );
             }
             isBusy = false;
         });

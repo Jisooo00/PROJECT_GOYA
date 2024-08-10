@@ -16,10 +16,15 @@ public class IntroScene : BaseScene
 
     public TMP_Text mTxtStart;
     public TMP_Text mTxtReset;
+    public TMP_Text mTxtSetting;
+    public TMP_Text mTxtCredit;
+    public TMP_Text mTxtLoading;
+
+    public RectTransform mRtLoadingGuage;
     
     //public Button mBtnSignOut;
     public UICredit mUICredit;
-    public UILoading mUILoading;
+    public GameObject mUILoading;
     public GameObject mGoMainMenuUI;
     public bool IsSignIn = false;
     public bool IsUserInfoExist = false;
@@ -96,6 +101,13 @@ public class IntroScene : BaseScene
         if(mUICredit.IsActive)
             mUICredit.gameObject.SetActive(false);
 
+        mTxtStart.outlineColor = new Color32(77, 42, 50, 255);
+        mTxtReset.outlineColor = new Color32(77, 42, 50, 255);
+        mTxtSetting.outlineColor = new Color32(77, 42, 50, 255);
+        mTxtCredit.outlineColor = new Color32(77, 42, 50, 255);
+        mTxtLoading.outlineColor = new Color32(54, 99, 135, 255);
+        mTxtLoading.text = "돗가비 깨우는 중...";
+
         StartCoroutine("StartAfter");
     }
 
@@ -103,7 +115,11 @@ public class IntroScene : BaseScene
     {
         
         mUILoading.gameObject.SetActive(true);
+        mGoMainMenuUI.gameObject.SetActive(false);
 
+        float gauge = 0f;
+        mRtLoadingGuage.localScale = new Vector3(0f, 1, 1);
+        
         bool checkNotice = false;
         if (GameData.IsServerMaintainance)
         {
@@ -121,8 +137,10 @@ public class IntroScene : BaseScene
             checkNotice = true;
         }
 
-        while (!checkNotice)
+        while (!checkNotice ||  gauge <0.25f)
         {
+            gauge += Time.deltaTime;
+            mRtLoadingGuage.localScale = new Vector3(gauge, 1, 1);
             yield return null;
         }
         
@@ -138,6 +156,7 @@ public class IntroScene : BaseScene
             {
                 yield return null;
             }
+            
         }
        
         
@@ -159,9 +178,9 @@ public class IntroScene : BaseScene
                 else
                 {
                     bFailLogin = true;
-                    PopupManager.Instance.OpenPopupNotice(res.responseMessage +
-                                                          string.Format("\n에러코드 : {0}", res.statusCode), delegate
+                    PopupManager.Instance.OpenPopupNotice(res.responseMessage , delegate
                     {
+                        mUILoading.gameObject.SetActive(false);
                         PopupManager.Instance.OpenPopupAccount(delegate
                         {
                             StartCoroutine("SignInCompleteAfter");
@@ -173,9 +192,12 @@ public class IntroScene : BaseScene
             
             while (true)
             {
-                if(IsSignIn || bFailLogin)
+                if((IsSignIn || bFailLogin) && gauge <0.5f)
                     break;
+                gauge += Time.deltaTime;
+                mRtLoadingGuage.localScale = new Vector3(gauge, 1, 1);
                 yield return null;
+                
             }
             
 
@@ -186,10 +208,17 @@ public class IntroScene : BaseScene
 
         }
         else
-        {
+        {   
+            while (gauge <1f)
+            {
+                gauge += Time.deltaTime;
+                mRtLoadingGuage.localScale = new Vector3(gauge, 1, 1);
+                yield return null;
+            }
             PopupManager.Instance.OpenPopupAccount(
                 delegate
                 {
+                    SetMenuUI();
                     RefreshUI();
                 });
             mUILoading.gameObject.SetActive(false);
@@ -214,7 +243,7 @@ public class IntroScene : BaseScene
             {
                 if (res.statusCode != 400)
                 {
-                    PopupManager.Instance.OpenPopupNotice(res.responseMessage+string.Format("\n에러코드 : {0}",res.statusCode));
+                    PopupManager.Instance.OpenPopupNotice(res.responseMessage);
                 }
             }
         });
@@ -222,6 +251,7 @@ public class IntroScene : BaseScene
         {
             yield return null;
         }
+        mRtLoadingGuage.localScale = new Vector3(0.75f, 1, 1);
         RefreshUI();
         SetMenuUI();
         if(mUILoading.gameObject.activeSelf)
@@ -289,8 +319,7 @@ public class IntroScene : BaseScene
             }
             else
             {
-                PopupManager.Instance.OpenPopupNotice(res.responseMessage +
-                                                      string.Format("\n에러코드 : {0}", res.statusCode));
+                PopupManager.Instance.OpenPopupNotice(res.responseMessage);
             }
         });
         while (!bReqComplete)
@@ -315,12 +344,12 @@ public class IntroScene : BaseScene
         mBtnReset.gameObject.SetActive(GameData.myData.bUserInfoExist);
         if (GameData.myData.bUserInfoExist)
         {
-            mTxtReset.text = "[ 새로하기 ]" ; //TODO 로컬적용   
-            mTxtStart.text = "[ 이어하기 ]" ; //TODO 로컬적용   
+            mTxtReset.text = "새로하기" ; //TODO 로컬적용   
+            mTxtStart.text = "이어하기" ; //TODO 로컬적용   
         }
         else
         {
-            mTxtStart.text = "[ 시작하기 ]" ; //TODO 로컬적용   
+            mTxtStart.text = "시작하기" ; //TODO 로컬적용   
         }
     }
     

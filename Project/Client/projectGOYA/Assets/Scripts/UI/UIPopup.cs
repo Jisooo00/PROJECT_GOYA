@@ -20,7 +20,6 @@ public class UIPopup : MonoBehaviour
             m_delClose = del;
         m_delClose += delegate
         {
-            AudioManager.Instance.PlayClick();
             PopupManager.Instance.SetClosePopup();
         };
     }

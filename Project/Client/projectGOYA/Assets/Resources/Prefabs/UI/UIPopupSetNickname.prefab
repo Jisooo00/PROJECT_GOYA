@@ -842,6 +842,7 @@ MonoBehaviour:
   mInputNickname: {fileID: 7274287557989009258}
   mBtnConfirm: {fileID: 1538721209056384691}
   mTextConfirm: {fileID: 1247203013688082286}
+  mBtnPrev: {fileID: 5022058631923344968}
 --- !u!1 &7488518952836495233
 GameObject:
   m_ObjectHideFlags: 0
@@ -1580,7 +1581,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4976265347356999415
 RectTransform:
   m_ObjectHideFlags: 0

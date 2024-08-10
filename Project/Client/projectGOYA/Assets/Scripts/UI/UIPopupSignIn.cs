@@ -84,8 +84,7 @@ public class UIPopupSignIn : UIPopup
             }
             else
             {
-                PopupManager.Instance.OpenPopupNotice(res.responseMessage +
-                                                      string.Format("\n에러코드 : {0}", res.statusCode));
+                PopupManager.Instance.OpenPopupNotice(res.responseMessage);
             }
         });
             

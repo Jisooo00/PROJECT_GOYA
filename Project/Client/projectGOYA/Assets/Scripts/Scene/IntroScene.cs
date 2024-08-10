@@ -192,7 +192,7 @@ public class IntroScene : BaseScene
             
             while (true)
             {
-                if((IsSignIn || bFailLogin) && gauge <0.5f)
+                if((IsSignIn || bFailLogin) && gauge >0.5f)
                     break;
                 gauge += Time.deltaTime;
                 mRtLoadingGuage.localScale = new Vector3(gauge, 1, 1);

@@ -26,6 +26,7 @@ public class IntroScene : BaseScene
     public UICredit mUICredit;
     public GameObject mUILoading;
     public GameObject mGoMainMenuUI;
+    public GameObject mUILoadingScene;
     public bool IsSignIn = false;
     public bool IsUserInfoExist = false;
 
@@ -274,8 +275,8 @@ public class IntroScene : BaseScene
         }
         else
         {
-            if(!mUILoading.gameObject.activeSelf)
-                mUILoading.gameObject.SetActive(true);
+            if(!mUILoadingScene.gameObject.activeSelf)
+                mUILoadingScene.gameObject.SetActive(true);
             
             GameData.SetGameDialogData();
             bool bReqComplete = false;

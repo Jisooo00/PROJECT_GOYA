@@ -114,7 +114,10 @@ public class Player : MonoBehaviour
     }
     void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        float debuf = movement.x != 0f && movement.y != 0f ? 0.8f : 1.0f; 
+        //if(debuf != 1.0f)
+        //    Debug.Log(debuf);
+        rb.MovePosition(rb.position + movement * moveSpeed*debuf * Time.fixedDeltaTime);
         
         /*
         Debug.DrawRay(rb.position,dirVec,new Color(0,1,0));
@@ -175,7 +178,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log("??");
+//        Debug.Log("??");
         if (other.gameObject.layer == 6 && other.transform.parent.gameObject)
         {
             mScanObject = null;

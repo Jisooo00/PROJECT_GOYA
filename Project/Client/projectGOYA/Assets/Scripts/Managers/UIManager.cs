@@ -33,12 +33,17 @@ public class UIManager : MonoBehaviour
         mActionUI.SetActive(true);
         mDialogUI.SetActive(false);
         SetDialogEnable(false);
+        RefreshDialogBtn();
         if(mDialogUI!= null)
             mDialogSystem = mDialogUI.GetComponent<UIDialog>();
         mBtnSetting.onClick.AddListener(delegate
         {
             AudioManager.Instance.PlayClick();
-            PopupManager.Instance.OpenPopupSetting();
+            PopupManager.Instance.OpenPopupSetting(delegate
+            {
+                RefreshDialogBtn();
+            });
+            
         });
         
         m_goTutoPointer_dialog1.SetActive(false);
@@ -74,6 +79,12 @@ public class UIManager : MonoBehaviour
             SetDialogEnable(false);
         }
     }
+
+    public void RefreshDialogBtn()
+    {
+        if(!mIsDialogEnable)
+            mBtnDialog.transform.parent.gameObject.SetActive(GameData.myData.IS_SHOW_UI_BTN);
+    }
     public void DialogKeyOnClick()
     {
         AudioManager.Instance.PlayClick();
@@ -92,6 +103,10 @@ public class UIManager : MonoBehaviour
         mIsDialogEnable = bEnable;
         if(mBtnDialog != null)
             mBtnDialog.gameObject.SetActive(mIsDialogEnable);
+        if (!GameData.myData.IS_SHOW_UI_BTN)
+        {
+            mBtnDialog.transform.parent.gameObject.SetActive(mIsDialogEnable);
+        }
         m_goTutoPointer_dialog2.gameObject.SetActive(bEnable&&Player.instance.bIsOnGoingTutorial);
     }
 

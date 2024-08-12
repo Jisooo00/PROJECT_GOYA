@@ -13,8 +13,12 @@ public class UIPopupSetting : UIPopup
     public CheckButton mBgmBtn;
     public CheckButton mEffectBtn;
     public Slider mSliderVol;
+    public CheckButton mInteractionBtn;
+    public Slider mSliderCam;
+    public TMPro.TMP_Text m_textSetCam;
     public Button mBtnHome;
     public RectTransform m_rectSound;
+    public RectTransform m_rectUI;
     
     [Serializable]
     public class CheckButton
@@ -46,11 +50,13 @@ public class UIPopupSetting : UIPopup
         mBgmBtn.Init(GameData.myData.IS_BGM_ON);
         mEffectBtn.Init(GameData.myData.IS_EFFECT_ON);
         mSliderVol.value = GameData.myData.SET_VOLUME;
+        mSliderCam.value = GameData.myData.SET_CAM;
+        mInteractionBtn.Init(GameData.myData.IS_SHOW_UI_BTN);
     }
 
     public void Init(Action del, string msg, string title = "")
     {
-        del += delegate
+        del = delegate
         {
             if (GameData.myData.IS_BGM_ON != mBgmBtn.IsChecked)
             {
@@ -75,7 +81,18 @@ public class UIPopupSetting : UIPopup
                 GameData.myData.SetVolume(mSliderVol.value);
                 AudioManager.Instance.SetVolume();
             }
-        };
+            
+            if (GameData.myData.IS_SHOW_UI_BTN != mInteractionBtn.IsChecked)
+            {
+                GameData.myData.SetUIBtnOn(mInteractionBtn.IsChecked);
+            }
+            
+            if (!Equals(GameData.myData.SET_CAM, mSliderCam.value))
+            {
+                GameData.myData.SetCamSpeed(mSliderCam.value);
+            }
+            
+        }+del;
         
 
         base.Init(del);
@@ -100,6 +117,9 @@ public class UIPopupSetting : UIPopup
         });
 
         mSliderVol.onValueChanged.AddListener(delegate { AudioManager.Instance.SetVolumeCheck(mSliderVol.value); });
+        
+        mSliderCam.onValueChanged.AddListener(delegate { m_textSetCam.text = mSliderCam.value.ToString();});
+        
 
         bool isIntroScene = GameManager.Instance.Scene.currentScene.m_eSceneType == GameData.eScene.IntroScene;
         
@@ -108,6 +128,7 @@ public class UIPopupSetting : UIPopup
         if (isIntroScene)
         {
             m_rectSound.position = new Vector2(m_rectSound.position.x, m_rectSound.position.y-47f);
+            m_rectUI.position = new Vector2(m_rectUI.position.x, m_rectUI.position.y-47f);
         }
 
     }

@@ -178,6 +178,9 @@ public static class GameData
         public bool IS_EFFECT_ON = true;
         public float SET_VOLUME = 1f;
 
+        public float SET_CAM = 2.0f;
+        public bool IS_SHOW_UI_BTN = true;
+
         public bool bInitDialog = false;
 
         public bool bUserInfoExist
@@ -210,6 +213,20 @@ public static class GameData
             PlayerPrefs.SetFloat(Global.KEY_VOLUME_SET_VALUE,SET_VOLUME);
             PlayerPrefs.Save();
         
+        }
+
+        public void SetCamSpeed(float value)
+        {
+            SET_CAM = value;
+            PlayerPrefs.SetFloat(Global.KEY_CAMERA_SPEED,SET_CAM);
+            PlayerPrefs.Save();
+        }
+        
+        public void SetUIBtnOn(bool value)
+        {
+            IS_SHOW_UI_BTN = value;
+            PlayerPrefs.SetString(Global.KEY_UI_BTN_FLAG,IS_SHOW_UI_BTN.ToString());
+            PlayerPrefs.Save();
         }
     }
     
@@ -394,6 +411,8 @@ public class Global
     public const string KEY_BGM_SET_FLAG = "BGM_SET";
     public const string KEY_EFFECT_SET_FLAG = "EFFECT_SET";
     public const string KEY_VOLUME_SET_VALUE = "VOLUME_SET";
+    public const string KEY_CAMERA_SPEED = "CAMERA_SPEED";
+    public const string KEY_UI_BTN_FLAG = "UI_BTN_SET";
     public const int SANYEAH_NOTE_POOLING_CNT = 15;
     public const float SANYEAH_NOTE_DROP_SPEED = 550;
     public const float SANYEAH_NOTE_JUDGE_PERFECT = 25;
@@ -412,6 +431,15 @@ public class Global
         if (PlayerPrefs.HasKey(KEY_VOLUME_SET_VALUE))
             GameData.myData.SET_VOLUME = PlayerPrefs.GetFloat(KEY_VOLUME_SET_VALUE);
     }
+    
+    public static void InitUISet()
+    {
+
+        if (PlayerPrefs.HasKey(KEY_UI_BTN_FLAG))
+            GameData.myData.IS_SHOW_UI_BTN = Convert.ToBoolean(PlayerPrefs.GetString(KEY_UI_BTN_FLAG));
+        if (PlayerPrefs.HasKey(KEY_CAMERA_SPEED))
+            GameData.myData.SET_CAM = PlayerPrefs.GetFloat(KEY_CAMERA_SPEED);
+    }
 
     public static void InitUserData()
     {
@@ -424,6 +452,8 @@ public class Global
         data.SET_VOLUME = GameData.myData.SET_VOLUME;
         data.cur_map = GameData.myData.cur_map;
         data.user_name = GameData.myData.user_name;
+        data.IS_SHOW_UI_BTN = GameData.myData.IS_SHOW_UI_BTN;
+        data.SET_CAM = GameData.myData.SET_CAM;
         GameData.QuestDatas = new Dictionary<string, GameData.QuestData>();
         GameData.DialogDatas = new Dictionary<string, List<GameData.DialogData>>();
         GameData.ScriptDatas = new Dictionary<string, List<GameData.ScriptData>>();

@@ -57,6 +57,7 @@ public class IntroScene : BaseScene
             GameData.myData = new GameData.UserData();
         
         Global.InitSoundSet();
+        Global.InitUISet();
         
         AudioManager.Instance.PlayBgm();
         

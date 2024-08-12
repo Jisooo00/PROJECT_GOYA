@@ -8,7 +8,6 @@ using Vector3 = UnityEngine.Vector3;
 
 public class CameraController : MonoBehaviour
 {
-    private float mCameraMoveSpeed = 5f;
 
     [SerializeField] private float mCenterX;
     [SerializeField] private float mCenterY;
@@ -44,7 +43,7 @@ public class CameraController : MonoBehaviour
     {
         var PlayerPos = Player.instance.rb.position;
         Vector3 v3NewPos = new Vector3(PlayerPos.x, PlayerPos.y, -10);
-        transform.position = Vector3.Lerp(transform.position,v3NewPos,Time.deltaTime*mCameraMoveSpeed);
+        transform.position = Vector3.Lerp(transform.position,v3NewPos,Time.deltaTime*GameData.myData.SET_CAM);
         
         float lx = mMapSize.x - mWidth;
         float clampX = Mathf.Clamp(transform.position.x, -lx + mCenter.x, lx + mCenter.x);

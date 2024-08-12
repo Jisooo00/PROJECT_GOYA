@@ -29,14 +29,16 @@ public class UIVirtualJostick : MonoBehaviour,IPointerDownHandler,IDragHandler,I
 
     public void SetTutorialPointer()
     {
-        Debug.Log("Set Pointer");
+        //Debug.Log("Set Pointer");
         m_goTutoPointer_action.SetActive(true);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("on Pointer Down");
-        mGobJoyStick.transform.position = eventData.position;
+        //Debug.Log("on Pointer Down");
+        if(eventData.position.x < Screen.width*0.5f)
+            mGobJoyStick.transform.position = eventData.position;
+
         
         if(m_goTutoPointer_action.activeSelf)
             m_goTutoPointer_action.SetActive(false);
@@ -51,10 +53,12 @@ public class UIVirtualJostick : MonoBehaviour,IPointerDownHandler,IDragHandler,I
 
     public void OnDrag(PointerEventData eventData)
     {
+        
         Vector2 touchPosition = Vector2.zero;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(mImgBg.rectTransform, eventData.position,
                 eventData.pressEventCamera, out touchPosition))
         {
+            
             touchPosition.x = touchPosition.x / mImgBg.rectTransform.sizeDelta.x;
             touchPosition.y = touchPosition.y / mImgBg.rectTransform.sizeDelta.y;
 

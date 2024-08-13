@@ -155,6 +155,12 @@ public class PrologScene : BaseScene
     IEnumerator RequestTutorialClear()
     {
         yield return null;
+        GameData.SetDialogPlayed("np_0003","Dl_0000_01");
+        GameData.SetDialogPlayed("np_0003","Dl_0000_02");
+        GameData.SetDialogPlayed("np_0003","Dl_0000_03");
+        GameData.SetDialogPlayed("np_0003","Dl_0000_04");
+        GameData.SetDialogPlayed("np_0003","Dl_0000_05");
+        
         bool bReqComplete = false;
         
         var req = new ReqQuestClear();

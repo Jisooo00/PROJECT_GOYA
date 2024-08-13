@@ -173,12 +173,13 @@ public class WebReq : MonoBehaviour
 	void PreProc(ResBase res_base)
 	{
 		// 패킷별 별도 처리
-		var res_type = res_base.GetType();;
+		var res_type = res_base.GetType();
+		;
 
 		if (res_type == typeof(ReqGuestSignUp))
 		{
 			var res = (ReqGuestSignUp.Res)res_base;
-			
+
 			user_uid = res.data.userUid;
 			GameData.myData.user_uid = res.data.userUid;
 			GameData.myData.user_id = res.data.id;
@@ -194,32 +195,32 @@ public class WebReq : MonoBehaviour
 			PlayerPrefs.Save();
 			*/
 		}
-		
+
 		if (res_type == typeof(ReqLogin.Res))
 		{
 			var res = (ReqLogin.Res)res_base;
-			
+
 			if (res.IsSuccess)
 			{
 				user_uid = res.data.userUid;
 				GameData.myData.user_uid = res.data.userUid;
 				GameData.myData.user_id = res.data.id;
 				GameData.myData.user_pw = res.data.pw;
-				
+
 				GameManager.Instance.saveData.LoginID = res.data.id;
 				GameManager.Instance.saveData.LoginUid = res.data.userUid;
 				GameManager.Instance.saveData.LoginPW = res.data.pw;
-				
+
 				/*
 				PlayerPrefs.SetString(Global.KEY_USER_ID,res.data.id);
 				PlayerPrefs.SetInt(Global.KEY_USER_UID,res.data.userUid);
 				PlayerPrefs.SetString(Global.KEY_USER_PW,res.data.pw);
 				PlayerPrefs.Save();
 				*/
-				
+
 			}
 		}
-		
+
 		if (res_type == typeof(ReqSignUp.Res))
 		{
 			var res = (ReqSignUp.Res)res_base;
@@ -233,7 +234,7 @@ public class WebReq : MonoBehaviour
 				Global.DebugLogText("Sign-Up success");
 			}
 		}
-		
+
 		if (res_type == typeof(ReqUserInfo.Res))
 		{
 			var res = (ReqUserInfo.Res)res_base;
@@ -241,7 +242,7 @@ public class WebReq : MonoBehaviour
 			if (res.IsSuccess)
 			{
 				GameData.myData.user_name = res.data.nickname;
-				GameData.myData.cur_map = res.data.curMap;
+				//GameData.myData.cur_map = res.data.curMap;
 
 				GameManager.Instance.saveData.LoginNickname = res.data.nickname;
 			}
@@ -250,7 +251,7 @@ public class WebReq : MonoBehaviour
 				Global.DebugLogText("Need Set nickname");
 			}
 		}
-		
+
 		if (res_type == typeof(ReqCreateUserInfo.Res))
 		{
 			var res = (ReqCreateUserInfo.Res)res_base;
@@ -258,7 +259,7 @@ public class WebReq : MonoBehaviour
 			if (res.IsSuccess)
 			{
 				GameData.myData.user_name = res.data.nickname;
-				GameData.myData.cur_map = res.data.curMap;
+				//GameData.myData.cur_map = res.data.curMap;
 				GameManager.Instance.saveData.LoginNickname = res.data.nickname;
 			}
 			else
@@ -269,7 +270,7 @@ public class WebReq : MonoBehaviour
 
 		if (res_type == typeof(ReqInitUser.Res))
 		{
-			var res = (ReqInitUser.Res) res_base;
+			var res = (ReqInitUser.Res)res_base;
 
 			if (res.IsSuccess)
 			{
@@ -278,7 +279,7 @@ public class WebReq : MonoBehaviour
 			}
 
 		}
-		
+
 		if (res_type == typeof(ReqQuestInfo.Res))
 		{
 			var res = (ReqQuestInfo.Res)res_base;
@@ -289,18 +290,18 @@ public class WebReq : MonoBehaviour
 					GameData.QuestDatas = new Dictionary<string, GameData.QuestData>();
 				foreach (var quest in res.data)
 				{
-					if(!GameData.QuestDatas.ContainsKey(quest.questId))
-						GameData.QuestDatas.Add(quest.questId,new GameData.QuestData(quest.questId,quest.state));
+					if (!GameData.QuestDatas.ContainsKey(quest.questId))
+						GameData.QuestDatas.Add(quest.questId, new GameData.QuestData(quest.questId, quest.state));
 				}
 			}
 			else
 			{
 			}
 		}
-		
+
 		if (res_type == typeof(ReqQuestAccept.Res))
 		{
-			var res = (ReqQuestAccept.Res) res_base;
+			var res = (ReqQuestAccept.Res)res_base;
 
 			if (res.IsSuccess)
 			{
@@ -315,10 +316,10 @@ public class WebReq : MonoBehaviour
 			{
 			}
 		}
-		
+
 		if (res_type == typeof(ReqQuestClear.Res))
 		{
-			var res = (ReqQuestClear.Res) res_base;
+			var res = (ReqQuestClear.Res)res_base;
 
 			if (res.IsSuccess)
 			{
@@ -328,16 +329,16 @@ public class WebReq : MonoBehaviour
 					    GameData.QuestDatas[quest.questId].state != quest.state)
 						GameData.QuestDatas[quest.questId].state = quest.state;
 				}
-				
+
 			}
 			else
 			{
 			}
 		}
-		
+
 		if (res_type == typeof(ReqQuestAction.Res))
 		{
-			var res = (ReqQuestAction.Res) res_base;
+			var res = (ReqQuestAction.Res)res_base;
 
 			if (res.IsSuccess)
 			{
@@ -350,6 +351,15 @@ public class WebReq : MonoBehaviour
 			}
 			else
 			{
+			}
+		}
+
+		if (res_type == typeof(ReqMapEnter.Res))
+		{
+			var res = (ReqMapEnter.Res)res_base;
+			if (res.IsSuccess)
+			{
+				GameManager.Instance.saveData.CurMapID = GameManager.Instance.Scene.GetCurrentSceneID();
 			}
 		}
 		

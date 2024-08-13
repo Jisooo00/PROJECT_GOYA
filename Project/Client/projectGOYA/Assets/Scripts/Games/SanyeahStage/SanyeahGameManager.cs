@@ -96,6 +96,7 @@ public class SanyeahGameManager : BaseScene
         {
             mAudioSrc = gameObject.AddComponent<AudioSource>();
             mAudioSrc.clip = mAudioClip;
+            mAudioSrc.volume = 0.8f * GameData.myData.SET_VOLUME;
         }
         
         if (mEffectClip != null)
@@ -134,34 +135,36 @@ public class SanyeahGameManager : BaseScene
         
         mBtnStart.onClick.AddListener(delegate
         {
-            //AudioManager.Instance.PlayClick();
+            AudioManager.Instance.PlayClick();
             mGoBeforeStart.SetActive(false);
             StartCoroutine("StartGame");
         });
         
         mBtnReplay.onClick.AddListener(delegate
         {
-            //AudioManager.Instance.PlayClick();
+            AudioManager.Instance.PlayClick();
             SetInitGame();
             mGoBeforeStart.SetActive(true);
             
         });
         mBtnExitClear.onClick.AddListener(delegate
         {
-            //AudioManager.Instance.PlayClick();
+            AudioManager.Instance.PlayClick();
+            GoToSanyeahScene();
             //mGoBeforeStart.SetActive(false);
             //mGoGameResultClear.SetActive(false);
             //StartCoroutine("StartGame");
-            SetInitGame();
-            mGoBeforeStart.SetActive(true);
+            //SetInitGame();
+            //mGoBeforeStart.SetActive(true);
         });
         mBtnExitOver.onClick.AddListener(delegate
         {
-            //AudioManager.Instance.PlayClick();
+            AudioManager.Instance.PlayClick();
+            GoToSanyeahScene();
             //mGoGameResultClear.SetActive(false);
             //StartCoroutine("StartGame");
-            SetInitGame();
-            mGoBeforeStart.SetActive(true);
+            //SetInitGame();
+            //mGoBeforeStart.SetActive(true);
         });
     }
     
@@ -203,7 +206,7 @@ public class SanyeahGameManager : BaseScene
         
         if (Input.GetKeyDown(KeyCode.F))
         {
-            Debug.Log("Go Fiver");
+            //Debug.Log("Go Fiver");
             bFiverMode = true;
             mEffectFeverSrc.Play();
             SetFeverMode(true);
@@ -225,7 +228,7 @@ public class SanyeahGameManager : BaseScene
 
         if (bCheckFiver && !bFiverMode && mImgGaugeValue.fillAmount > 0.6f)
         {
-            Debug.Log("Go Fiver");
+            //Debug.Log("Go Fiver");
             bFiverMode = true;
             mEffectFeverSrc.Play();
             SetFeverMode(true);
@@ -263,7 +266,6 @@ public class SanyeahGameManager : BaseScene
             StopCoroutine("DropNoteData");
         mAudioSrc.Stop();
         GameManager.Instance.bClearSanyeah = false;
-        //Invoke("GoToSanyeahScene",2f);
     }
     
     private void SetGameClear()
@@ -273,7 +275,7 @@ public class SanyeahGameManager : BaseScene
         mGoGameResultClear.SetActive(true);
         bStart = false;
         GameManager.Instance.bClearSanyeah = true;
-        //Invoke("GoToSanyeahScene",2f);
+        
     }
 
     private IEnumerator StartGame()
@@ -308,7 +310,7 @@ public class SanyeahGameManager : BaseScene
 
         if (mImgGaugeValue.fillAmount > 0.6f)
         {
-            Debug.Log("StartFiver");
+            //Debug.Log("StartFiver");
             bCheckFiver = true;
         }
         
@@ -379,7 +381,7 @@ public class SanyeahGameManager : BaseScene
             mEffectMissSrc.Play();
             return;
         }
-        mEffectSrc.Play();
+        //.Play();
         PlayRhythmAniLeft(GetScore(result));
     }
 
@@ -391,7 +393,7 @@ public class SanyeahGameManager : BaseScene
             mEffectMissSrc.Play();
             return;
         }
-        mEffectSrc.Play();
+        //mEffectSrc.Play();
         PlayRhythmAniRight(GetScore(result));
     }
 
@@ -428,7 +430,7 @@ public class SanyeahGameManager : BaseScene
     public eScore GetScore(float result)
     {
         eScore score = eScore.PERFECT;
-        Debug.Log("result"+result);
+        //Debug.Log("result"+result);
 
         if (result <= Global.SANYEAH_NOTE_JUDGE_PERFECT && result > -1*Global.SANYEAH_NOTE_JUDGE_PERFECT)
         {
@@ -450,7 +452,7 @@ public class SanyeahGameManager : BaseScene
         {
             score = eScore.MISS;
         }
-        Debug.Log("score"+score);
+        //Debug.Log("score"+score);
         
         mITotalScore += (int) score;
         mImgGaugeValue.fillAmount += (float) score / 1000f;

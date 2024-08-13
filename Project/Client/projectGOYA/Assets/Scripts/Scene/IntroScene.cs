@@ -158,7 +158,9 @@ public class IntroScene : BaseScene
             {
                 yield return null;
             }
-            
+
+            GameData.NeedDownloadDialog = false;
+
         }
        
         

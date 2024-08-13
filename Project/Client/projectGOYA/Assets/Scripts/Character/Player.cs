@@ -82,6 +82,7 @@ public class Player : MonoBehaviour
                 dirVec = bInputUp ? Vector3.up : Vector3.down;
 */
 
+            GameManager.Instance.saveData.CurPos = instance.transform.localPosition;
         }
         else
         {
@@ -131,14 +132,6 @@ public class Player : MonoBehaviour
             mScanObject = null;
         }*/
         
-    }
-
-    public void PlayEffect(string AniClip)
-    {
-        mGoEffect.SetActive(false);
-        mGoEffect.transform.localPosition = transform.localPosition;
-        mGoEffect.SetActive(true);
-        mAniEffect.Play(AniClip);
     }
 
     private void OnCollisionEnter2D(Collision2D other)

@@ -173,6 +173,7 @@ public static class GameData
         public string user_pw = "";
         public string user_name = "";
         public string cur_map = "";
+        public Vector3 cur_pos = Vector3.zero;
     
         public bool IS_BGM_ON = true;
         public bool IS_EFFECT_ON = true;
@@ -283,6 +284,7 @@ public static class GameData
     
     public static void InitDialogData(string sheetData)
     {
+        //Debug.Log("????");
         string[] rows = sheetData.Split('\n');
         foreach (var row in rows)
         {
@@ -368,6 +370,16 @@ public static class GameData
         return null;
     }
 
+    public static bool IsPlayedDialog(string id)
+    {
+        foreach (var dialog in GameManager.Instance.saveData.GetDialogList())
+        {
+            if (dialog.m_strDialogID == id)
+                return dialog.m_bPlayed;
+        }
+        return false;
+    }
+
     public static void SetDialogPlayed(string npcId,string id, bool played = true)
     {
         if (DialogDatas.ContainsKey(npcId))
@@ -450,8 +462,9 @@ public class Global
         data.IS_BGM_ON = GameData.myData.IS_BGM_ON;
         data.IS_EFFECT_ON = GameData.myData.IS_EFFECT_ON;
         data.SET_VOLUME = GameData.myData.SET_VOLUME;
-        data.cur_map = GameData.myData.cur_map;
+        data.cur_map = GameManager.Instance.saveData.CurMapID;
         data.user_name = GameData.myData.user_name;
+        data.cur_pos = GameData.myData.cur_pos;
         data.IS_SHOW_UI_BTN = GameData.myData.IS_SHOW_UI_BTN;
         data.SET_CAM = GameData.myData.SET_CAM;
         GameData.QuestDatas = new Dictionary<string, GameData.QuestData>();

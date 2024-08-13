@@ -15,6 +15,7 @@ public class SaveUserData : ScriptableObject
         public int uid = -1;
         public string nickname;
         public string curMapID;
+        public Vector3 curPos;
         public string dialogVersion;
         public List<GameData.DialogData> listDialogData = new List<GameData.DialogData> ();
     }
@@ -28,6 +29,7 @@ public class SaveUserData : ScriptableObject
         SaveData.uid = -1;
         SaveData.nickname = "";
         SaveData.curMapID = "";
+        SaveData.curPos = Vector3.zero;
         if (SaveData.listDialogData.Count > 0)
         {
             foreach (var data in SaveData.listDialogData)
@@ -41,6 +43,7 @@ public class SaveUserData : ScriptableObject
     {
         SaveData.nickname = "";
         SaveData.curMapID = "";
+        SaveData.curPos = Vector3.zero;
         if (SaveData.listDialogData.Count > 0)
         {
             foreach (var data in SaveData.listDialogData)

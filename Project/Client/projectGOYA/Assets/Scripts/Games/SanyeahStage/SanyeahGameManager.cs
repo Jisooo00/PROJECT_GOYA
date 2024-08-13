@@ -247,7 +247,7 @@ public class SanyeahGameManager : BaseScene
         if (!mIsAllNoteDrop)
         {
             bool bDelay = mFDropRightLastTime > 1f || mFDropLeftLastTime > 1f;
-            mImgGaugeValue.fillAmount -= Time.deltaTime / (bDelay ? 20f : 7.5f);
+            mImgGaugeValue.fillAmount -= Time.deltaTime / (bDelay ? 20f : 10f);
 
         }
 

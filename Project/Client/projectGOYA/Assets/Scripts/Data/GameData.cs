@@ -415,9 +415,9 @@ public class Global
     public const string KEY_UI_BTN_FLAG = "UI_BTN_SET";
     public const int SANYEAH_NOTE_POOLING_CNT = 15;
     public const float SANYEAH_NOTE_DROP_SPEED = 550;
-    public const float SANYEAH_NOTE_JUDGE_PERFECT = 25;
+    public const float SANYEAH_NOTE_JUDGE_PERFECT = 27.5f;
     public const float SANYEAH_NOTE_JUDGE_GREAT = 50;
-    public const float SANYEAH_NOTE_JUDGE_GOOD = 75;
+    public const float SANYEAH_NOTE_JUDGE_GOOD = 100;
     public const float SANYEAH_NOTE_JUDGE_BAD = 100;
     public const float SANYEAH_NOTE_JUDGE_MISS = 150;
     

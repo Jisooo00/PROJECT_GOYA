@@ -51,8 +51,8 @@ public class NoteObject : MonoBehaviour
         float posX = mRectTransform.position.x;
         if (mRTEndPoint != null)
         {
-            if ((mESide == eSide.LEFT && posX >= mRTEndPoint.position.x + 3f) ||
-                (mESide == eSide.RIGHT && posX <= mRTEndPoint.position.x - 3f))
+            if ((mESide == eSide.LEFT && posX >= mRTEndPoint.position.x + 50f) ||
+                (mESide == eSide.RIGHT && posX <= mRTEndPoint.position.x - 50f))
             {
                 SetShow(false);
                 if (mDelJudgeMiss != null)

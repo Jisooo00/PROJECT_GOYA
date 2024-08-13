@@ -9,17 +9,33 @@ public class SanyeahScene : BaseScene
     public GameObject mUIEnding;
     public GameObject m_uiLoading;
     public Transform m_tmPosFromMain;
+    public GameObject m_goNightEnvironment;
+    public SpriteRenderer m_spriteSanyeah;
+    public SpriteRenderer m_spritePlayer;
     
     protected override void InitScene()
     {
         base.InitScene();
         m_eSceneType = GameData.eScene.SanyeahScene;
         StartCoroutine(StartAfter());
-
-
     }
-    
-    
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            m_goNightEnvironment.gameObject.SetActive(true);
+            m_spriteSanyeah.sortingOrder = 11;
+            m_spritePlayer.sortingOrder = 11;
+            m_uiManager.PlayDialogForce("Dl_0007", delegate
+            {
+                m_spriteSanyeah.sortingOrder = 9;
+                m_spritePlayer.sortingOrder = 9;
+            });
+        }
+    }
+
+
     IEnumerator StartAfter()
     {
         var moveFirst = new Vector2(0, 0);
@@ -50,13 +66,14 @@ public class SanyeahScene : BaseScene
         }
         else
         {
-            Player.instance.transform.localPosition = Vector3.zero;
+            //Player.instance.transform.localPosition = Vector3.zero;
             Sanyeah.animator.SetBool("idle",true);
             Sanyeah.animator.SetBool("awake",false);
+            /*
             if (GameData.GetQuestData("Qu_0002").GetState() == GameData.QuestData.eState.COMPLETED)
             {
                 StartCoroutine("ShowEnding");
-            }
+            }*/
         }
         //Player.instance.PlayEffect("Chara_APPEAR");
         

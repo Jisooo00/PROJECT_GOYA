@@ -126,6 +126,7 @@ public class MainScene : BaseScene
         m_uiManager.PlayDialogForce("Dl_0000_05", delegate
         {
             bTutorialStep = true;
+            m_npcFox.SetQuestionMark();
             m_uiManager.SetPrologScene();
         });
         while (!bTutorialStep)

@@ -157,7 +157,13 @@ public class UIManager : MonoBehaviour
             
         Player.instance.bIsDialogPlaying = false;
         
-        Debug.Log("EndDialog"+Player.instance.bIsDialogPlaying);
+        if (Player.instance.mScanObject != null)
+        {
+            var data =Player.instance.mScanObject.GetComponent<MonsterBase>();
+            data.RefreshData();
+        }
+        
+        //Debug.Log("EndDialog"+Player.instance.bIsDialogPlaying);
         
         /*
         if (GameManager.Instance.Scene.currentScene.name == "@SanyeahScene" && data.mIndex == 1)

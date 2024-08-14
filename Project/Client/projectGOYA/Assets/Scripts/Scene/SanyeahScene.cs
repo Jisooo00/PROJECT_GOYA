@@ -110,13 +110,13 @@ public class SanyeahScene : BaseScene
         }
         mUIEnding.SetActive(false);
         
-        m_goNightEnvironment.gameObject.SetActive(true);
-        Sanyeah.mSprite.sortingOrder = 11;
-        m_spritePlayer.sortingOrder = 11;
+        //m_goNightEnvironment.gameObject.SetActive(true);
+        //Sanyeah.mSprite.sortingOrder = 11;
+       // m_spritePlayer.sortingOrder = 11;
         m_uiManager.PlayDialogForce("Dl_0007", delegate
         {
-            Sanyeah.mSprite.sortingOrder = 9;
-            m_spritePlayer.sortingOrder = 9;
+            //Sanyeah.mSprite.sortingOrder = 9;
+            //m_spritePlayer.sortingOrder = 9;
             GameManager.Instance.bClearSanyeah = false;
         });
     }

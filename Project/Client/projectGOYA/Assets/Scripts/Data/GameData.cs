@@ -179,7 +179,7 @@ public static class GameData
         public bool IS_EFFECT_ON = true;
         public float SET_VOLUME = 1f;
 
-        public float SET_CAM = 2.0f;
+        public float SET_CAM = 10.0f;
         public bool IS_SHOW_UI_BTN = true;
 
         public bool bInitDialog = false;

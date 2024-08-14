@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public Button mBtnDialog;
+    public List<GameObject> mListImage;
     [NonSerialized] public bool mIsDialogEnable = false;
     
     [SerializeField] private GameObject mActionUI;
@@ -72,7 +73,7 @@ public class UIManager : MonoBehaviour
         var data = Player.instance.GetScannedMonster();
         if (data != null && !mIsDialogEnable)
         {
-            SetDialogEnable(true);
+            SetDialogEnable(true,data.mObjectID.Contains("Obj"));
         }
         else if ((data == null) && mIsDialogEnable)
         {
@@ -98,9 +99,23 @@ public class UIManager : MonoBehaviour
         PlayDialog();
     }
 
-    public void SetDialogEnable(bool bEnable)
+    public void SetDialogEnable(bool bEnable,bool bObj = false)
     {
         mIsDialogEnable = bEnable;
+        
+        if (!bEnable)
+        {
+            foreach (var image in mListImage)
+            {
+                image.SetActive(false);   
+            }
+        }
+        else
+        {
+            mListImage[0].SetActive(!bObj);
+            mListImage[1].SetActive(bObj);
+        }
+        
         if(mBtnDialog != null)
             mBtnDialog.gameObject.SetActive(mIsDialogEnable);
         if (!GameData.myData.IS_SHOW_UI_BTN)

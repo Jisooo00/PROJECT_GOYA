@@ -56,7 +56,10 @@ public abstract class MonsterBase : MonoBehaviour{
 
     public void SetQuestionMark()
     {
-        if (mQuestionMark != null&& CurDialog!=null)
+        if (mQuestionMark == null)
+            return;
+        
+        if (CurDialog!=null)
         {
             mQuestionMark.gameObject.SetActive(true);
             mQuestionMark.sprite = CurDialog.m_bReplay ? mListSprites[0] : mListSprites[1];

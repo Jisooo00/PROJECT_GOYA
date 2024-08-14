@@ -167,12 +167,21 @@ public class Player : MonoBehaviour
         {
             mScanObject = other.transform.parent.gameObject;
         }
+        if (other.gameObject.layer == 9)
+        {
+            mScanObject = other.gameObject;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
 //        Debug.Log("??");
         if (other.gameObject.layer == 6 && other.transform.parent.gameObject)
+        {
+            mScanObject = null;
+        }
+        
+        if (other.gameObject.layer == 9 && other.gameObject)
         {
             mScanObject = null;
         }

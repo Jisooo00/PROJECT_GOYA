@@ -2,15 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 
 public abstract class MonsterBase : MonoBehaviour{
     
-    public GameObject mQuestionMark;
+    public SpriteRenderer mQuestionMark;
     private bool mIsInteractable = false;
     public string monsterID;
     public Animator animator;
     public List<GameData.DialogData> mData;
+    public List<Sprite> mListSprites;
 
     public GameData.DialogData CurDialog
     {
@@ -41,21 +43,32 @@ public abstract class MonsterBase : MonoBehaviour{
     {
         //if (mData==null || mData.bIsPlayed)
         //    return;
-        if (Player.instance.mScanObject != null && Player.instance.mScanObject.name == this.name && !mIsInteractable)
-        {
-            mIsInteractable = true;
-        }else if (Player.instance.mScanObject == null || Player.instance.mScanObject.name != this.name && mIsInteractable)
-        {
-            mIsInteractable = false;
-        }
-        SetQuestionMark();
+        //if (Player.instance.mScanObject != null && Player.instance.mScanObject.name == this.name && !mIsInteractable)
+        //{
+        //    mIsInteractable = true;
+        //}else if (Player.instance.mScanObject == null || Player.instance.mScanObject.name != this.name && mIsInteractable)
+        //{
+        //    mIsInteractable = false;
+        //}
+        //SetQuestionMark();
 
     }
 
-    private void SetQuestionMark()
+    public void SetQuestionMark()
     {
-        if(mQuestionMark!=null)
-            mQuestionMark.SetActive(mIsInteractable);
+        if (mQuestionMark == null)
+            return;
+        
+        if (CurDialog!=null)
+        {
+            mQuestionMark.gameObject.SetActive(true);
+            mQuestionMark.sprite = CurDialog.m_bReplay ? mListSprites[0] : mListSprites[1];
+        }
+        else
+        {
+            mQuestionMark.gameObject.SetActive(false);
+        }
+        
     }
 
     protected virtual void InitMonster()
@@ -64,7 +77,6 @@ public abstract class MonsterBase : MonoBehaviour{
 
     public void RefreshData()
     {
-        mIsInteractable = false;
         SetQuestionMark();
         //mData = GameData.GetDialog(monsterID);
     }
@@ -98,12 +110,15 @@ public abstract class MonsterBase : MonoBehaviour{
             {
                 rb.position  = dest;
                 bMoving = false;
+                SetQuestionMark();
                 return;
             }
             else
             {
                 rb.MovePosition(rb.position + dir.normalized * moveSpeed * Time.fixedDeltaTime);
                 dirVec = CharacterAppearance.instance.GetDirection();
+                if(mQuestionMark.gameObject.activeSelf)
+                    mQuestionMark.gameObject.SetActive(false);
             }
             
         }

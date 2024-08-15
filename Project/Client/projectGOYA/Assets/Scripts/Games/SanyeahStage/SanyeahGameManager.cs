@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mime;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
@@ -15,33 +16,46 @@ public class SanyeahGameManager : BaseScene
     [SerializeField] private NoteManager mNoteMgrRight;
     [SerializeField] private GameObject mGoEffectL;
     [SerializeField] private GameObject mGoEffectR;
-    [SerializeField] private TMP_Text mTextLeft;
-    [SerializeField] private TMP_Text mTextRight;
+    [SerializeField] private Image mGradeLeft;
+    [SerializeField] private Image mGradeRight;
+    [SerializeField] private Sprite[] mListGrade;
     [SerializeField] private AudioClip mAudioClip;
     [SerializeField] private AudioClip mEffectClip;
     [SerializeField] private AudioClip mEffectMissClip;
-    [SerializeField] private Animator mAniSanyeahRhythm;
+    [SerializeField] private AudioClip mEffectFeverClip;
+    private Animator mAniSanyeahRhythm;
+    [SerializeField] private Animator mAniNormalSanyeahRhythm;
+    [SerializeField] private Animator mAniMasterSanyeahRhythm;
     // Tool 이용해 NoteData 제작
     [SerializeField] private NoteData mNoteDataLeft;
     [SerializeField] private NoteData mNoteDataRight;
     
     [Header("InGame UI")]
-    [SerializeField] private TMP_Text mTextStartTimer;
     [SerializeField] private GameObject mGoBeforeStart;
+    [SerializeField] private Button mBtnStart;
+    [SerializeField] private Button mBtnReplay;
+    [SerializeField] private Button mBtnExitClear;
+    [SerializeField] private Button mBtnExitOver;
     [SerializeField] private GameObject mGoGameResult;
-    [SerializeField] private TMP_Text mTextResult;
+    [SerializeField] private GameObject mGoGameResultClear;
+    [SerializeField] private GameObject mGoGameResultOver;
     [SerializeField] private TMP_Text mTextScore;
     [SerializeField] private Button mBtnR;
     [SerializeField] private Button mBtnL;
     [SerializeField] private Image mImgGaugeValue;
+    [SerializeField] private GameObject[] mListGoNormal;
+    [SerializeField] private GameObject[] mListGoFever;
     
     private AudioSource mAudioSrc;
     private AudioSource mEffectSrc;
     private AudioSource mEffectMissSrc;
+    private AudioSource mEffectFeverSrc;
 
     private float mFDropLeftLastTime = 0f;
     private float mFDropRightLastTime = 0f;
     private bool mIsAllNoteDrop = false;
+    private bool bCheckFiver = false;
+    private bool bFiverMode = false;
     
     //배경음과의 Sync를 위해 게임 시작 시점과 Note활성화 시점 분리
     private bool bStart = false;
@@ -52,9 +66,9 @@ public class SanyeahGameManager : BaseScene
     public enum eScore
     {
         PERFECT = 100,
-        GREAT = 75,
+        //GREAT = 75,
         GOOD = 50,
-        BAD = -25,
+        //BAD = -25,
         MISS = -50,
         
     }
@@ -75,18 +89,14 @@ public class SanyeahGameManager : BaseScene
 
     private void Start()
     {
-        mGoEffectR.SetActive(false);
-        mGoEffectL.SetActive(false);
-        mGoBeforeStart.SetActive(true);
-        mGoGameResult.SetActive(false);
-        mTextScore.text = string.Format("Score : {0:#,###}", 0);
-        TextEffectDisableRight();
-        TextEffectDisableLeft();
+        SetInitGame();
+        
         
         if (mAudioClip != null)
         {
             mAudioSrc = gameObject.AddComponent<AudioSource>();
             mAudioSrc.clip = mAudioClip;
+            mAudioSrc.volume = 0.8f * GameData.myData.SET_VOLUME;
         }
         
         if (mEffectClip != null)
@@ -98,6 +108,12 @@ public class SanyeahGameManager : BaseScene
         {
             mEffectMissSrc = gameObject.AddComponent<AudioSource>();
             mEffectMissSrc.clip = mEffectMissClip;
+        }
+
+        if (mEffectFeverClip != null)
+        {
+            mEffectFeverSrc = gameObject.AddComponent<AudioSource>();
+            mEffectFeverSrc.clip = mEffectFeverClip;
         }
         
         mNoteMgrLeft.SetDelJudgeMiss(delegate
@@ -116,8 +132,62 @@ public class SanyeahGameManager : BaseScene
             mEffectMissSrc.Play();
             PlayRhythmAniRight(eScore.MISS);
         });
-
-        StartCoroutine("StartGame");
+        
+        mBtnStart.onClick.AddListener(delegate
+        {
+            AudioManager.Instance.PlayClick();
+            mGoBeforeStart.SetActive(false);
+            StartCoroutine("StartGame");
+        });
+        
+        mBtnReplay.onClick.AddListener(delegate
+        {
+            AudioManager.Instance.PlayClick();
+            SetInitGame();
+            mGoBeforeStart.SetActive(true);
+            
+        });
+        mBtnExitClear.onClick.AddListener(delegate
+        {
+            AudioManager.Instance.PlayClick();
+            GoToSanyeahScene();
+            //mGoBeforeStart.SetActive(false);
+            //mGoGameResultClear.SetActive(false);
+            //StartCoroutine("StartGame");
+            //SetInitGame();
+            //mGoBeforeStart.SetActive(true);
+        });
+        mBtnExitOver.onClick.AddListener(delegate
+        {
+            AudioManager.Instance.PlayClick();
+            GoToSanyeahScene();
+            //mGoGameResultClear.SetActive(false);
+            //StartCoroutine("StartGame");
+            //SetInitGame();
+            //mGoBeforeStart.SetActive(true);
+        });
+    }
+    
+    void SetInitGame()
+    {
+        mGoEffectR.SetActive(false);
+        mGoEffectL.SetActive(false);
+        mGoBeforeStart.SetActive(true);
+        mGoGameResult.SetActive(false);
+        mTextScore.text = string.Format("Score : {0:#,###}", 0);
+        TextEffectDisableRight();
+        TextEffectDisableLeft();
+        mFDropLeftLastTime = 0f;
+        mFDropRightLastTime = 0f;
+        mIsAllNoteDrop = false;
+        bCheckFiver = false;
+        bFiverMode = false;
+        bStart = false;
+        bDropNote = false;
+        mITotalScore = 0;
+        mImgGaugeValue.fillAmount = 0.5f;
+        mAniSanyeahRhythm = mAniNormalSanyeahRhythm;
+        SetFeverMode(false);
     }
 
     private void Update()
@@ -134,17 +204,42 @@ public class SanyeahGameManager : BaseScene
             SetGameClear();
         }
         
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            //Debug.Log("Go Fiver");
+            bFiverMode = true;
+            mEffectFeverSrc.Play();
+            SetFeverMode(true);
+        }
+        
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            JudgeLeft();
+        }
+        if(Input.GetKeyDown(KeyCode.D))
+        {
+            JudgeRight();
+        }
+        
 #endif
         
         if (!bStart)
             return;
+
+        if (bCheckFiver && !bFiverMode && mImgGaugeValue.fillAmount > 0.6f)
+        {
+            //Debug.Log("Go Fiver");
+            bFiverMode = true;
+            mEffectFeverSrc.Play();
+            SetFeverMode(true);
+        }
         
         if(mImgGaugeValue.fillAmount == 0)
             SetGameOver();
         
         if (bStart && !mAudioSrc.isPlaying)
         {
-            if(mITotalScore >= 5000)
+            if(mImgGaugeValue.fillAmount >= 0.6f)
                 SetGameClear();
             else
             {
@@ -159,37 +254,28 @@ public class SanyeahGameManager : BaseScene
 
         }
 
-#if UNITY_EDITOR
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            JudgeLeft();
-        }
-        if(Input.GetKeyDown(KeyCode.D))
-        {
-            JudgeRight();
-        }
-#endif
     }
 
     private void SetGameOver()
     {
         mGoGameResult.SetActive(true);
-        mTextResult.text = "Game Over";
+        mGoGameResultOver.SetActive(true);
+        mGoGameResultClear.SetActive(false);
         bStart = false;
         if(!mIsAllNoteDrop)
             StopCoroutine("DropNoteData");
         mAudioSrc.Stop();
         GameManager.Instance.bClearSanyeah = false;
-        Invoke("GoToSanyeahScene",2f);
     }
     
     private void SetGameClear()
     {
         mGoGameResult.SetActive(true);
-        mTextResult.text = "Game Clear";
+        mGoGameResultOver.SetActive(false);
+        mGoGameResultClear.SetActive(true);
         bStart = false;
         GameManager.Instance.bClearSanyeah = true;
-        Invoke("GoToSanyeahScene",2f);
+        
     }
 
     private IEnumerator StartGame()
@@ -197,26 +283,37 @@ public class SanyeahGameManager : BaseScene
         if(bStart)
             yield break;
         
-        float fStartTime = 5f;
-        int iTimer = 5;
         
-        while (fStartTime > 0f)
-        {
-            fStartTime -= Time.deltaTime;
-            if ((int) fStartTime != iTimer)
-            {
-                iTimer = (int)fStartTime;
-                mTextStartTimer.text = iTimer.ToString();
-            }
+        
+        float fStartTime = 0f;
+        
 
-            if (fStartTime < 1.25f && !bDropNote)
-                StartCoroutine("DropNoteData");
-            
+        if (!bDropNote)
+            StartCoroutine("DropNoteData");
+        
+        while (fStartTime < 1.45f)
+        {
+            fStartTime += Time.deltaTime;
             yield return null;
         }
-        mAudioSrc.Play();
+        
         bStart = true;
-        mGoBeforeStart.SetActive(false);
+
+        mAudioSrc.Play();
+        
+        fStartTime = 0f;
+        while (fStartTime < 30f)
+        {
+            fStartTime += Time.deltaTime;
+            yield return null;
+        }
+
+        if (mImgGaugeValue.fillAmount > 0.6f)
+        {
+            //Debug.Log("StartFiver");
+            bCheckFiver = true;
+        }
+        
         
     }
 
@@ -279,34 +376,34 @@ public class SanyeahGameManager : BaseScene
     public void JudgeLeft()
     {        
         float result = mNoteMgrLeft.GetJudgeDistance();
-        if (result > Global.SANYEAH_NOTE_JUDGE_MISS || result < 0)
+        if (result > Global.SANYEAH_NOTE_JUDGE_MISS || result < -1*Global.SANYEAH_NOTE_JUDGE_GOOD)
         {
             mEffectMissSrc.Play();
             return;
         }
-        mEffectSrc.Play();
+        //.Play();
         PlayRhythmAniLeft(GetScore(result));
     }
 
     public void JudgeRight()
     {
         float result = mNoteMgrRight.GetJudgeDistance();
-        if (result > Global.SANYEAH_NOTE_JUDGE_MISS || result < 0)
+        if (result > Global.SANYEAH_NOTE_JUDGE_MISS || result < -1*Global.SANYEAH_NOTE_JUDGE_GOOD)
         {
             mEffectMissSrc.Play();
             return;
         }
-        mEffectSrc.Play();
+        //mEffectSrc.Play();
         PlayRhythmAniRight(GetScore(result));
     }
 
     public void PlayRhythmAniLeft(eScore score)
     {
         mGoEffectL.SetActive(false);
-        if(score != eScore.BAD && score!= eScore.MISS)
+        if( score!= eScore.MISS)
             mGoEffectL.SetActive(true);
         
-        TextEffectEnable(mTextLeft,score,"TextEffectDisableLeft");
+        TextEffectEnable(mGradeLeft,score,"TextEffectDisableLeft");
         
         if (score == eScore.MISS)
             mAniSanyeahRhythm.SetTrigger("RhythmStumble");
@@ -319,10 +416,10 @@ public class SanyeahGameManager : BaseScene
     {
         
         mGoEffectR.SetActive(false);
-        if(score != eScore.BAD && score!= eScore.MISS)
+        if(score!= eScore.MISS)
             mGoEffectR.SetActive(true);
         
-        TextEffectEnable(mTextRight,score,"TextEffectDisableRight");
+        TextEffectEnable(mGradeRight,score,"TextEffectDisableRight");
 
         if (score == eScore.MISS)
             mAniSanyeahRhythm.SetTrigger("RhythmStumble");
@@ -333,27 +430,29 @@ public class SanyeahGameManager : BaseScene
     public eScore GetScore(float result)
     {
         eScore score = eScore.PERFECT;
+        //Debug.Log("result"+result);
 
-        if (result < Global.SANYEAH_NOTE_JUDGE_PERFECT)
+        if (result <= Global.SANYEAH_NOTE_JUDGE_PERFECT && result > -1*Global.SANYEAH_NOTE_JUDGE_PERFECT)
         {
             score = eScore.PERFECT;
         }
-        else if (result < Global.SANYEAH_NOTE_JUDGE_GREAT)
-        {
-            score = eScore.GREAT;
-        }
-        else if (result < Global.SANYEAH_NOTE_JUDGE_GOOD)
+        //else if (result < Global.SANYEAH_NOTE_JUDGE_GREAT)
+        //{
+        //    score = eScore.GREAT;
+        //}
+        else if (result <= Global.SANYEAH_NOTE_JUDGE_GOOD && result > -1*Global.SANYEAH_NOTE_JUDGE_GOOD)
         {
             score = eScore.GOOD;
         }
-        else if (result < Global.SANYEAH_NOTE_JUDGE_BAD)
-        {
-            score = eScore.BAD;
-        }
+        //else if (result < Global.SANYEAH_NOTE_JUDGE_BAD)
+        //{
+        //    score = eScore.BAD;
+        //}
         else
         {
             score = eScore.MISS;
         }
+        //Debug.Log("score"+score);
         
         mITotalScore += (int) score;
         mImgGaugeValue.fillAmount += (float) score / 1000f;
@@ -362,40 +461,57 @@ public class SanyeahGameManager : BaseScene
         return score;
     }
 
-    void TextEffectEnable(TMP_Text text, eScore score,string strInvokeMethod)
+    void TextEffectEnable(Image image, eScore score,string strInvokeMethod)
     {
         CancelInvoke(strInvokeMethod);
-        text.text = string.Format("{0}!",score.ToString());
+        image.gameObject.SetActive(false);
         
         switch (score)
         {
             case eScore.PERFECT:
-                text.color = Color.magenta;
+                image.sprite = mListGrade[0];
                 break;
-            case eScore.GREAT:
-                text.color = Color.yellow;
-                break;
+            //case eScore.GREAT:
+            //    text.color = Color.yellow;
+            //    break;
             case eScore.GOOD:
-                text.color = Color.green;
+                image.sprite = mListGrade[1];
                 break;
-            case eScore.BAD:
-                text.color = Color.red;
-                break;
+            //case eScore.BAD:
+            //    text.color = Color.red;
+            //    break;
             case eScore.MISS:
-                text.color = Color.gray;
+                image.sprite = mListGrade[2];
                 break;
         }
+        
+        image.gameObject.SetActive(true);
         Invoke(strInvokeMethod,1f);
     }
     
     void TextEffectDisableLeft()
     {
-        mTextLeft.text = "";
+        mGradeLeft.gameObject.SetActive(false);
     }
     
     void TextEffectDisableRight()
     {
-        mTextRight.text = "";
+        mGradeRight.gameObject.SetActive(false);
+    }
+
+    void SetFeverMode(bool isFever)
+    {
+        foreach (var normal in mListGoNormal)
+        {
+            normal.SetActive(!isFever);
+        }
+        foreach (var fever in mListGoFever)
+        {
+            fever.SetActive(isFever);
+        }
+
+        if(isFever)
+            mAniSanyeahRhythm = mAniMasterSanyeahRhythm;
     }
 
     void GoToSanyeahScene()

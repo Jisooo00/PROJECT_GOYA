@@ -39,6 +39,25 @@ public class SaveDataManager : MonoBehaviour
         set { data.SaveData.dialogVersion = value; }
     }
 
+    public Vector3 CurPos
+    {
+        get { return data.SaveData.curPos; }
+        set { data.SaveData.curPos = value; }
+    }
+    public string CurMapID
+    {
+        get { return data.SaveData.curMapID; }
+        set
+        {
+            if (GameData.myData != null)
+            {
+                GameData.myData.cur_map = value;
+            }
+            data.SaveData.curMapID = value;
+        }
+    } 
+
+
     public void AddDialog(GameData.DialogData _data)
     {
         data.SaveData.listDialogData.Add(_data);
@@ -72,6 +91,7 @@ public class SaveDataManager : MonoBehaviour
 
         return null;
     }
+
 
 
     public void InitializeData()

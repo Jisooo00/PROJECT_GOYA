@@ -15,7 +15,9 @@ public class MainScene : BaseScene
     {
         base.InitScene();
         m_eSceneType = GameData.eScene.MainScene;
-        WebReq.Instance.Request(new ReqMapEnter(), delegate(ReqMapEnter.Res res) { });
+        WebReq.Instance.Request(new ReqMapEnter(), delegate(ReqMapEnter.Res res)
+        {
+        });
         SetUIManager();
         AudioManager.Instance.StopBgm();
         AudioManager.Instance.PlayBgm();
@@ -71,6 +73,12 @@ public class MainScene : BaseScene
             Player.instance.transform.localPosition = m_tmPosFromSanyeah.localPosition;
             moveFirst = Vector2.right;
         }
+        
+        if (GameManager.Instance.Scene.prevScene == GameData.eScene.IntroScene)
+        {
+            Player.instance.transform.localPosition = GameManager.Instance.saveData.CurPos;
+            //moveFirst = Vector2.right;
+        }
         yield return new WaitForSeconds(0.5f);
         m_uiLoading.gameObject.SetActive(false);
 
@@ -118,18 +126,19 @@ public class MainScene : BaseScene
         m_uiManager.PlayDialogForce("Dl_0000_05", delegate
         {
             bTutorialStep = true;
+            m_npcFox.SetQuestionMark();
             m_uiManager.SetPrologScene();
         });
         while (!bTutorialStep)
             yield return null;
         
-        m_npcFox.MoveTo(new Vector2(-2.0f,-15f));
+        /*m_npcFox.MoveTo(new Vector2(-2.0f,-15f));
         while (m_npcFox.IS_MOVING)
         {
             yield return null;
         }
         m_npcFox.gameObject.SetActive(false);
-        
+        */
         yield return null;
         bool bReqComplete = false;
         /*

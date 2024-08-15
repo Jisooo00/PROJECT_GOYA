@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip mSanyeahGameClip;
     [SerializeField] private AudioClip mEffectClip;
     [SerializeField] private AudioClip mEffectMissClip;
+    [SerializeField] private AudioClip mEffectFeverClip;
     private AudioSource src_bgm;
     
     private static AudioManager s_inst;

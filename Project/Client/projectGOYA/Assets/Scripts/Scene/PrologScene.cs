@@ -6,16 +6,11 @@ using UnityEngine;
 using UnityEngine.UI;
 public class PrologScene : BaseScene
 {
-    //public SaveDataManager SaveDataManager;
     protected override void InitScene()
     {
         base.InitScene();
-        
-        //GameManager.Instance.saveData = SaveDataManager;
-        //GameData.SetGameDialogData();
         m_eSceneType = GameData.eScene.PrologScene;
         SetUIManager(delegate { m_uiManager.SetPrologScene();});
-        
     }
     
     public override void Clear(Action del)
@@ -44,6 +39,7 @@ public class PrologScene : BaseScene
             },bNoBtn:true);
         });
         Player.instance.SetSleep(true);
+        m_npc.gameObject.SetActive(false);
         
         StartCoroutine(StartAfter());
 
@@ -83,7 +79,8 @@ public class PrologScene : BaseScene
         });
         while (!bTutorialStep)
             yield return null;
-        
+            
+        m_npc.gameObject.SetActive(true);
         m_npc.MoveTo(new Vector2(1.2f,0f));
         while (m_npc.IS_MOVING)
         {
@@ -139,6 +136,7 @@ public class PrologScene : BaseScene
         {
             yield return null;
         }
+        m_npc.gameObject.SetActive(false);
         Player.instance.SetInputPos(Vector2.up);
         yield return new WaitForSeconds(0.3f);
         GameManager.Instance.Scene.LoadSceneByID(GameData.myData.cur_map);

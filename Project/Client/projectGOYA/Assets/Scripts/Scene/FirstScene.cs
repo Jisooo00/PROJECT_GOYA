@@ -9,6 +9,8 @@ public class FirstScene : BaseScene
 
     public bool bTestGuestMode = false;
     public SaveDataManager SaveDataManager;
+    
+    public TMPro.TMP_Text mtxtVersion;
     protected override void InitScene()
     {
         base.InitScene();
@@ -44,6 +46,8 @@ public class FirstScene : BaseScene
         }
         
 #endif
+
+        mtxtVersion.text = String.Format("version {0}",Application.version);
 
         if(Application.internetReachability == NetworkReachability.NotReachable){
             

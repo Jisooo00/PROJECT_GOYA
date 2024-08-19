@@ -135,30 +135,10 @@ public class MainScene : BaseScene
         });
         while (!bTutorialStep)
             yield return null;
-        
-        /*m_npcFox.MoveTo(new Vector2(-2.0f,-15f));
-        while (m_npcFox.IS_MOVING)
-        {
-            yield return null;
-        }
-        m_npcFox.gameObject.SetActive(false);
-        */
+
         yield return null;
         bool bReqComplete = false;
-        /*
-        var req = new ReqQuestClear();
-        req.questId = "Qu_0000";
-        WebReq.Instance.Request(req, delegate(ReqQuestClear.Res res)
-        {
-            bReqComplete = true;
-        });
-
-        while (!bReqComplete)
-        {
-            yield return null;
-        }
-        */
-        bReqComplete = false;
+        
         if (GameData.QuestDatas.ContainsKey("Qu_0001") && GameData.QuestDatas["Qu_0001"].GetState() ==
             GameData.QuestData.eState.UNAVAILABLE)
         {

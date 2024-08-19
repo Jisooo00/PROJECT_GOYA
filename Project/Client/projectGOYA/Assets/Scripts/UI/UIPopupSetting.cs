@@ -113,6 +113,7 @@ public class UIPopupSetting : UIPopup
         mBtnHome.onClick.AddListener(delegate
         {
             AudioManager.Instance.PlayClick();
+            AudioManager.Instance.StopBgm();
             GameManager.Instance.Scene.LoadScene(GameData.eScene.IntroScene);
         });
 
@@ -130,12 +131,6 @@ public class UIPopupSetting : UIPopup
             m_rectSound.position = new Vector2(m_rectSound.position.x, m_rectSound.position.y-47f);
             m_rectUI.position = new Vector2(m_rectUI.position.x, m_rectUI.position.y-47f);
         }
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
 
     }
 

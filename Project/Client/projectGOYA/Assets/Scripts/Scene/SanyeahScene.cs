@@ -20,21 +20,6 @@ public class SanyeahScene : BaseScene
         StartCoroutine(StartAfter());
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            m_goNightEnvironment.gameObject.SetActive(true);
-            m_spriteSanyeah.sortingOrder = 11;
-            m_spritePlayer.sortingOrder = 11;
-            m_uiManager.PlayDialogForce("Dl_0007", delegate
-            {
-                m_spriteSanyeah.sortingOrder = 9;
-                m_spritePlayer.sortingOrder = 9;
-            });
-        }
-    }
-
 
     IEnumerator StartAfter()
     {
@@ -52,7 +37,7 @@ public class SanyeahScene : BaseScene
             Player.instance.transform.localPosition = GameManager.Instance.saveData.CurPos;
         }
         
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         m_uiLoading.gameObject.SetActive(false);
         
         if (moveFirst != Vector2.zero)

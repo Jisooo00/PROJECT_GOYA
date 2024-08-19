@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
 
 public class UIPopupSignIn : UIPopup
 {
@@ -60,6 +61,10 @@ public class UIPopupSignIn : UIPopup
 
             StartCoroutine(RequestLogin());
         });
+        
+        mInputID.onValueChanged.AddListener(
+            (word) => mInputID.text = Regex.Replace(word, @"[^0-9a-zA-Z]", "")
+        );
         
     }
     

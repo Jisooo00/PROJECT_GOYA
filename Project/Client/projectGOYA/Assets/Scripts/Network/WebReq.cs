@@ -52,7 +52,23 @@ public class WebReq : MonoBehaviour
 		UnityWebRequest www =
 			UnityWebRequest.Get(string.Format(GoogleSheetAddress, NoticeDataRange, NoticeDataSheetID));
 		yield return www.SendWebRequest();
-		GameData.InitNoticeData(www.downloadHandler.text);
+		if (www.result != UnityWebRequest.Result.Success)
+        {
+			PopupManager.Instance.OpenPopupNotice("네트워크 연결이 원활하지 않습니다.", delegate()
+            {
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
+            });
+			
+        }
+        else
+        {
+            GameData.InitNoticeData(www.downloadHandler.text);
+        }
+
 	}
 	
 
@@ -67,39 +83,50 @@ public class WebReq : MonoBehaviour
 		UnityWebRequest www =
 			UnityWebRequest.Get(string.Format(GoogleSheetAddress, DialogeDataRange, DialogDataSheetID));
 		yield return www.SendWebRequest();
-		GameData.InitDialogData(www.downloadHandler.text);
+		
+		if (www.result != UnityWebRequest.Result.Success)
+        {
+	        PopupManager.Instance.OpenPopupNotice("네트워크 연결 상태가 원활하지 않습니다.", delegate()
+	        {
+	            #if UNITY_EDITOR
+	                UnityEditor.EditorApplication.isPlaying = false;
+				#else
+	                Application.Quit();
+				#endif
+				});
+            
+        }
+        else
+        {
+            GameData.InitDialogData(www.downloadHandler.text);
+        }
+		
 		
 		www = UnityWebRequest.Get(string.Format(GoogleSheetAddress, ScriptDatRange, ScriptDataSheetID));
 		yield return www.SendWebRequest();
-		GameData.InitScriptData(www.downloadHandler.text);
+		
+		if (www.result != UnityWebRequest.Result.Success)
+        {
+        
+			PopupManager.Instance.OpenPopupNotice("네트워크 연결이 원활하지 않습니다.", delegate()
+            {
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
+            });
+        
+        }
+        else
+        {
+			GameData.InitScriptData(www.downloadHandler.text);
+			GameData.myData.bInitDialog = true;
+        }
+		
 
-		GameData.myData.bInitDialog = true;
 
 	}
-	
-
-/*
-	public delegate void DelTest(string str1, string str2);
-	public void LoadDialogDataTest(DelTest action)
-	{
-		StartCoroutine(RequestDataTest(action));
-	}
-	
-	IEnumerator RequestData()
-	{
-		UnityWebRequest www =
-			UnityWebRequest.Get(string.Format(GoogleSheetAddress, DialogeDataRange, DialogDataSheetID));
-		yield return www.SendWebRequest();
-		string result1 = www.downloadHandler.text;
-		
-		www = UnityWebRequest.Get(string.Format(GoogleSheetAddress, ScriptDatRange, ScriptDataSheetID));
-		yield return www.SendWebRequest();
-		string result2 = www.downloadHandler.text;
-		
-		
-		action(result1,result2);
-
-	}*/
 	
 
 	// 재전송 구현
@@ -142,7 +169,7 @@ public class WebReq : MonoBehaviour
 				sending = false;
 
 				var res_fail = new T();
-				res_fail.responseMessage = www.result.ToString();
+				res_fail.responseMessage = "네트워크 연결 상태가 원활하지 않습니다.";
 				func(res_fail);
 				
 				yield break;

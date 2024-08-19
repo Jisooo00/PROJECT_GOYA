@@ -44,6 +44,18 @@ public class FirstScene : BaseScene
         }
         
 #endif
+
+        if(Application.internetReachability == NetworkReachability.NotReachable){
+            
+            PopupManager.Instance.OpenPopupNotice("네트워크 연결이 원활하지 않습니다.", delegate()
+            {
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
+            });
+        }
         
         StartCoroutine(StartAfter());
     }

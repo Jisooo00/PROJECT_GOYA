@@ -33,7 +33,7 @@ public class MainScene : BaseScene
         }
         else
         {
-            m_npcFox.gameObject.SetActive(false);
+            //m_npcFox.gameObject.SetActive(false);
             StartCoroutine(StartAfter());
         }
         
@@ -79,7 +79,11 @@ public class MainScene : BaseScene
             Player.instance.transform.localPosition = GameManager.Instance.saveData.CurPos;
             //moveFirst = Vector2.right;
         }
-        yield return new WaitForSeconds(0.5f);
+        
+        m_npcFox.transform.localPosition = new Vector2(-2.0f,-11.0f);
+        m_npcFox.MoveTo(new Vector2(-2.0f,-11.1f));
+        
+        yield return new WaitForSeconds(0.25f);
         m_uiLoading.gameObject.SetActive(false);
 
         if (moveFirst != Vector2.zero)

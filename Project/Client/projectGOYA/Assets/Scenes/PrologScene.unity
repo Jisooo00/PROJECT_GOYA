@@ -753,7 +753,7 @@ MonoBehaviour:
   mListSprites:
   - {fileID: 21300000, guid: f8a7b3ff305f19641b362bedf58526e5, type: 3}
   - {fileID: 21300000, guid: 6adce0d5207b4a74abebbd79e96d5b1a, type: 3}
-  moveSpeed: 1
+  moveSpeed: 2
   rb: {fileID: 491592498}
 --- !u!61 &491592493
 BoxCollider2D:

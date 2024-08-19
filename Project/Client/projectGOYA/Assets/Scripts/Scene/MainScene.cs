@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class MainScene : BaseScene
 {
-    public GameObject SceneMoveBox;
+    //public GameObject SceneMoveBox;
     public GameObject m_uiLoading;
     public Transform m_tmPosFromCave;
     public Transform m_tmPosFromSanyeah;

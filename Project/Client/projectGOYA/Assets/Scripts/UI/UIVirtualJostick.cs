@@ -81,19 +81,15 @@ public class UIVirtualJostick : MonoBehaviour,IPointerDownHandler,IDragHandler,I
         mRect.position = mV3Origin;
         mImgController.rectTransform.anchoredPosition = new Vector2(0,0);
         Player.instance.SetInputPos(Vector2.zero);
-        /*     
-        if (mGobJoyStick.activeSelf)
-        {
-            foreach (var btn in mBtns)
-            {
-                if(btn.Pressed)
-                    ExecuteEvents.Execute(btn.gameObject, eventData, ExecuteEvents.pointerExitHandler);
-            }
-            mImgController.rectTransform.anchoredPosition = new Vector2(0,0);
-            mGobJoyStick.SetActive(false);
-        }
-        */
         
     }
+    public void ForcePointerUp()
+    {  
+        mRect.position = mV3Origin;
+        mImgController.rectTransform.anchoredPosition = new Vector2(0,0);
+        Player.instance.SetInputPos(Vector2.zero);
+        
+    }
+    
     
 }

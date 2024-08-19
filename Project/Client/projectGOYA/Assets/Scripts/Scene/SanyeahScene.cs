@@ -37,7 +37,7 @@ public class SanyeahScene : BaseScene
             Player.instance.transform.localPosition = GameManager.Instance.saveData.CurPos;
         }
         
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
         m_uiLoading.gameObject.SetActive(false);
         
         if (moveFirst != Vector2.zero)

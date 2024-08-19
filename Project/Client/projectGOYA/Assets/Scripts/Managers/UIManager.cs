@@ -18,7 +18,6 @@ public class UIManager : MonoBehaviour
     //public SanyeahGame mSanyeahGame;
     private UIDialog mDialogSystem;
     
-    
     public GameObject m_goTutoPointer_dialog1 = null;
     public GameObject m_goTutoPointer_dialog2 = null;
 
@@ -178,19 +177,6 @@ public class UIManager : MonoBehaviour
             data.RefreshData();
         }
         
-        //Debug.Log("EndDialog"+Player.instance.bIsDialogPlaying);
-        
-        /*
-        if (GameManager.Instance.Scene.currentScene.name == "@SanyeahScene" && data.mIndex == 1)
-         
-        {
-            mSanyeahGame.gameObject.SetActive(true);
-            mSanyeahGame.mDelAfterGame = delegate
-            {
-                Player.instance.mScanObject.GetComponent<MonsterBase>().RefreshData();
-            };
-
-        }*/
 
     }
 
@@ -200,6 +186,11 @@ public class UIManager : MonoBehaviour
             delTuto = del;
         else
             delTuto = null;
+    }
+    
+    public void ForceJoystickPointerUp()
+    {
+        mJostick.ForcePointerUp();
     }
 
 }

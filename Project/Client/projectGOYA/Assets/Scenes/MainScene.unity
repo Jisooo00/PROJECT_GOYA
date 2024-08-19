@@ -32739,7 +32739,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -32764,7 +32764,7 @@ Transform:
   m_GameObject: {fileID: 1424935774}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16, y: -4.95, z: 0}
+  m_LocalPosition: {x: -15.45, y: -4.95, z: 0}
   m_LocalScale: {x: 1, y: 20, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41849,7 +41849,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_uiManager: {fileID: 2111292536}
   mCanvas: {fileID: 219423322}
-  SceneMoveBox: {fileID: 1424935774}
   m_uiLoading: {fileID: 1850368361}
   m_tmPosFromCave: {fileID: 782385509}
   m_tmPosFromSanyeah: {fileID: 1055088979}

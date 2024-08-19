@@ -75,13 +75,6 @@ public class Player : MonoBehaviour
         {
             movement.x = bInputLeft ? -1 : bInputRight ? 1: 0;
             movement.y = bInputUp ? 1 : bInputDown ? -1 : 0;
-/*
-            if(movement.x != 0)
-                dirVec = bInputLeft ? Vector3.left : Vector3.right;
-            else
-                dirVec = bInputUp ? Vector3.up : Vector3.down;
-*/
-
             GameManager.Instance.saveData.CurPos = instance.transform.localPosition;
         }
         else
@@ -100,12 +93,6 @@ public class Player : MonoBehaviour
 
     void CheckMovement()
     {
-        /*
-        bool bMoveX = (bInputLeft && bInputRight) || (!bInputRight && !bInputLeft);
-        bool bMoveY = (bInputUp && bInputDown) || (!bInputUp && !bInputDown);
-
-        bIsMoving = (bMoveX && !bMoveY) || (!bMoveX && bMoveY);
-        */
 
         bool bMoveX = (bInputLeft || bInputRight);
         bool bMoveY = (bInputUp || bInputDown);
@@ -116,49 +103,8 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         float debuf = movement.x != 0f && movement.y != 0f ? 0.8f : 1.0f; 
-        //if(debuf != 1.0f)
-        //    Debug.Log(debuf);
         rb.MovePosition(rb.position + movement * moveSpeed*debuf * Time.fixedDeltaTime);
         
-        /*
-        Debug.DrawRay(rb.position,dirVec,new Color(0,1,0));
-        RaycastHit2D rayHit = Physics2D.Raycast(rb.position, dirVec, 2f, LayerMask.GetMask("InteractiveObject"));
-        if (rayHit.collider != null)
-        {
-            mScanObject = rayHit.collider.gameObject;
-        }
-        else
-        {
-            mScanObject = null;
-        }*/
-        
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.layer == 7)
-        {
-            foreach (var dialog in GameData.GetDialog("np_0001"))
-            {
-                if (dialog.m_strDialogID == "Dl_0002")
-                {
-                    if (dialog.m_bPlayed)
-                    {
-                        GameManager.Instance.Scene.LoadScene(GameData.eScene.SanyeahScene);
-                        return;
-                    }
-                }
-            }
-
-            var cur = transform.localPosition;
-            cur = new Vector3(cur.x + 1, cur.y, cur.z);
-            transform.localPosition = cur;
-            PopupManager.Instance.OpenPopupNotice("아직 산예의 숲으로 갈 수 없다는 내용 안내 (추후 대체))");
-        }
-        if (other.gameObject.layer == 8)
-        {
-            GameManager.Instance.Scene.LoadScene(GameData.eScene.MainScene);
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -171,11 +117,45 @@ public class Player : MonoBehaviour
         {
             mScanObject = other.gameObject;
         }
+        
+        if (other.gameObject.layer == 7)
+        {
+            
+            if(bIsDialogPlaying)
+            {
+                SetForceStop();
+                return;
+            }
+            
+            foreach (var dialog in GameData.GetDialog("np_0001"))
+            {
+                if (dialog.m_strDialogID == "Dl_0002")
+                {
+                    if (dialog.m_bPlayed)
+                    {
+                        GameManager.Instance.Scene.LoadScene(GameData.eScene.SanyeahScene);
+                        return;
+                    }
+                }
+            }
+            
+            SetForceStop();
+            var uiManager = GameManager.Instance.Scene.currentScene.m_uiManager;
+            uiManager.ForceJoystickPointerUp();
+            
+            uiManager.PlayDialogForce("Dl_0014",delegate{
+                transform.localPosition = new Vector3(-13,-3.8f,0f);
+            });
+            
+        }
+        if (other.gameObject.layer == 8)
+        {
+            GameManager.Instance.Scene.LoadScene(GameData.eScene.MainScene);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-//        Debug.Log("??");
         if (other.gameObject.layer == 6 && other.transform.parent.gameObject)
         {
             mScanObject = null;
@@ -191,12 +171,11 @@ public class Player : MonoBehaviour
     {
         float moveX = inputPos.x;
         float moveY = inputPos.y;
-//        Debug.Log(inputPos);
-        
-        bInputUp    = moveX == 0 ? moveY > 0 : moveY > 0.25f; //Math.Abs(moveX) < Math.Abs(moveY) && moveY > 0;
-        bInputDown = moveX == 0 ? moveY < 0 : moveY < -0.25f; //Math.Abs(moveX) < Math.Abs(moveY) && moveY < 0;
-        bInputLeft  = moveY == 0? moveX < 0 : moveX < -0.25f; //Math.Abs(moveX) >= Math.Abs(moveY) && moveX < 0;
-        bInputRight = moveY == 0? moveX > 0 : moveX > 0.25f; //Math.Abs(moveX) >= Math.Abs(moveY) && moveX > 0;
+
+        bInputUp    = moveX == 0 ? moveY > 0 : moveY > 0.25f; 
+        bInputDown = moveX == 0 ? moveY < 0 : moveY < -0.25f; 
+        bInputLeft  = moveY == 0? moveX < 0 : moveX < -0.25f;
+        bInputRight = moveY == 0? moveX > 0 : moveX > 0.25f; 
         
     }
 
@@ -204,10 +183,13 @@ public class Player : MonoBehaviour
     {
         CharacterAppearance.instance.SetSleep(bSleep);
     }
-
-    public void ForceMoveTo(Vector2 dest)
-    {
-        
+    
+    public void SetForceStop(){
+        bInputUp    = false; 
+        bInputDown = false; 
+        bInputLeft  = false; 
+        bInputRight = false; 
     }
+    
     
 }

@@ -38,7 +38,7 @@ public class UIPopupSetNickname : UIPopup
         });
         
         mInputNickname.onValueChanged.AddListener(
-            (word) => mInputNickname.text = Regex.Replace(word, @"[^0-9a-zA-Z가-힇ㄱ-ㅎㅏ-ㅣ]", "")
+            (word) => mInputNickname.text = Regex.Replace(word, @"[^0-9a-zA-Z가-힇ㄱ-ㅎㅏ-ㅣㆍᆞᆢ]", "")
         );
         mBtnPrev.onClick.AddListener(delegate
         {

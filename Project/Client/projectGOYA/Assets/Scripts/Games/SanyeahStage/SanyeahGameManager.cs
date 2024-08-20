@@ -100,7 +100,7 @@ public class SanyeahGameManager : BaseScene
         {
             mAudioSrc = gameObject.AddComponent<AudioSource>();
             mAudioSrc.clip = mAudioClip;
-            mAudioSrc.volume = 0.8f * GameData.myData.SET_VOLUME;
+            mAudioSrc.volume = 0.8f; //* GameData.myData.SET_VOLUME;
         }
         
         if (mEffectClip != null)

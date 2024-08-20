@@ -16644,8 +16644,8 @@ MonoBehaviour:
   mEffectFeverClip: {fileID: 8300000, guid: 3a7208b291e147d4e93e5fd5cec1618c, type: 3}
   mAniNormalSanyeahRhythm: {fileID: 272826104}
   mAniMasterSanyeahRhythm: {fileID: 1799108821}
-  mNoteDataLeft: {fileID: 11400000, guid: 7c8b6bc1210d53c40994b7c0b3645dbd, type: 2}
-  mNoteDataRight: {fileID: 11400000, guid: cb2323fc6c5ad514d8444c16c4ab9265, type: 2}
+  mNoteDataLeft: {fileID: 11400000, guid: d2902cf559b57fa4e8b0d9d622b75430, type: 2}
+  mNoteDataRight: {fileID: 11400000, guid: c10fa7a0beaa6d6489ddb233328115f4, type: 2}
   mGoBeforeStart: {fileID: 1102904117}
   mBtnStart: {fileID: 395246090}
   mBtnReplay: {fileID: 2146728695}

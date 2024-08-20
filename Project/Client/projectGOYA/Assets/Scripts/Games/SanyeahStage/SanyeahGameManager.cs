@@ -59,6 +59,7 @@ public class SanyeahGameManager : BaseScene
     private bool mIsAllNoteDrop = false;
     private bool bCheckFiver = false;
     private bool bFiverMode = false;
+    private bool bDelayForce = false;
     
     //배경음과의 Sync를 위해 게임 시작 시점과 Note활성화 시점 분리
     private bool bStart = false;
@@ -100,8 +101,8 @@ public class SanyeahGameManager : BaseScene
         {
             mAudioSrc = gameObject.AddComponent<AudioSource>();
             mAudioSrc.clip = mAudioClip;
-            mAudioSrc.volume = 0.8f; //* GameData.myData.SET_VOLUME;
-        }
+            mAudioSrc.volume = 0.8f * GameData.myData.SET_VOLUME;
+        } 
         
         if (mEffectClip != null)
         {
@@ -199,6 +200,7 @@ public class SanyeahGameManager : BaseScene
         bCheckFiver = false;
         bFiverMode = false;
         bStart = false;
+        bDelayForce = false;
         bDropNote = false;
         mITotalScore = 0;
         mImgGaugeValue.fillAmount = 0.5f;
@@ -268,8 +270,8 @@ public class SanyeahGameManager : BaseScene
 
         if (!mIsAllNoteDrop)
         {
-            bool bDelay = mFDropRightLastTime > 1f || mFDropLeftLastTime > 1f;
-            mImgGaugeValue.fillAmount -= Time.deltaTime / (bDelay ? 20f : 10f);
+            bool bDelay = mFDropRightLastTime > 1f || mFDropLeftLastTime > 1f || bDelayForce;
+            mImgGaugeValue.fillAmount -= Time.deltaTime / (bDelay ? 25f : 10f);
 
         }
 
@@ -302,21 +304,20 @@ public class SanyeahGameManager : BaseScene
         if(bStart)
             yield break;
         
-        
-        
         float fStartTime = 0f;
         
 
         if (!bDropNote)
             StartCoroutine("DropNoteData");
         
-        while (fStartTime < 1.45f)
+        while (fStartTime < 1.25f)
         {
             fStartTime += Time.deltaTime;
             yield return null;
         }
         
         bStart = true;
+        bDelayForce = true;
 
         mAudioSrc.Play();
         
@@ -324,6 +325,8 @@ public class SanyeahGameManager : BaseScene
         while (fStartTime < 30f)
         {
             fStartTime += Time.deltaTime;
+            if(fStartTime > 10f && bDelayForce)
+                bDelayForce = false;
             yield return null;
         }
 

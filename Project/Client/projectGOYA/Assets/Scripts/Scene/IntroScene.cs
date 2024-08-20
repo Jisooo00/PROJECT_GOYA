@@ -19,10 +19,10 @@ public class IntroScene : BaseScene
     public TMP_Text mTxtSetting;
     public TMP_Text mTxtCredit;
     public TMP_Text mTxtLoading;
+    public TMP_Text mTxtVersion;
 
     public RectTransform mRtLoadingGuage;
-    
-    //public Button mBtnSignOut;
+
     public UICredit mUICredit;
     public GameObject mUILoading;
     public GameObject mGoMainMenuUI;
@@ -36,7 +36,6 @@ public class IntroScene : BaseScene
     {
         base.InitScene();
         m_eSceneType = GameData.eScene.IntroScene;
-        //m_uiManager.Init(m_eSceneType);
     }
     
     public override void Clear(Action del)
@@ -58,6 +57,8 @@ public class IntroScene : BaseScene
         
         Global.InitSoundSet();
         Global.InitUISet();
+        
+        mTxtVersion.text = String.Format("version {0}",Application.version);
         
         AudioManager.Instance.PlayBgm();
         
@@ -352,12 +353,12 @@ public class IntroScene : BaseScene
         mBtnReset.gameObject.SetActive(GameData.myData.bUserInfoExist);
         if (GameData.myData.bUserInfoExist)
         {
-            mTxtReset.text = "새로하기" ; //TODO 로컬적용   
-            mTxtStart.text = "이어하기" ; //TODO 로컬적용   
+            mTxtReset.text = "새로하기" ;
+            mTxtStart.text = "이어하기" ; 
         }
         else
         {
-            mTxtStart.text = "시작하기" ; //TODO 로컬적용   
+            mTxtStart.text = "시작하기" ;
         }
     }
     

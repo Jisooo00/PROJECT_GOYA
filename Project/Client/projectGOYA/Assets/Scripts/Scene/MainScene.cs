@@ -112,8 +112,10 @@ public class MainScene : BaseScene
         Player.instance.transform.localPosition = m_tmPosFromCave.localPosition;
         Player.instance.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.5f);
+        m_npcFox.gameObject.SetActive(false);
         m_uiLoading.gameObject.SetActive(false);
         
+        m_npcFox.gameObject.SetActive(true);
         m_npcFox.MoveTo(new Vector2(-2.0f,-11f));
         while (m_npcFox.IS_MOVING)
         {

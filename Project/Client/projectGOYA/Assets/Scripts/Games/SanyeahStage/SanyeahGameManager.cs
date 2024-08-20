@@ -36,7 +36,10 @@ public class SanyeahGameManager : BaseScene
     [SerializeField] private Button mBtnReplay;
     [SerializeField] private Button mBtnExitClear;
     [SerializeField] private Button mBtnExitOver;
+    [SerializeField] private Button mBtnPause;
+    [SerializeField] private Button mBtnPauseReplay;
     [SerializeField] private GameObject mGoGameResult;
+    [SerializeField] private GameObject mGoGamePause;
     [SerializeField] private GameObject mGoGameResultClear;
     [SerializeField] private GameObject mGoGameResultOver;
     [SerializeField] private TMP_Text mTextScore;
@@ -60,6 +63,7 @@ public class SanyeahGameManager : BaseScene
     //배경음과의 Sync를 위해 게임 시작 시점과 Note활성화 시점 분리
     private bool bStart = false;
     private bool bDropNote = false;
+    private bool bPause = false;
 
     private int mITotalScore = 0;
     
@@ -151,21 +155,33 @@ public class SanyeahGameManager : BaseScene
         {
             AudioManager.Instance.PlayClick();
             GoToSanyeahScene();
-            //mGoBeforeStart.SetActive(false);
-            //mGoGameResultClear.SetActive(false);
-            //StartCoroutine("StartGame");
-            //SetInitGame();
-            //mGoBeforeStart.SetActive(true);
         });
         mBtnExitOver.onClick.AddListener(delegate
         {
             AudioManager.Instance.PlayClick();
             GoToSanyeahScene();
-            //mGoGameResultClear.SetActive(false);
-            //StartCoroutine("StartGame");
-            //SetInitGame();
-            //mGoBeforeStart.SetActive(true);
         });
+        
+        mBtnPause.onClick.AddListener(delegate
+        {
+            mAudioSrc.Pause();
+            bPause = true;
+            AudioManager.Instance.PlayClick();
+            Time.timeScale = 0;
+            mGoGamePause.SetActive(true);
+
+        });
+        
+        mBtnPauseReplay.onClick.AddListener(delegate
+        {
+            AudioManager.Instance.PlayClick();
+            Time.timeScale = 1;
+            mGoGamePause.SetActive(false);
+            mAudioSrc.UnPause();
+            bPause = false;
+
+        });
+        
     }
     
     void SetInitGame()
@@ -222,6 +238,9 @@ public class SanyeahGameManager : BaseScene
         }
         
 #endif
+
+        if(bPause)
+            return;
         
         if (!bStart)
             return;

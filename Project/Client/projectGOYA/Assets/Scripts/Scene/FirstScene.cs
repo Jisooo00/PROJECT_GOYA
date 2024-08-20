@@ -6,16 +6,13 @@ using UnityEngine;
 using UnityEngine.UI;
 public class FirstScene : BaseScene
 {
-
     public bool bTestGuestMode = false;
     public SaveDataManager SaveDataManager;
     
-    public TMPro.TMP_Text mtxtVersion;
     protected override void InitScene()
     {
         base.InitScene();
         m_eSceneType = GameData.eScene.FirstScene;
-        //m_uiManager.Init(m_eSceneType);
     }
     
     public override void Clear(Action del)
@@ -30,12 +27,7 @@ public class FirstScene : BaseScene
     }
     
     public Image m_imgTeamLogo;
-
-    void Awake()
-    {
-        
-//        DontDestroyOnLoad(SaveDataManager.gameObject);
-    }
+    
     void Start()
     {
 #if UNITY_EDITOR
@@ -46,8 +38,6 @@ public class FirstScene : BaseScene
         }
         
 #endif
-
-        mtxtVersion.text = String.Format("version {0}",Application.version);
 
         if(Application.internetReachability == NetworkReachability.NotReachable){
             

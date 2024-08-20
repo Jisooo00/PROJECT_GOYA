@@ -61,4 +61,5 @@ public class NoteManager : MonoBehaviour
        {
               return mIFirstObjectIdx==-1? -1 : mListNotesPool[mIFirstObjectIdx].JudgePosX;
        }
+
 }

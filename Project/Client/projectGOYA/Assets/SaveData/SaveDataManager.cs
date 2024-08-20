@@ -6,11 +6,19 @@ using UnityEngine;
 
 public class SaveDataManager : MonoBehaviour
 {
+    private bool bLoadData = false;
     private static SaveDataManager s_instance;
     public static SaveDataManager Instance
     {
         get
         {
+            Init();
+            if (!s_instance.bLoadData)
+            {
+                s_instance.LoadUserData();
+                s_instance.bLoadData = true;
+            }
+
             return s_instance;
         }
     }
@@ -30,19 +38,40 @@ public class SaveDataManager : MonoBehaviour
     private string fileName = "SaveUserData.json";
     private void Awake()
     {
-        DontDestroyOnLoad(this);
+        Init();
         LoadUserData();
+        
+    }
+
+    public static void Init()
+    {
+        if(s_instance == null)
+        {
+            GameObject obj = GameObject.Find("SaveDataManager");
+            if (obj == null)
+            {
+                obj = new GameObject { name = "@SaveDataManager" };
+                obj.AddComponent<SaveDataManager>();
+            }
+            
+            DontDestroyOnLoad(obj);
+            s_instance = obj.GetComponent<SaveDataManager>();
+        }
     }
     
     private void LoadUserData()
     {
-        string str = File.ReadAllText(Application.persistentDataPath + "/SaveUserData.json");
-        if (string.IsNullOrEmpty(str))
+        if (bLoadData)
+            return;
+        
+        bLoadData = true;
+        if (!File.Exists(Application.persistentDataPath+fileName))
         {
             data = new UserData();
+            SaveUserData();
             return;
         }
-
+        string str = File.ReadAllText(Application.persistentDataPath + fileName);
         UserData _data = JsonUtility.FromJson<UserData>(str);
         data = _data;
     }
@@ -98,7 +127,6 @@ public class SaveDataManager : MonoBehaviour
         set
         {
             data.curPos = value; 
-            SaveUserData();
         }
     }
     public string CurMapID

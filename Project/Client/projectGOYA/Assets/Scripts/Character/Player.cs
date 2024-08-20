@@ -85,11 +85,13 @@ public class Player : MonoBehaviour
             saveTime += Time.deltaTime;
             movement.x = bInputLeft ? -1 : bInputRight ? 1: 0;
             movement.y = bInputUp ? 1 : bInputDown ? -1 : 0;
-            if (saveTime > 2f)
-            {
-                SaveDataManager.Instance.CurPos = instance.transform.localPosition;
-            }
             SaveDataManager.Instance.CurPos = instance.transform.localPosition;
+            if (saveTime > 0.5f)
+            {
+                SaveDataManager.Instance.SaveUserData();
+                saveTime = 0f;
+            }
+            
         }
         else
         {

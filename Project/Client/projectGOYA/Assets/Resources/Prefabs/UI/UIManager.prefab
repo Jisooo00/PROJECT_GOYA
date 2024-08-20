@@ -505,7 +505,7 @@ MonoBehaviour:
   - {fileID: 2864175811332521320}
   mActionUI: {fileID: 3214387506885539451}
   mDialogUI: {fileID: 8483287947193955664}
-  mJostick: {fileID: 4580091689546122522}
+  mJoyStick: {fileID: 4580091689546122522}
   mBtnSetting: {fileID: 4785561408517609871}
   m_goTutoPointer_dialog1: {fileID: 4897210313957467288}
   m_goTutoPointer_dialog2: {fileID: 4966510917345102719}

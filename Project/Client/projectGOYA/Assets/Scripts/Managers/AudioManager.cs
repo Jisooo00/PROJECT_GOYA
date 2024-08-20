@@ -114,8 +114,8 @@ public class AudioManager : MonoBehaviour
 
     public void PlayClick()
     {
-        if (!GameData.myData.IS_EFFECT_ON)
-            return;
+        //if (!GameData.myData.IS_EFFECT_ON)
+        //    return;
         PlayClip(mClickClip);
     }
 

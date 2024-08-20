@@ -15,18 +15,7 @@ public class GameManager : MonoBehaviour
 
     private SceneMgr sceneMgr = new SceneMgr();
     public SceneMgr Scene { get { return Instance.sceneMgr; } }
-
-    private SaveDataManager dataMgr;// = new SaveDataManager();
-
-    public SaveDataManager saveData
-    {
-        get { return Instance.dataMgr; }
-        set
-        {
-            dataMgr = Instance.gameObject.AddComponent<SaveDataManager>();
-            dataMgr = value;
-        }
-    }
+    
 
     public enum eDialogAction
     {

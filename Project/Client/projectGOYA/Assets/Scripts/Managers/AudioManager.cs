@@ -130,7 +130,6 @@ public class AudioManager : MonoBehaviour
     {
         if (src_bgm.isPlaying)
             return;
-        if(GameData.myData == null)
         if (!GameData.myData.IS_BGM_ON)
             return;
         src_bgm.volume = GameData.myData.SET_VOLUME;

@@ -76,7 +76,7 @@ public class MainScene : BaseScene
         
         if (GameManager.Instance.Scene.prevScene == GameData.eScene.IntroScene)
         {
-            Player.instance.transform.localPosition = GameManager.Instance.saveData.CurPos;
+            Player.instance.transform.localPosition = SaveDataManager.Instance.CurPos;
             //moveFirst = Vector2.right;
         }
         

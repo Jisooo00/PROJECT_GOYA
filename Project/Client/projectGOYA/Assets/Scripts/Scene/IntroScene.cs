@@ -168,11 +168,11 @@ public class IntroScene : BaseScene
         bool bFailLogin = false;
         
         //저장된 정보 있으면 로그인 시도
-        if (GameManager.Instance.saveData.bLoginInfo)
+        if (SaveDataManager.Instance.bLoginInfo)
         {
             var req = new ReqLogin();
-            req.id = GameManager.Instance.saveData.LoginID;
-            req.pw = GameManager.Instance.saveData.LoginPW;
+            req.id = SaveDataManager.Instance.LoginID;
+            req.pw = SaveDataManager.Instance.LoginPW;
             
             WebReq.Instance.Request(req, delegate(ReqLogin.Res res)
             {
@@ -337,7 +337,7 @@ public class IntroScene : BaseScene
             yield return null;
         }
         
-        GameManager.Instance.saveData.InitDialog();
+        SaveDataManager.Instance.InitDialog();
         
 
         isBusy = false;

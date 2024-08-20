@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -55,7 +56,7 @@ public class FirstScene : BaseScene
     }
     IEnumerator StartAfter()
     {
-        GameManager.Instance.saveData = SaveDataManager;
+        
         yield return new WaitForSeconds(1.5f);
         WebReq.Instance.CheckNoticeData();
         while (!GameData.bInitNoticeData)

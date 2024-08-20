@@ -38,7 +38,8 @@ public class PopupManager : MonoBehaviour
     }
 
     private Stack<UIPopup> m_stkOpenPopup = new Stack<UIPopup>();
-    private bool isSettingPopupOpen = false;
+    private bool bSettingPopupOpen = false;
+    public bool IsSettingPopupOpen { get { return bSettingPopupOpen; } }
 
     private static void InitCanvas(GameObject go)
     {
@@ -93,7 +94,7 @@ public class PopupManager : MonoBehaviour
     
     public void OpenPopupSetting(Action del = null)
     {
-        if(isSettingPopupOpen)
+        if(bSettingPopupOpen)
             return;
         var go = Load("Prefabs/UI/UIPopupSetting", m_rectTransform);
         var popupSetting= go.GetComponent<UIPopupSetting>();
@@ -101,11 +102,11 @@ public class PopupManager : MonoBehaviour
         {
             if (del != null) del();
             
-            isSettingPopupOpen = false;
+            bSettingPopupOpen = false;
         }, "", "설정");
         popupSetting.gameObject.SetActive(true);
         SetOpenPopup(popupSetting);
-        isSettingPopupOpen = true;
+        bSettingPopupOpen = true;
     }
 
     public void OpenPopupAccount(Action del = null)

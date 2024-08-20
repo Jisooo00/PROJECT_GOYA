@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIVirtualJostick : MonoBehaviour,IPointerDownHandler,IDragHandler,IPointerUpHandler
+public class UIVirtualJoyStick : MonoBehaviour,IPointerDownHandler,IDragHandler,IPointerUpHandler,IBeginDragHandler,IEndDragHandler
 {
     public GameObject mGobJoyStick;
     public Image mImgBg;
@@ -12,6 +12,7 @@ public class UIVirtualJostick : MonoBehaviour,IPointerDownHandler,IDragHandler,I
     private Vector3 mV3Origin;
     private RectTransform mRect;
     public GameObject m_goTutoPointer_action = null;
+    private bool bIgnoreDrag = false;
 
 
     public void Awake()
@@ -50,9 +51,17 @@ public class UIVirtualJostick : MonoBehaviour,IPointerDownHandler,IDragHandler,I
         }*/
 
     }
+    
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        Vector2 touchPosition  = eventData.position;
+        bIgnoreDrag = touchPosition.x > Screen.width * 0.5f;
+    }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (bIgnoreDrag)
+            return;
         
         Vector2 touchPosition = Vector2.zero;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(mImgBg.rectTransform, eventData.position,
@@ -74,6 +83,11 @@ public class UIVirtualJostick : MonoBehaviour,IPointerDownHandler,IDragHandler,I
             
         }
 
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        bIgnoreDrag = false;
     }
 
     public void OnPointerUp(PointerEventData eventData)

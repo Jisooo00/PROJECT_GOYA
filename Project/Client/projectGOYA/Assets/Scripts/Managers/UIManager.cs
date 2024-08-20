@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     
     [SerializeField] private GameObject mActionUI;
     [SerializeField] private GameObject mDialogUI;
-    [SerializeField] private UIVirtualJostick mJostick;
+    [SerializeField] private UIVirtualJoyStick mJoyStick;
     public Button mBtnSetting;
 
     //public SanyeahGame mSanyeahGame;
@@ -22,7 +22,6 @@ public class UIManager : MonoBehaviour
     public GameObject m_goTutoPointer_dialog2 = null;
 
     public Action delTuto = null;
-    
     
     void Start()
     {
@@ -60,7 +59,7 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("tutoAction");
         mActionUI.SetActive(true);
-        mJostick.SetTutorialPointer();
+        mJoyStick.SetTutorialPointer();
         mDialogUI.SetActive(false);
         mBtnSetting.gameObject.SetActive(false);
     }
@@ -148,7 +147,7 @@ public class UIManager : MonoBehaviour
         Player.instance.bIsDialogPlaying = true;
         if (mDialogSystem != null)
         {
-            var data = GameManager.Instance.saveData.GetDialogByID(DialogID);
+            var data = SaveDataManager.Instance.GetDialogByID(DialogID);
             if (data == null)
             {
                 Debug.Log("dialog "+DialogID+"is null");
@@ -190,7 +189,7 @@ public class UIManager : MonoBehaviour
     
     public void ForceJoystickPointerUp()
     {
-        mJostick.ForcePointerUp();
+        mJoyStick.ForcePointerUp();
     }
 
 }

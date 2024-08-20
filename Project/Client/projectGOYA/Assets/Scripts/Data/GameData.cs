@@ -270,9 +270,9 @@ public static class GameData
                 NoticeMsg = columns[1];
             }else if (i == 2)
             {
-                if (GameManager.Instance.saveData.ScriptVersion != columns[0])
+                if (SaveDataManager.Instance.ScriptVersion != columns[0])
                 {
-                    GameManager.Instance.saveData.ScriptVersion = columns[0];
+                    SaveDataManager.Instance.ScriptVersion = columns[0];
                     NeedDownloadDialog = true;
                 }
 
@@ -301,7 +301,7 @@ public static class GameData
             
             var data = new DialogData(id,npcId,playCondition,condition,actionQuest,actionDialog,action,replay);
             
-            GameManager.Instance.saveData.AddDialog(data);
+            SaveDataManager.Instance.AddDialog(data);
 
         }
     }
@@ -318,14 +318,14 @@ public static class GameData
             string Script = columns[4].Split('\r')[0];
 
             var data = new ScriptData(Speaker, Portrait, Script);
-            GameManager.Instance.saveData.AddScript(data,DialogId);
+            SaveDataManager.Instance.AddScript(data,DialogId);
 
         }
     }
 
     public static void SetGameDialogData()
     {
-        var list = GameManager.Instance.saveData.GetDialogList();
+        var list = SaveDataManager.Instance.GetDialogList();
 
         foreach (var data in list)
         {
@@ -372,7 +372,7 @@ public static class GameData
 
     public static bool IsPlayedDialog(string id)
     {
-        foreach (var dialog in GameManager.Instance.saveData.GetDialogList())
+        foreach (var dialog in SaveDataManager.Instance.GetDialogList())
         {
             if (dialog.m_strDialogID == id)
                 return dialog.m_bPlayed;
@@ -391,10 +391,13 @@ public static class GameData
             }
         }
         
-        foreach (var dialog in GameManager.Instance.saveData.GetDialogList())
+        foreach (var dialog in SaveDataManager.Instance.GetDialogList())
         {
             if (dialog.m_strDialogID == id)
+            {
                 dialog.m_bPlayed = played;
+                SaveDataManager.Instance.SaveUserData();
+            }
         }
         
     }
@@ -456,13 +459,13 @@ public class Global
     public static void InitUserData()
     {
         var data = new GameData.UserData();
-        data.user_id = string.IsNullOrEmpty(GameManager.Instance.saveData.LoginID) ? "" : GameManager.Instance.saveData.LoginID;
-        data.user_uid = GameManager.Instance.saveData.LoginUid;
-        data.user_pw = string.IsNullOrEmpty(GameManager.Instance.saveData.LoginPW) ? "" : GameManager.Instance.saveData.LoginPW;
+        data.user_id = string.IsNullOrEmpty(SaveDataManager.Instance.LoginID) ? "" : SaveDataManager.Instance.LoginID;
+        data.user_uid = SaveDataManager.Instance.LoginUid;
+        data.user_pw = string.IsNullOrEmpty(SaveDataManager.Instance.LoginPW) ? "" : SaveDataManager.Instance.LoginPW;
         data.IS_BGM_ON = GameData.myData.IS_BGM_ON;
         data.IS_EFFECT_ON = GameData.myData.IS_EFFECT_ON;
         data.SET_VOLUME = GameData.myData.SET_VOLUME;
-        data.cur_map = GameManager.Instance.saveData.CurMapID;
+        data.cur_map = SaveDataManager.Instance.CurMapID;
         data.user_name = GameData.myData.user_name;
         data.cur_pos = GameData.myData.cur_pos;
         data.IS_SHOW_UI_BTN = GameData.myData.IS_SHOW_UI_BTN;

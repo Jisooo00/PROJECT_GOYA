@@ -212,9 +212,10 @@ public class WebReq : MonoBehaviour
 			GameData.myData.user_id = res.data.id;
 			GameData.myData.user_pw = res.data.pw;
 
-			GameManager.Instance.saveData.LoginID = res.data.id;
-			GameManager.Instance.saveData.LoginUid = res.data.userUid;
-			GameManager.Instance.saveData.LoginPW = res.data.pw;
+			SaveDataManager.Instance.LoginID = res.data.id;
+			SaveDataManager.Instance.LoginUid = res.data.userUid;
+			SaveDataManager.Instance.LoginPW = res.data.pw;
+			SaveDataManager.Instance.SaveUserData();
 			/*
 			PlayerPrefs.SetString(Global.KEY_USER_ID,res.data.id);
 			PlayerPrefs.SetInt(Global.KEY_USER_UID,res.data.userUid);
@@ -234,9 +235,10 @@ public class WebReq : MonoBehaviour
 				GameData.myData.user_id = res.data.id;
 				GameData.myData.user_pw = res.data.pw;
 
-				GameManager.Instance.saveData.LoginID = res.data.id;
-				GameManager.Instance.saveData.LoginUid = res.data.userUid;
-				GameManager.Instance.saveData.LoginPW = res.data.pw;
+				SaveDataManager.Instance.LoginID = res.data.id;
+				SaveDataManager.Instance.LoginUid = res.data.userUid;
+				SaveDataManager.Instance.LoginPW = res.data.pw;
+				SaveDataManager.Instance.SaveUserData();
 
 				/*
 				PlayerPrefs.SetString(Global.KEY_USER_ID,res.data.id);
@@ -271,7 +273,8 @@ public class WebReq : MonoBehaviour
 				GameData.myData.user_name = res.data.nickname;
 				//GameData.myData.cur_map = res.data.curMap;
 
-				GameManager.Instance.saveData.LoginNickname = res.data.nickname;
+				SaveDataManager.Instance.LoginNickname = res.data.nickname;
+				SaveDataManager.Instance.SaveUserData();
 			}
 			else
 			{
@@ -287,7 +290,8 @@ public class WebReq : MonoBehaviour
 			{
 				GameData.myData.user_name = res.data.nickname;
 				//GameData.myData.cur_map = res.data.curMap;
-				GameManager.Instance.saveData.LoginNickname = res.data.nickname;
+				SaveDataManager.Instance.LoginNickname = res.data.nickname;
+				SaveDataManager.Instance.SaveUserData();
 			}
 			else
 			{
@@ -386,7 +390,8 @@ public class WebReq : MonoBehaviour
 			var res = (ReqMapEnter.Res)res_base;
 			if (res.IsSuccess)
 			{
-				GameManager.Instance.saveData.CurMapID = GameManager.Instance.Scene.GetCurrentSceneID();
+				SaveDataManager.Instance.CurMapID = GameManager.Instance.Scene.GetCurrentSceneID();
+				SaveDataManager.Instance.SaveUserData();
 			}
 		}
 		

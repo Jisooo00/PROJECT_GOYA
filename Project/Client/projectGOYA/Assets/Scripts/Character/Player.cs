@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     [NonSerialized] public bool bInputLeft = false;
     [NonSerialized] public bool bInputRight = false;
     [NonSerialized] public bool bIsDialogPlaying = false;
+
+    private float saveTime = 0f;
     public bool bIsOnGoingTutorial
     {
         get
@@ -69,13 +71,25 @@ public class Player : MonoBehaviour
         
         if (bIsDialogPlaying)
             return;
+
+        /*if (PopupManager.Instance.IsSettingPopupOpen)
+        {
+            movement = Vector2.zero;
+            return;
+        }*/
+        
         CheckMovement();
 
         if (bIsMoving)
         {
+            saveTime += Time.deltaTime;
             movement.x = bInputLeft ? -1 : bInputRight ? 1: 0;
             movement.y = bInputUp ? 1 : bInputDown ? -1 : 0;
-            GameManager.Instance.saveData.CurPos = instance.transform.localPosition;
+            if (saveTime > 2f)
+            {
+                SaveDataManager.Instance.CurPos = instance.transform.localPosition;
+            }
+            SaveDataManager.Instance.CurPos = instance.transform.localPosition;
         }
         else
         {

@@ -108,14 +108,14 @@ public class AudioManager : MonoBehaviour
 
         src.clip = c;
         src.Play();
-        src.volume = 0.8f ;//* GameData.myData.SET_VOLUME;
+        src.volume = 0.8f * GameData.myData.SET_VOLUME;
         doing.Add(src);
     }
 
     public void PlayClick()
     {
-        //if (!GameData.myData.IS_EFFECT_ON)
-        //    return;
+        if (!GameData.myData.IS_EFFECT_ON)
+            return;
         PlayClip(mClickClip);
     }
 

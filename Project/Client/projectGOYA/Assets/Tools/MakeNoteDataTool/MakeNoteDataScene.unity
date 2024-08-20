@@ -581,8 +581,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mAudioClip: {fileID: 8300000, guid: 4d4c8ba74e2ac404c88acdeeec66ccbc, type: 3}
-  mNoteDataLeft: {fileID: 11400000, guid: 7c8b6bc1210d53c40994b7c0b3645dbd, type: 2}
-  mNoteDataRight: {fileID: 11400000, guid: cb2323fc6c5ad514d8444c16c4ab9265, type: 2}
+  mNoteDataLeft: {fileID: 11400000, guid: 74fd9b19ed8cef24e8cdff7e86ff5868, type: 2}
+  mNoteDataRight: {fileID: 11400000, guid: 1343b07122e7dea4ca3e8fa6d87c451f, type: 2}
   mText: {fileID: 532233397}
   mTextLeft: {fileID: 2109713976}
   mTextRight: {fileID: 692829879}

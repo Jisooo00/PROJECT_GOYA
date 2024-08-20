@@ -148,6 +148,7 @@ public class SanyeahGameManager : BaseScene
         mBtnReplay.onClick.AddListener(delegate
         {
             AudioManager.Instance.PlayClick();
+            StopAllCoroutines();
             SetInitGame();
             mGoBeforeStart.SetActive(true);
             

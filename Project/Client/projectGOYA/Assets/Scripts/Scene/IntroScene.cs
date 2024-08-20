@@ -296,6 +296,7 @@ public class IntroScene : BaseScene
             {
                 yield return null;
             }
+            mTxtVersion.gameObject.SetActive(false);
             
             if((GameData.GetQuestData("Qu_0000").GetState() != GameData.QuestData.eState.FINISHED))
             {

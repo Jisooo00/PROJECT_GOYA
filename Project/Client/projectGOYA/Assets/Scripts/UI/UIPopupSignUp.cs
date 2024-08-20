@@ -102,6 +102,12 @@ public class UIPopupSignUp : UIPopup
         mInputID.onValueChanged.AddListener(
             (word) => mInputID.text = Regex.Replace(word, @"[^0-9a-zA-Z]", "")
         );
+        mInputPW.onValueChanged.AddListener(
+            (word) => mInputPW.text = Regex.Replace(word, @"[^0-9a-zA-Z!@#$%^&*]", "")
+        );
+        mInputPWCheck.onValueChanged.AddListener(
+            (word) => mInputPWCheck.text = Regex.Replace(word, @"[^0-9a-zA-Z!@#$%^&*]", "")
+        );
         
     }
     

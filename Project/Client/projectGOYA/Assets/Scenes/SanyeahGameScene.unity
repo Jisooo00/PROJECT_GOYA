@@ -1758,37 +1758,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 709076989}
     m_Modifications:
-    - target: {fileID: 429447333036744813, guid: 911921211ae289d4c8025358d16a33e0, type: 3}
-      propertyPath: m_Color.a
-      value: 0.53333336
-      objectReference: {fileID: 0}
-    - target: {fileID: 429447333036744813, guid: 911921211ae289d4c8025358d16a33e0, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 429447333036744813, guid: 911921211ae289d4c8025358d16a33e0, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 429447333036744813, guid: 911921211ae289d4c8025358d16a33e0, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 429447333036744813, guid: 911921211ae289d4c8025358d16a33e0, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3005457294142169613, guid: 911921211ae289d4c8025358d16a33e0, type: 3}
       propertyPath: m_Name
       value: EffectPop
-      objectReference: {fileID: 0}
-    - target: {fileID: 3005457294142169613, guid: 911921211ae289d4c8025358d16a33e0, type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3005457294142169613, guid: 911921211ae289d4c8025358d16a33e0, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8039421358209564647, guid: 911921211ae289d4c8025358d16a33e0, type: 3}
       propertyPath: m_Pivot.x

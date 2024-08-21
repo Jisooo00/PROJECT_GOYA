@@ -101,7 +101,7 @@ public class SanyeahGameManager : BaseScene
         {
             mAudioSrc = gameObject.AddComponent<AudioSource>();
             mAudioSrc.clip = mAudioClip;
-            mAudioSrc.volume = 0.8f * GameData.myData.SET_VOLUME;
+            mAudioSrc.volume = 0.7f;// * GameData.myData.SET_VOLUME;
         } 
         
         if (mEffectClip != null)
@@ -331,12 +331,7 @@ public class SanyeahGameManager : BaseScene
             yield return null;
         }
 
-        if (mImgGaugeValue.fillAmount > 0.6f)
-        {
-            //Debug.Log("StartFiver");
-            bCheckFiver = true;
-        }
-        
+        bCheckFiver = true;
         
     }
 

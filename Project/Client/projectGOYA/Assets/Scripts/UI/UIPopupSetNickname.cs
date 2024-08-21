@@ -31,8 +31,9 @@ public class UIPopupSetNickname : UIPopup
             AudioManager.Instance.PlayClick();
             if (string.IsNullOrEmpty(mInputNickname.text))
             {
-                PopupManager.Instance.OpenPopupNotice("도깨비의 이름을 입력하세요."); //TODO 로컬 적용
-                return;
+                //PopupManager.Instance.OpenPopupNotice("도깨비의 이름을 입력하세요."); //TODO 로컬 적용
+                //return;
+                mInputNickname.text = "돗가비";
             }
             StartCoroutine(RequestSetNickname());
         });

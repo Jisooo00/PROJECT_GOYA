@@ -163,8 +163,9 @@ public class IntroScene : BaseScene
             GameData.NeedDownloadDialog = false;
 
         }
-       
-        
+
+
+        isBusy = true;
         bool bFailLogin = false;
         
         //저장된 정보 있으면 로그인 시도
@@ -176,6 +177,7 @@ public class IntroScene : BaseScene
             
             WebReq.Instance.Request(req, delegate(ReqLogin.Res res)
             {
+                isBusy = false;
                 if (res.IsSuccess)
                 {
                     IsSignIn = true;
@@ -183,54 +185,105 @@ public class IntroScene : BaseScene
                 else
                 {
                     bFailLogin = true;
-                    PopupManager.Instance.OpenPopupNotice(res.responseMessage , delegate
+                    /*PopupManager.Instance.OpenPopupNotice(res.responseMessage , delegate
                     {
                         mUILoading.gameObject.SetActive(false);
                         PopupManager.Instance.OpenPopupAccount(delegate
                         {
                             StartCoroutine("SignInCompleteAfter");
                         });
-                    });
+                    });*/
 
                 }
             });
             
-            while (true)
-            {
-                if((IsSignIn || bFailLogin) && gauge >0.5f) break;
-                
-                if(gauge < 0.5f)
-                {
-                    gauge += Time.deltaTime;
-                    mRtLoadingGuage.localScale = new Vector3(gauge, 1, 1);
-                }
-                
-                yield return null;
-                
-            }
-            
-
+            //TODO 출시버전 수정 필요
+/*
             if (IsSignIn)
             {
                 StartCoroutine("SignInCompleteAfter");
             }
+            */
 
         }
         else
         {   
-            while (gauge <1f)
+            var req = new ReqGuestSignUp();
+            WebReq.Instance.Request(req, delegate(ReqGuestSignUp.Res res)
+            {
+                if (res.IsSuccess)
+                {
+                    var req2 = new ReqLogin();
+                    req2.id = res.data.id;
+                    req2.pw = res.data.pw;
+
+                    WebReq.Instance.Request(req2, delegate(ReqLogin.Res res2)
+                    {
+                        isBusy = false;
+                        if (res2.IsSuccess)
+                        {
+                            IsSignIn = true;
+                        }
+                        else
+                        {
+                            PopupManager.Instance.OpenPopupNotice(res2.responseMessage);
+                        }
+                    });
+                }
+                else
+                {
+                    PopupManager.Instance.OpenPopupNotice(res.responseMessage);
+                }
+
+
+            });
+            /*
+            while (!IsSignIn || gauge <0.5f)
             {
                 gauge += Time.deltaTime;
                 mRtLoadingGuage.localScale = new Vector3(gauge, 1, 1);
                 yield return null;
-            }
+            }*/
+            
+            
+            //TODO 출시버전 수정 필요
+            /*
             PopupManager.Instance.OpenPopupAccount(
                 delegate
                 {
                     SetMenuUI();
                     RefreshUI();
                 });
+                
             mUILoading.gameObject.SetActive(false);
+            */
+        }
+        
+        while (true)
+        {
+            if(!isBusy && gauge >0.85f) break;
+                
+            if(gauge < 0.85f)
+            {
+                gauge += Time.deltaTime;
+                mRtLoadingGuage.localScale = new Vector3(gauge, 1, 1);
+            }
+                
+            yield return null;
+                
+        }
+        
+        if (IsSignIn)
+        {
+            StartCoroutine("SignInCompleteAfter");
+        }
+        else
+        {
+            PopupManager.Instance.OpenPopupNotice("네트워크 연결이 원활하지 않습니다.", delegate
+            {
+                StopAllCoroutines();
+                GameManager.Instance.Scene.LoadScene(GameData.eScene.FirstScene);
+            });
         }
         
     }
@@ -260,7 +313,7 @@ public class IntroScene : BaseScene
         {
             yield return null;
         }
-        mRtLoadingGuage.localScale = new Vector3(0.75f, 1, 1);
+        mRtLoadingGuage.localScale = new Vector3(1f, 1, 1);
         RefreshUI();
         SetMenuUI();
         if(mUILoading.gameObject.activeSelf)

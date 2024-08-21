@@ -268,16 +268,17 @@ public static class GameData
             {
                 IsNoticeExist = columns[0] == "1";
                 NoticeMsg = columns[1];
-            }else if (i == 2)
-            {
-                if (SaveDataManager.Instance.ScriptVersion != columns[0])
-                {
-                    SaveDataManager.Instance.ScriptVersion = columns[0];
-                    NeedDownloadDialog = true;
-                }
-
-            }
+            }//else if (i == 2)
+            //{
+            //    if (SaveDataManager.Instance.ScriptVersion != columns[0])
+            //    {
+            //        SaveDataManager.Instance.ScriptVersion = columns[0];
+            //        NeedDownloadDialog = true;
+            //    }
+            //}
         }
+
+        NeedDownloadDialog = SaveDataManager.Instance.IsEmptyDialogData;
 
         bInitNoticeData = true;
     }

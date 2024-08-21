@@ -159,6 +159,10 @@ public class SaveDataManager : MonoBehaviour
         }
     }
 
+    public bool IsEmptyDialogData
+    {
+        get { return data.listDialogData.Count == 0; }
+    }
     public List<GameData.DialogData> GetDialogList()
     {
         return data.listDialogData;

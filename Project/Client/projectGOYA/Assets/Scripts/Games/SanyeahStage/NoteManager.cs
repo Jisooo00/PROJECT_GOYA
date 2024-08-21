@@ -66,7 +66,8 @@ public class NoteManager : MonoBehaviour
        {
               foreach (var note in mListNotesPool)
               {
-                     note.SetShow(false);
+                     if(note.IsShow)
+                            note.SetShow(false);
               }
        }
 

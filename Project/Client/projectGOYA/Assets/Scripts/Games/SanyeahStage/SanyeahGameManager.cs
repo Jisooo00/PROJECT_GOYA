@@ -101,7 +101,7 @@ public class SanyeahGameManager : BaseScene
         {
             mAudioSrc = gameObject.AddComponent<AudioSource>();
             mAudioSrc.clip = mAudioClip;
-            mAudioSrc.volume = 0.8f * GameData.myData.SET_VOLUME;
+            mAudioSrc.volume = 0.7f;// * GameData.myData.SET_VOLUME;
         } 
         
         if (mEffectClip != null)
@@ -283,9 +283,11 @@ public class SanyeahGameManager : BaseScene
         mGoGameResult.SetActive(true);
         mGoGameResultOver.SetActive(true);
         mGoGameResultClear.SetActive(false);
-        bStart = false;
         if(!mIsAllNoteDrop)
             StopCoroutine("DropNoteData");
+        mNoteMgrLeft.ForceAllNoteStop();
+        mNoteMgrRight.ForceAllNoteStop();
+        bStart = false;
         mAudioSrc.Stop();
         GameManager.Instance.bClearSanyeah = false;
     }
@@ -313,7 +315,7 @@ public class SanyeahGameManager : BaseScene
         
         while (fStartTime < 1.25f)
         {
-            fStartTime += Time.deltaTime;
+            fStartTime += Time.deltaTime*Time.timeScale;
             yield return null;
         }
         
@@ -325,18 +327,13 @@ public class SanyeahGameManager : BaseScene
         fStartTime = 0f;
         while (fStartTime < 30f)
         {
-            fStartTime += Time.deltaTime;
+            fStartTime += Time.deltaTime*Time.timeScale;
             if(fStartTime > 10f && bDelayForce)
                 bDelayForce = false;
             yield return null;
         }
 
-        if (mImgGaugeValue.fillAmount > 0.6f)
-        {
-            //Debug.Log("StartFiver");
-            bCheckFiver = true;
-        }
-        
+        bCheckFiver = true;
         
     }
 

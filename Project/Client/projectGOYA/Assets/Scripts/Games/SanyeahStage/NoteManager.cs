@@ -62,4 +62,13 @@ public class NoteManager : MonoBehaviour
               return mIFirstObjectIdx==-1? -1 : mListNotesPool[mIFirstObjectIdx].JudgePosX;
        }
 
+       public void ForceAllNoteStop()
+       {
+              foreach (var note in mListNotesPool)
+              {
+                     if(note.IsShow)
+                            note.SetShow(false);
+              }
+       }
+
 }

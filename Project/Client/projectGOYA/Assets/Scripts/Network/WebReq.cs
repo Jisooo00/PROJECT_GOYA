@@ -22,7 +22,7 @@ public class WebReq : MonoBehaviour
 		}
 	}
 
-	string url = "http://13.125.39.166:8888/";
+	string url = "https://goya-project.name/";
 
 	long user_uid = 0;
 	bool sending = false;
@@ -54,7 +54,7 @@ public class WebReq : MonoBehaviour
 		yield return www.SendWebRequest();
 		if (www.result != UnityWebRequest.Result.Success)
         {
-			PopupManager.Instance.OpenPopupNotice("네트워크 연결이 원활하지 않습니다.", delegate()
+			PopupManager.Instance.OpenPopupNotice("네트워크 연결 상태가 원활하지 않습니다.", delegate()
             {
 #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
@@ -108,7 +108,7 @@ public class WebReq : MonoBehaviour
 		if (www.result != UnityWebRequest.Result.Success)
         {
         
-			PopupManager.Instance.OpenPopupNotice("네트워크 연결이 원활하지 않습니다.", delegate()
+			PopupManager.Instance.OpenPopupNotice("네트워크 연결 상태가 원활하지 않습니다.", delegate()
             {
 #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;

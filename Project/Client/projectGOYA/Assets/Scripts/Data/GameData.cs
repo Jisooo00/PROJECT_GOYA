@@ -283,6 +283,14 @@ public static class GameData
         bInitNoticeData = true;
     }
     
+    public static void TempDemoNotice()
+    {
+        foreach (var dialog in SaveDataManager.Instance.GetDialogList())
+        {
+            if (dialog.m_strDialogID == "Dl_0008")
+                dialog.m_eAction = GameManager.eDialogAction.POPUP_NOTICE_DEMO;
+        }
+    }
     public static void InitDialogData(string sheetData)
     {
         //Debug.Log("????");

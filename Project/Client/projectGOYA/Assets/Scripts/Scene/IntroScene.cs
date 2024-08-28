@@ -163,6 +163,13 @@ public class IntroScene : BaseScene
             GameData.NeedDownloadDialog = false;
 
         }
+        
+        while (GameData.NeedDownloadDialog)
+        {
+            yield return null;
+        }
+
+        GameData.TempDemoNotice();
 
 
         isBusy = true;

@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
         QUEST_ACCEPT = 3,
         PLAY_SANYEAH = 4,
         WAKE_SANYEAH_UP = 5,
+        POPUP_NOTICE_DEMO = 6,
 
     }
     
@@ -88,6 +89,9 @@ public class GameManager : MonoBehaviour
                     }
                     Instance.Scene.currentScene.DelFunc();
                 } 
+                break;
+            case eDialogAction.POPUP_NOTICE_DEMO:
+                PopupManager.Instance.OpenPopupNotice("[돗가비의 꿈] 프로토타입을 플레이해주셔서 감사합니다.\n");
                 break;
             default:
                 break;

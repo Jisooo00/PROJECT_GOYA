@@ -67,8 +67,9 @@ public class PrologScene : BaseScene
                 m_imgFade.color = c;
                 yield return null;
             }
+            
         }
-
+        AudioManager.Instance.PlayBgm();
         yield return new WaitForSeconds(0.5f);
 
         bool bTutorialStep = false;
@@ -81,7 +82,7 @@ public class PrologScene : BaseScene
             yield return null;
             
         m_npc.gameObject.SetActive(true);
-        m_npc.MoveTo(new Vector2(1.2f,0f));
+        m_npc.MoveTo(new Vector2(1f,0.25f));
         while (m_npc.IS_MOVING)
         {
             yield return null;

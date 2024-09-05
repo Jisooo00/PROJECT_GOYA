@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
         QUEST_ACCEPT = 3,
         PLAY_SANYEAH = 4,
         WAKE_SANYEAH_UP = 5,
+        POPUP_NOTICE_DEMO = 6,
 
     }
     
@@ -88,6 +89,9 @@ public class GameManager : MonoBehaviour
                     }
                     Instance.Scene.currentScene.DelFunc();
                 } 
+                break;
+            case eDialogAction.POPUP_NOTICE_DEMO:
+                PopupManager.Instance.OpenPopupNotice("[돗가비의 꿈] 첫 번째.\n퀘스트가 끝났습니다.\n\n다음 퀘스트 업데이트를 \n기대해주세요.\n\n플레이해주셔서 감사합니다.\n-팀 고야-");
                 break;
             default:
                 break;

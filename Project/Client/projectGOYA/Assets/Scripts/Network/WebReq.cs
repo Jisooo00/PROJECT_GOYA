@@ -128,8 +128,7 @@ public class WebReq : MonoBehaviour
 
 	}
 	
-
-	// 재전송 구현
+	
 	IEnumerator Proc<T>(ReqBase req, Action<T> func) where T : ResBase, new()
 	{
 		// 동시 처리 제한, 한번에 1개만
@@ -151,7 +150,6 @@ public class WebReq : MonoBehaviour
 		{
 			var www = UnityWebRequest.Post(url+req.api, req_text, "application/json");
 			yield return www.SendWebRequest();
-			//Debug.Log("www.result = " + www.result);
 
 			if (www.result != UnityWebRequest.Result.Success)
 			{
@@ -174,7 +172,6 @@ public class WebReq : MonoBehaviour
 				
 				yield break;
 			}
-
 			// 응답을 받았음
 			res_text = www.downloadHandler.text;
 			break;
@@ -398,7 +395,6 @@ public class WebReq : MonoBehaviour
 	}
 	
 	// Guest Sign Up
-	
 	public void Request(ReqGuestSignUp req, Action<ReqGuestSignUp.Res> func)
 	{
 		StartCoroutine(Proc< ReqGuestSignUp.Res>(req, func));

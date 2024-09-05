@@ -142,8 +142,12 @@ public class IntroScene : BaseScene
 
         while (!checkNotice ||  gauge <0.25f)
         {
-            gauge += Time.deltaTime;
-            mRtLoadingGuage.localScale = new Vector3(gauge, 1, 1);
+            if(gauge < 0.25f)
+            {
+                gauge += Time.deltaTime;
+                mRtLoadingGuage.localScale = new Vector3(gauge, 1, 1);
+            }
+
             yield return null;
         }
         
@@ -161,8 +165,8 @@ public class IntroScene : BaseScene
             }
 
             GameData.NeedDownloadDialog = false;
-
         }
+        GameData.TempDemoNotice();
 
 
         isBusy = true;
@@ -185,25 +189,25 @@ public class IntroScene : BaseScene
                 else
                 {
                     bFailLogin = true;
-                    /*PopupManager.Instance.OpenPopupNotice(res.responseMessage , delegate
+                    PopupManager.Instance.OpenPopupNotice(res.responseMessage , delegate
                     {
                         mUILoading.gameObject.SetActive(false);
                         PopupManager.Instance.OpenPopupAccount(delegate
                         {
                             StartCoroutine("SignInCompleteAfter");
                         });
-                    });*/
+                    });
 
                 }
             });
             
             //TODO 출시버전 수정 필요
-/*
+
             if (IsSignIn)
             {
                 StartCoroutine("SignInCompleteAfter");
             }
-            */
+            
 
         }
         else
@@ -237,17 +241,20 @@ public class IntroScene : BaseScene
 
 
             });
-            /*
+            
             while (!IsSignIn || gauge <0.5f)
             {
-                gauge += Time.deltaTime;
-                mRtLoadingGuage.localScale = new Vector3(gauge, 1, 1);
+                if(gauge < 0.5f)
+                {
+                    gauge += Time.deltaTime;
+                    mRtLoadingGuage.localScale = new Vector3(gauge, 1, 1);
+                }
                 yield return null;
-            }*/
+            }
             
             
             //TODO 출시버전 수정 필요
-            /*
+            
             PopupManager.Instance.OpenPopupAccount(
                 delegate
                 {
@@ -256,7 +263,7 @@ public class IntroScene : BaseScene
                 });
                 
             mUILoading.gameObject.SetActive(false);
-            */
+            
         }
         
         while (true)
@@ -350,7 +357,7 @@ public class IntroScene : BaseScene
                 yield return null;
             }
             mTxtVersion.gameObject.SetActive(false);
-            
+            AudioManager.Instance.StopBgm();
             if((GameData.GetQuestData("Qu_0000").GetState() != GameData.QuestData.eState.FINISHED))
             {
                 GameManager.Instance.Scene.LoadScene(GameData.eScene.PrologScene);

@@ -90,6 +90,7 @@ public abstract class MonsterBase : MonoBehaviour{
     private Vector3 dirVec;
     
     private bool bMoving = false;
+    private float footstep = 0f;
 
     public bool IS_MOVING
     {
@@ -119,6 +120,13 @@ public abstract class MonsterBase : MonoBehaviour{
                 dirVec = CharacterAppearance.instance.GetDirection();
                 if(mQuestionMark.gameObject.activeSelf)
                     mQuestionMark.gameObject.SetActive(false);
+            }
+            
+            footstep += Time.deltaTime;
+            if (footstep > 0.5f)
+            {
+                AudioManager.Instance.PlayFootstep();
+                footstep = 0;
             }
             
         }

@@ -108,6 +108,7 @@ public class SanyeahGameManager : BaseScene
         {
             mEffectSrc = gameObject.AddComponent<AudioSource>();
             mEffectSrc.clip = mEffectClip;
+            mEffectSrc.volume = 1f;
         }
         if (mEffectMissClip != null)
         {
@@ -156,11 +157,17 @@ public class SanyeahGameManager : BaseScene
         mBtnExitClear.onClick.AddListener(delegate
         {
             AudioManager.Instance.PlayClick();
+            StopAllCoroutines();
+            //SetInitGame();
+            //mGoBeforeStart.SetActive(true);
             GoToSanyeahScene();
         });
         mBtnExitOver.onClick.AddListener(delegate
         {
             AudioManager.Instance.PlayClick();
+            StopAllCoroutines();
+            //SetInitGame();
+            //mGoBeforeStart.SetActive(true);
             GoToSanyeahScene();
         });
         
@@ -272,7 +279,7 @@ public class SanyeahGameManager : BaseScene
         if (!mIsAllNoteDrop)
         {
             bool bDelay = mFDropRightLastTime > 1f || mFDropLeftLastTime > 1f || bDelayForce;
-            mImgGaugeValue.fillAmount -= Time.deltaTime / (bDelay ? 25f : 8.5f);
+            mImgGaugeValue.fillAmount -= Time.deltaTime / (bDelay ? 20f : 6f);
 
         }
 
@@ -394,26 +401,28 @@ public class SanyeahGameManager : BaseScene
     }
 
     public void JudgeLeft()
-    {        
-        float result = mNoteMgrLeft.GetJudgeDistance();
-        if (result > Global.SANYEAH_NOTE_JUDGE_MISS || result < -1*Global.SANYEAH_NOTE_JUDGE_GOOD)
-        {
-            mEffectMissSrc.Play();
+    {
+        if (mIsAllNoteDrop)
             return;
-        }
-        //.Play();
+        float result = mNoteMgrLeft.GetJudgeDistance();
+        //if (result > Global.SANYEAH_NOTE_JUDGE_MISS*2f || result < -1*Global.SANYEAH_NOTE_JUDGE_GOOD)
+        //{
+        //    mEffectMissSrc.Play();
+        //    return;
+        //}
         PlayRhythmAniLeft(GetScore(result));
     }
 
     public void JudgeRight()
     {
-        float result = mNoteMgrRight.GetJudgeDistance();
-        if (result > Global.SANYEAH_NOTE_JUDGE_MISS || result < -1*Global.SANYEAH_NOTE_JUDGE_GOOD)
-        {
-            mEffectMissSrc.Play();
+        if (mIsAllNoteDrop)
             return;
-        }
-        //mEffectSrc.Play();
+        float result = mNoteMgrRight.GetJudgeDistance();
+        //if (result > Global.SANYEAH_NOTE_JUDGE_MISS*2f || result < -1*Global.SANYEAH_NOTE_JUDGE_GOOD)
+        //{
+        //    mEffectMissSrc.Play();
+        //    return;
+        //}
         PlayRhythmAniRight(GetScore(result));
     }
 
@@ -424,12 +433,18 @@ public class SanyeahGameManager : BaseScene
             mGoEffectL.SetActive(true);
         
         TextEffectEnable(mGradeLeft,score,"TextEffectDisableLeft");
-        
+
         if (score == eScore.MISS)
+        {
+            mEffectMissSrc.Play();
             mAniSanyeahRhythm.SetTrigger("RhythmStumble");
+        }
         else
+        {
+            mEffectSrc.Play();
             mAniSanyeahRhythm.SetTrigger("RhythmLeft");
-        
+        }
+
     }
     
     public void PlayRhythmAniRight(eScore score)
@@ -442,9 +457,15 @@ public class SanyeahGameManager : BaseScene
         TextEffectEnable(mGradeRight,score,"TextEffectDisableRight");
 
         if (score == eScore.MISS)
+        {
+            mEffectMissSrc.Play();
             mAniSanyeahRhythm.SetTrigger("RhythmStumble");
+        }
         else
+        {
+            mEffectSrc.Play();
             mAniSanyeahRhythm.SetTrigger("RhythmRight");
+        }
     }
 
     public eScore GetScore(float result)

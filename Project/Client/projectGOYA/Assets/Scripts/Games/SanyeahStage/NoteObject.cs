@@ -17,6 +17,7 @@ public class NoteObject : MonoBehaviour
     private Color mClrVisible = new Color(1, 1, 1, 1);
     
     private bool bShow = false;
+    private bool bVisible = false;
 
     public bool IsShow
     {
@@ -51,8 +52,13 @@ public class NoteObject : MonoBehaviour
         float posX = mRectTransform.position.x;
         if (mRTEndPoint != null)
         {
-            if ((mESide == eSide.LEFT && posX >= mRTEndPoint.position.x + 50f) ||
-                (mESide == eSide.RIGHT && posX <= mRTEndPoint.position.x - 50f))
+            if (((mESide == eSide.LEFT && posX >= mRTEndPoint.position.x + 75f) ||
+                (mESide == eSide.RIGHT && posX <= mRTEndPoint.position.x - 75f)) && bVisible)
+            {
+                SetInvisible();
+            }
+            if ((mESide == eSide.LEFT && posX >= mRTEndPoint.position.x + (Global.SANYEAH_NOTE_JUDGE_MISS)) ||
+                (mESide == eSide.RIGHT && posX <= mRTEndPoint.position.x - (Global.SANYEAH_NOTE_JUDGE_MISS)))
             {
                 SetShow(false);
                 if (mDelJudgeMiss != null)
@@ -89,6 +95,7 @@ public class NoteObject : MonoBehaviour
     public void SetInvisible()
     {
         mImg.color = mClrInvisible;
+        bVisible = true;
     }
 
     public void SetShow(bool _bShow)
@@ -98,6 +105,7 @@ public class NoteObject : MonoBehaviour
         gameObject.SetActive(_bShow);
         if (bShow && mDelShowAfter != null)
         {
+            bVisible = true;
             mImg.color = mClrVisible;
             mDelShowAfter();
         }

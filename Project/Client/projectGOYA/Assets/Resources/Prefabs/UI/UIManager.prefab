@@ -1203,7 +1203,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -376.9998, y: 74.15196}
+  m_AnchoredPosition: {x: -490, y: 119}
   m_SizeDelta: {x: 16, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9150589402878784375
@@ -1253,9 +1253,9 @@ Animation:
   m_GameObject: {fileID: 4897210313957467288}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 0645040be556643b28dcf10c043a94c1, type: 2}
+  m_Animation: {fileID: 7400000, guid: 4f9641112ae3a42458fc4a49a1f1d5b7, type: 2}
   m_Animations:
-  - {fileID: 7400000, guid: 0645040be556643b28dcf10c043a94c1, type: 2}
+  - {fileID: 7400000, guid: 4f9641112ae3a42458fc4a49a1f1d5b7, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
@@ -1293,9 +1293,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2925695539436821916}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 553, y: -150}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -117, y: 104}
   m_SizeDelta: {x: 28, y: 28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3323780276247914885
@@ -1345,9 +1345,8 @@ Animation:
   m_GameObject: {fileID: 4966510917345102719}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 0645040be556643b28dcf10c043a94c1, type: 2}
+  m_Animation: {fileID: 7400000, guid: 4f9641112ae3a42458fc4a49a1f1d5b7, type: 2}
   m_Animations:
-  - {fileID: 7400000, guid: 0645040be556643b28dcf10c043a94c1, type: 2}
   - {fileID: 7400000, guid: 4f9641112ae3a42458fc4a49a1f1d5b7, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
@@ -2228,7 +2227,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5629150883077268718}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 50, y: -50}
@@ -2281,10 +2280,9 @@ Animation:
   m_GameObject: {fileID: 8733255209262727327}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 4f9641112ae3a42458fc4a49a1f1d5b7, type: 2}
+  m_Animation: {fileID: 7400000, guid: 7a8cf576ff02f8d4c9c4a26e8742b03e, type: 2}
   m_Animations:
-  - {fileID: 7400000, guid: 0645040be556643b28dcf10c043a94c1, type: 2}
-  - {fileID: 7400000, guid: 4f9641112ae3a42458fc4a49a1f1d5b7, type: 2}
+  - {fileID: 7400000, guid: 7a8cf576ff02f8d4c9c4a26e8742b03e, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0

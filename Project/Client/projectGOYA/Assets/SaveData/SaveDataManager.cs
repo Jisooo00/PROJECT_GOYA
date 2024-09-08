@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class SaveDataManager : MonoBehaviour
 {
+    public QuestInfoData _questInfoData;
     private bool bLoadData = false;
     private static SaveDataManager s_instance;
     public static SaveDataManager Instance
@@ -29,13 +30,13 @@ public class SaveDataManager : MonoBehaviour
         public string id;
         public string pw;
         public int uid = -1;
-        public string nickname;
-        public string curMapID;
-        public Vector3 curPos;
+        //public string nickname;
+        //public string curMapID;
+        //public Vector3 curPos;
         public string dialogVersion;
         public List<GameData.DialogData> listDialogData = new List<GameData.DialogData> ();
     }
-    private string fileName = "SaveUserData.json";
+    private string fileName = "SaveUserData2.json";
     private void Awake()
     {
         Init();
@@ -110,37 +111,37 @@ public class SaveDataManager : MonoBehaviour
         set { data.uid = value; }
     }
     
-    public string LoginNickname
-    {
-        get { return data.nickname; }
-        set { data.nickname = value; }
-    }
+    //public string LoginNickname
+    //{
+    //    get { return data.nickname; }
+    //    set { data.nickname = value; }
+    //}
     public string ScriptVersion 
     { 
         get { return data.dialogVersion; } 
         set { data.dialogVersion = value; }
     }
 
-    public Vector3 CurPos
-    {
-        get { return data.curPos; }
-        set
-        {
-            data.curPos = value; 
-        }
-    }
-    public string CurMapID
-    {
-        get { return data.curMapID; }
-        set
-        {
-            if (GameData.myData != null)
-            {
-                GameData.myData.cur_map = value;
-            }
-            data.curMapID = value;
-        }
-    } 
+    //public Vector3 CurPos
+    //{
+    //    get { return data.curPos; }
+    //    set
+    //    {
+    //        data.curPos = value; 
+    //    }
+    //}
+    //public string CurMapID
+    //{
+    //    get { return data.curMapID; }
+    //    set
+    //    {
+    //        if (GameData.myData != null)
+    //       {
+    //           GameData.myData.cur_map = value;
+    //       }
+    //       data.curMapID = value;
+    // }
+    // } 
 
 
     public void AddDialog(GameData.DialogData _data)
@@ -187,9 +188,9 @@ public class SaveDataManager : MonoBehaviour
         data.id = "";
         data.pw = "";
         data.uid = -1;
-        data.nickname = "";
-        data.curMapID = "";
-        data.curPos = Vector3.zero;
+        //data.nickname = "";
+        //data.curMapID = "";
+        //data.curPos = Vector3.zero;
         if (data.listDialogData.Count > 0)
         {
             foreach (var data in data.listDialogData)
@@ -203,9 +204,9 @@ public class SaveDataManager : MonoBehaviour
 
     public void InitDialog()
     {
-        data.nickname = "";
-        data.curMapID = "";
-        data.curPos = Vector3.zero;
+        //data.nickname = "";
+        //data.curMapID = "";
+        //data.curPos = Vector3.zero;
         if (data.listDialogData.Count > 0)
         {
             foreach (var data in data.listDialogData)
@@ -214,6 +215,31 @@ public class SaveDataManager : MonoBehaviour
             }
         }
 
+        SaveUserData();
+    }
+
+    public void SetDialogByQuestInfo()
+    {
+        string startDialog = "Dl_0000_01";
+        for (int i = 0; i < _questInfoData.questInfoList.Count; i++)
+        {
+            var quest = _questInfoData.questInfoList[i];
+            if (quest.questID == GameData.myData.curQuest)
+            {
+                startDialog = quest.startDialog;
+                break;
+            }
+        }
+        for (int i = 0 ; i < data.listDialogData.Count ; i++)
+        {
+            data.listDialogData[i].m_bPlayed = true;
+            if (data.listDialogData[i].m_strDialogID==startDialog)
+            {
+                data.listDialogData[i].m_bPlayed = false;
+                return;
+            }
+        }
+        
         SaveUserData();
     }
     

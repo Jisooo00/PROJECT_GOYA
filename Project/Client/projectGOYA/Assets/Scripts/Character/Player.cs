@@ -26,8 +26,7 @@ public class Player : MonoBehaviour
     {
         get
         {
-            return (GameData.QuestDatas.ContainsKey("Qu_0000") && GameData.QuestDatas["Qu_0000"].GetState() !=
-                GameData.QuestData.eState.FINISHED);
+            return (GameData.myData.curQuest == Global.KEY_QUEST_TUTO);
         }
     }
 
@@ -82,15 +81,15 @@ public class Player : MonoBehaviour
 
         if (bIsMoving)
         {
-            saveTime += Time.deltaTime;
+            //saveTime += Time.deltaTime;
             movement.x = bInputLeft ? -1 : bInputRight ? 1: 0;
             movement.y = bInputUp ? 1 : bInputDown ? -1 : 0;
-            SaveDataManager.Instance.CurPos = instance.transform.localPosition;
-            if (saveTime > 0.5f)
-            {
-                SaveDataManager.Instance.SaveUserData();
-                saveTime = 0f;
-            }
+            //SaveDataManager.Instance.CurPos = instance.transform.localPosition;
+            //if (saveTime > 0.5f)
+            //{
+            //    SaveDataManager.Instance.SaveUserData();
+            //    saveTime = 0f;
+            //}
             
         }
         else

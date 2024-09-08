@@ -173,7 +173,8 @@ public static class GameData
         public string user_pw = "";
         public string user_name = "";
         public string cur_map = "";
-        public Vector3 cur_pos = Vector3.zero;
+        //public string cur_quest = "";
+        //public Vector3 cur_pos = Vector3.zero;
     
         public bool IS_BGM_ON = true;
         public bool IS_EFFECT_ON = true;
@@ -187,6 +188,43 @@ public static class GameData
         public bool bUserInfoExist
         {
             get { return !string.IsNullOrEmpty(user_name); }
+        }
+
+        public string curQuest
+        {
+            get
+            {
+                foreach (var quest in QuestDatas)
+                {
+                    if (quest.Value.GetState() == QuestData.eState.ACCOMPLISHING || quest.Value.GetState() == QuestData.eState.COMPLETED)
+                        return quest.Key;
+                }
+
+                return Global.KEY_QUEST_TUTO;
+            }
+        }
+        
+        public bool isNoAcceptQuest
+        {
+            get
+            {
+                bool accept = true;
+                foreach (var quest in QuestDatas)
+                {
+                    if (quest.Value.GetState() == QuestData.eState.ACCOMPLISHING)
+                        accept = false;
+                }
+
+                return true;
+            }
+        }
+
+        public bool isSanyeahQuest
+        {
+            get
+            {
+                return curQuest == Global.KEY_QUEST_SANYEAH ||curQuest == Global.KEY_QUEST_SANYEAH_CLEAR ;
+            }
         }
     
         public void SetBgmOn(bool value)
@@ -425,7 +463,6 @@ public static class GameData
 
 
 
-
 public class Global
 {
     public const string KEY_USER_ID = "USER_ID";
@@ -444,6 +481,9 @@ public class Global
     public const float SANYEAH_NOTE_JUDGE_GOOD = 100;
     public const float SANYEAH_NOTE_JUDGE_BAD = 100;
     public const float SANYEAH_NOTE_JUDGE_MISS = 150;
+    public const string KEY_QUEST_TUTO = "Qu_0000";
+    public const string KEY_QUEST_SANYEAH = "Qu_0003";
+    public const string KEY_QUEST_SANYEAH_CLEAR = "Qu_0004";
     
 
     public static void InitSoundSet()
@@ -474,9 +514,9 @@ public class Global
         data.IS_BGM_ON = GameData.myData.IS_BGM_ON;
         data.IS_EFFECT_ON = GameData.myData.IS_EFFECT_ON;
         data.SET_VOLUME = GameData.myData.SET_VOLUME;
-        data.cur_map = SaveDataManager.Instance.CurMapID;
+        data.cur_map = GameData.myData.cur_map;//SaveDataManager.Instance.CurMapID;
         data.user_name = GameData.myData.user_name;
-        data.cur_pos = GameData.myData.cur_pos;
+        //data.cur_pos = GameData.myData.cur_pos;
         data.IS_SHOW_UI_BTN = GameData.myData.IS_SHOW_UI_BTN;
         data.SET_CAM = GameData.myData.SET_CAM;
         GameData.QuestDatas = new Dictionary<string, GameData.QuestData>();

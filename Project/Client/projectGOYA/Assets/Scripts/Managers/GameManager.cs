@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
                 }
                 break;
 
-            case eDialogAction.QUEST_ACCEPT :
+            /*case eDialogAction.QUEST_ACCEPT :
                 foreach (var quest in data.m_listActionQuest)
                 {
                     var req = new ReqQuestAccept();
@@ -75,18 +75,19 @@ public class GameManager : MonoBehaviour
                     WebReq.Instance.Request(req,delegate(ReqQuestAccept.Res res){});
                 }
                 break;
+                */
             case eDialogAction.PLAY_SANYEAH:
                 Instance.Scene.LoadScene(GameData.eScene.SanyeahGameScene);
                 break;
             case eDialogAction.WAKE_SANYEAH_UP :
                 if (Instance.Scene.currentScene.m_eSceneType == GameData.eScene.SanyeahScene)
                 {
-                    foreach (var quest in data.m_listActionQuest)
+                    /*foreach (var quest in data.m_listActionQuest)
                     {
                         var req = new ReqQuestAccept();
                         req.questId = quest;
                         WebReq.Instance.Request(req,delegate(ReqQuestAccept.Res res){});
-                    }
+                    }*/
                     Instance.Scene.currentScene.DelFunc();
                 } 
                 break;

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d1b95ee6d674493b437af537cbe0d4e, type: 3}
+  m_Name: QuestInfo
+  m_EditorClassIdentifier: 
+  questInfoList:
+  - questID: Qu_0000
+    startDialog: Dl_0000_01
+    endDialog: Dl_0000_05
+    reward: 
+  - questID: Qu_0001
+    startDialog: Dl_0001
+    endDialog: Dl_0002
+    reward: 
+  - questID: Qu_0002
+    startDialog: Dl_0004
+    endDialog: Dl_0005
+    reward: 
+  - questID: Qu_0003
+    startDialog: Dl_0006
+    endDialog: Dl_0006
+    reward: 
+  - questID: Qu_0004
+    startDialog: Dl_0007
+    endDialog: Dl_0007
+    reward: 
+  - questID: Qu_0005
+    startDialog: Dl_0008
+    endDialog: Dl_0008
+    reward: 
+  - questID: Qu_0006
+    startDialog: Dl_0009
+    endDialog: Dl_0009
+    reward: 

@@ -346,7 +346,7 @@ public class IntroScene : BaseScene
             if(!mUILoadingScene.gameObject.activeSelf)
                 mUILoadingScene.gameObject.SetActive(true);
             
-            GameData.SetGameDialogData();
+            
             bool bReqComplete = false;
             WebReq.Instance.Request(new ReqQuestInfo(), delegate(ReqQuestInfo.Res res)
             {
@@ -356,14 +356,36 @@ public class IntroScene : BaseScene
             {
                 yield return null;
             }
+
+            if (GameData.myData.isNoAcceptQuest)
+            {
+                bReqComplete = false;
+                var _req = new ReqQuestAccept();
+                _req.questId = "Qu_0000";
+                WebReq.Instance.Request(_req, delegate(ReqQuestAccept.Res res)
+                {
+                    bReqComplete = true;
+                });
+                while (!bReqComplete)
+                {
+                    yield return null;
+                }
+            }
+            
+            
+            SaveDataManager.Instance.InitDialog();
+            SaveDataManager.Instance.SetDialogByQuestInfo();
+            GameData.SetGameDialogData();
+
             mTxtVersion.gameObject.SetActive(false);
             AudioManager.Instance.StopBgm();
-            if((GameData.GetQuestData("Qu_0000").GetState() != GameData.QuestData.eState.FINISHED))
+            if(GameData.myData.curQuest == Global.KEY_QUEST_TUTO)
             {
                 GameManager.Instance.Scene.LoadScene(GameData.eScene.PrologScene);
             }
             else
             {
+                Debug.Log(GameData.myData.cur_map);
                 GameManager.Instance.Scene.LoadSceneByID(GameData.myData.cur_map);
             }
 

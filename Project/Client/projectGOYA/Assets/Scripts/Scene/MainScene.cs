@@ -61,23 +61,18 @@ public class MainScene : BaseScene
         m_uiLoading.gameObject.SetActive(true);
 
         var moveFirst = new Vector2(0, 0);
-        
-        if (GameManager.Instance.Scene.prevScene == GameData.eScene.PrologScene)
-        {
-            Player.instance.transform.localPosition = m_tmPosFromCave.localPosition;
-            moveFirst = Vector2.up;
-        }
-        
+
+
+
         if (GameManager.Instance.Scene.prevScene == GameData.eScene.SanyeahScene)
         {
             Player.instance.transform.localPosition = m_tmPosFromSanyeah.localPosition;
             moveFirst = Vector2.right;
         }
-        
-        if (GameManager.Instance.Scene.prevScene == GameData.eScene.IntroScene)
+        else
         {
-            Player.instance.transform.localPosition = SaveDataManager.Instance.CurPos;
-            //moveFirst = Vector2.right;
+            Player.instance.transform.localPosition = m_tmPosFromCave.localPosition;
+            moveFirst = Vector2.up;
         }
         
         m_npcFox.transform.localPosition = new Vector2(-2.0f,-11.0f);
@@ -94,7 +89,7 @@ public class MainScene : BaseScene
         }
 
         
-        if (GameData.QuestDatas.ContainsKey("Qu_0001") && GameData.QuestDatas["Qu_0001"].GetState() ==
+        /*if (GameData.QuestDatas.ContainsKey("Qu_0001") && GameData.QuestDatas["Qu_0001"].GetState() ==
             GameData.QuestData.eState.UNAVAILABLE)
         {
             var req = new ReqQuestAccept();
@@ -102,7 +97,7 @@ public class MainScene : BaseScene
             WebReq.Instance.Request(req, delegate(ReqQuestAccept.Res res)
             {
             });
-        }
+        }*/
         
     }
     
@@ -139,7 +134,7 @@ public class MainScene : BaseScene
             yield return null;
 
         yield return null;
-        bool bReqComplete = false;
+        /*bool bReqComplete = false;
         
         if (GameData.QuestDatas.ContainsKey("Qu_0001") && GameData.QuestDatas["Qu_0001"].GetState() ==
             GameData.QuestData.eState.UNAVAILABLE)
@@ -156,7 +151,7 @@ public class MainScene : BaseScene
         {
             yield return null;
         }
-                
+         */       
         m_uiManager.Init();
         
     }

@@ -24203,6 +24203,37 @@ Transform:
   - {fileID: 291847127}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &861798151
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 861798152}
+  m_Layer: 0
+  m_Name: SpawnPosFrontSanyeah
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &861798152
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861798151}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.75, y: 0.75, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &904141568
 GameObject:
   m_ObjectHideFlags: 0
@@ -33301,7 +33332,7 @@ Sprite:
         format: 0
         dimension: 0
       m_DataSize: 80
-      _typelessdata: 000000bf0000003f000000000000003f0000003f00000000000000bf000000bf000000000000003f000000bf000000000000000000000000000000000000000000000000000000000000000000000000
+      _typelessdata: 000000bf0000003f000000000000003f0000003f00000000000000bf000000bf000000000000003f000000bf00000000000000000000803f0000803f0000803f00000000000000000000803f00000000
     m_Bindpose: []
     textureRect:
       serializedVersion: 2
@@ -56092,6 +56123,7 @@ MonoBehaviour:
   mUIEnding: {fileID: 1676185339}
   m_uiLoading: {fileID: 121230785}
   m_tmPosFromMain: {fileID: 235289361}
+  m_tmPosFrontSanyeah: {fileID: 861798152}
   m_goNightEnvironment: {fileID: 291847126}
   m_spriteSanyeah: {fileID: 0}
   m_spritePlayer: {fileID: 129745523}
@@ -60565,4 +60597,5 @@ SceneRoots:
   - {fileID: 1768477262}
   - {fileID: 1105272974}
   - {fileID: 235289361}
+  - {fileID: 861798152}
   - {fileID: 929797421}

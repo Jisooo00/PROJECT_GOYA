@@ -270,7 +270,7 @@ public class WebReq : MonoBehaviour
 				GameData.myData.user_name = res.data.nickname;
 				//GameData.myData.cur_map = res.data.curMap;
 
-				SaveDataManager.Instance.LoginNickname = res.data.nickname;
+				//SaveDataManager.Instance.LoginNickname = res.data.nickname;
 				SaveDataManager.Instance.SaveUserData();
 			}
 			else
@@ -286,8 +286,8 @@ public class WebReq : MonoBehaviour
 			if (res.IsSuccess)
 			{
 				GameData.myData.user_name = res.data.nickname;
-				//GameData.myData.cur_map = res.data.curMap;
-				SaveDataManager.Instance.LoginNickname = res.data.nickname;
+				GameData.myData.cur_map = res.data.curMap;
+				//SaveDataManager.Instance.LoginNickname = res.data.nickname;
 				SaveDataManager.Instance.SaveUserData();
 			}
 			else
@@ -387,8 +387,9 @@ public class WebReq : MonoBehaviour
 			var res = (ReqMapEnter.Res)res_base;
 			if (res.IsSuccess)
 			{
-				SaveDataManager.Instance.CurMapID = GameManager.Instance.Scene.GetCurrentSceneID();
-				SaveDataManager.Instance.SaveUserData();
+				//SaveDataManager.Instance.CurMapID = GameManager.Instance.Scene.GetCurrentSceneID();
+				GameData.myData.cur_map = GameManager.Instance.Scene.GetCurrentSceneID();
+				//SaveDataManager.Instance.SaveUserData();
 			}
 		}
 		

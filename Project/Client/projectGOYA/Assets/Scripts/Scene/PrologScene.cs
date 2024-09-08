@@ -46,14 +46,14 @@ public class PrologScene : BaseScene
     }
     IEnumerator StartAfter()
     {
-        if(GameData.GetQuestData("Qu_0000").GetState() == GameData.QuestData.eState.UNAVAILABLE)
+        /*if(GameData.GetQuestData("Qu_0000").GetState() == GameData.QuestData.eState.UNAVAILABLE)
         {
             var req = new ReqQuestAccept();
             req.questId = "Qu_0000";
             WebReq.Instance.Request(req, delegate(ReqQuestAccept.Res res)
             {
             });
-        }
+        }*/
         
         if (m_imgFade != null)
         {
@@ -173,7 +173,7 @@ public class PrologScene : BaseScene
         {
             yield return null;
         }
-        
+        /*
         bReqComplete = false;
         if (GameData.QuestDatas.ContainsKey("Qu_0001") && GameData.QuestDatas["Qu_0001"].GetState() ==
             GameData.QuestData.eState.UNAVAILABLE)
@@ -189,7 +189,7 @@ public class PrologScene : BaseScene
         while (!bReqComplete)
         {
             yield return null;
-        }
+        }*/
         GameManager.Instance.Scene.LoadSceneByID(GameData.myData.cur_map);
         
     }

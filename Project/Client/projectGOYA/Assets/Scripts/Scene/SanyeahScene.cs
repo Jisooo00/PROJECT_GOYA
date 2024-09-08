@@ -9,6 +9,7 @@ public class SanyeahScene : BaseScene
     public GameObject mUIEnding;
     public GameObject m_uiLoading;
     public Transform m_tmPosFromMain;
+    public Transform m_tmPosFrontSanyeah;
     public GameObject m_goNightEnvironment;
     public SpriteRenderer m_spriteSanyeah;
     public SpriteRenderer m_spritePlayer;
@@ -26,15 +27,15 @@ public class SanyeahScene : BaseScene
         var moveFirst = new Vector2(0, 0);
         
         m_uiLoading.gameObject.SetActive(true);
-        if (GameManager.Instance.Scene.prevScene == GameData.eScene.MainScene)
+
+        if(GameData.myData.isSanyeahQuest)
+        {
+            Player.instance.transform.localPosition = m_tmPosFrontSanyeah.localPosition;
+        }
+        else
         {
             Player.instance.transform.localPosition = m_tmPosFromMain.localPosition;
             moveFirst = Vector2.left;
-        }
-        
-        if (GameManager.Instance.Scene.prevScene == GameData.eScene.IntroScene)
-        {
-            Player.instance.transform.localPosition = SaveDataManager.Instance.CurPos;
         }
         
         yield return new WaitForSeconds(0.5f);

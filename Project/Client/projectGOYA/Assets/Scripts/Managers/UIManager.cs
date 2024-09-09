@@ -68,7 +68,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var data = Player.instance.GetScannedMonster();
+        var data = Player.instance.GetScannedMonsterData();
         if (data != null && !mIsDialogEnable)
         {
             SetDialogEnable(true,data.mObjectID.Contains("Obj"));
@@ -129,10 +129,11 @@ public class UIManager : MonoBehaviour
         mDialogUI.SetActive(true);
         if (mDialogSystem != null)
         {
+            var monsterData = Player.instance.GetScannedMonsterData();
             var monster = Player.instance.GetScannedMonster();
-            if (Player.instance.GetScannedMonster() != null)
+            if (monsterData != null)
             {
-                mDialogSystem.Init(monster, delegate { EndDialog(); });
+                mDialogSystem.Init(monsterData, delegate { EndDialog(); },monster);
 
             }
 
@@ -154,11 +155,14 @@ public class UIManager : MonoBehaviour
                 return;
             }
             
-            mDialogSystem.Init(data, delegate { EndDialog();
+            mDialogSystem.Init(data, delegate { 
+                EndDialog();
                 del();
+                m_goTutoPointer_dialog2.SetActive(Player.instance.bIsOnGoingTutorial);
             });
             
             m_goTutoPointer_dialog1.SetActive(Player.instance.bIsOnGoingTutorial);
+            
         }
     }
 

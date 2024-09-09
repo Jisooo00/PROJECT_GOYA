@@ -564,7 +564,7 @@ public class SanyeahGameManager : BaseScene
     {
         if (GameManager.Instance.bClearSanyeah)
         {
-            var req = new ReqQuestAction();
+            /*var req = new ReqQuestAction();
             req.type = ReqQuestAction.eType.Game.ToString();
             req.target = "Np_0002";
             req.count = mITotalScore;
@@ -575,6 +575,14 @@ public class SanyeahGameManager : BaseScene
                 if (res.IsSuccess)
                 {
                 }
+            });
+            */
+            bool bReqComplete = false;
+            var req = new ReqQuestClear();
+            req.questId = Global.KEY_QUEST_SANYEAH;
+            WebReq.Instance.Request(req, delegate(ReqQuestClear.Res res)
+            {
+                bReqComplete = true;
             });
             while (!bReqComplete)
             {

@@ -69,10 +69,13 @@ public class UIDialog : MonoBehaviour
     private GameData.DialogData mData;
     private List<GameData.ScriptData> m_listScript;
     private Dictionary<string, Sprite> mDicPortraits;
+
+    private MonsterBase npc;
     
-    public void Init(GameData.DialogData data,Action del)
+    public void Init(GameData.DialogData data,Action del,MonsterBase _npc = null)
     {
-        Debug.Log("InitDialogSystem");
+        npc = _npc;
+//        Debug.Log("InitDialogSystem");
         m_listScript = GameData.GetScript(data.m_strDialogID);
         mIndex = 0;
         if (m_listScript.Count== 0)
@@ -90,7 +93,8 @@ public class UIDialog : MonoBehaviour
                     //PlayerPrefs.Save();
                     GameData.SetDialogPlayed(data.mObjectID,data.m_strDialogID);
                 }
-
+                if(npc != null)
+                    npc.SetQuestionMark();
                 GameManager.DialogAction(data);
             };
             

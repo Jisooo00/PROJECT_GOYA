@@ -36,7 +36,7 @@ public class WebReq : MonoBehaviour
 	}
 	public readonly string GoogleSheetAddress= "https://docs.google.com/spreadsheets/d/1WobN-MMi-Nigpe19jeNTL7J377Ffpy3LPnjHB0qLwu4/export?format=tsv&range={0}&gid={1}";
 	public readonly long DialogDataSheetID = 759206480;
-	public readonly string DialogeDataRange = "A2:H";
+	public readonly string DialogeDataRange = "B2:I";
 	public readonly long ScriptDataSheetID = 727933320;
 	public readonly string ScriptDatRange = "A2:E";
 	public readonly long NoticeDataSheetID = 794120212;
@@ -268,7 +268,7 @@ public class WebReq : MonoBehaviour
 			if (res.IsSuccess)
 			{
 				GameData.myData.user_name = res.data.nickname;
-				//GameData.myData.cur_map = res.data.curMap;
+				GameData.myData.cur_map = res.data.curMap;
 
 				//SaveDataManager.Instance.LoginNickname = res.data.nickname;
 				SaveDataManager.Instance.SaveUserData();
@@ -303,7 +303,7 @@ public class WebReq : MonoBehaviour
 			if (res.IsSuccess)
 			{
 				GameData.myData.user_name = "";
-				GameData.myData.cur_map = "";
+				GameData.myData.cur_map = res.data.curMap;
 			}
 
 		}
@@ -469,8 +469,8 @@ public class WebReq : MonoBehaviour
 	{
 		StartCoroutine(Proc< ReqQuestAction.Res>(req, func));
 	}
-
 	
+
 
 
 }

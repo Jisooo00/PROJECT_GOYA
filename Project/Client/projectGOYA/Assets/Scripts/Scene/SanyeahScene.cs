@@ -54,10 +54,10 @@ public class SanyeahScene : BaseScene
         SetUIManager();
         //Player.instance.PlayEffect("Chara_APPEAR");
         
-        if (GameData.GetQuestData("Qu_0002").GetState() == GameData.QuestData.eState.UNAVAILABLE)
+        if (GameData.GetQuestData(Global.KEY_QUEST_SANYEAH_WAKE).GetState() != GameData.QuestData.eState.FINISHED)
         {
             Sanyeah.animator.SetBool("idle",false);
-        }else if (GameData.GetQuestData("Qu_0002").GetState() == GameData.QuestData.eState.ACCOMPLISHING)
+        }else if (GameData.GetQuestData(Global.KEY_QUEST_SANYEAH).GetState() == GameData.QuestData.eState.ACCOMPLISHING)
         {
             Sanyeah.animator.SetBool("idle",true);
             Sanyeah.animator.SetBool("awake",false);
@@ -68,10 +68,11 @@ public class SanyeahScene : BaseScene
             Sanyeah.animator.SetBool("idle",true);
             Sanyeah.animator.SetBool("awake",false);
             
-            if (GameManager.Instance.bClearSanyeah|| !GameData.IsPlayedDialog("Dl_0007"))
+            if (GameData.GetQuestData(Global.KEY_QUEST_SANYEAH_CLEAR).GetState() == GameData.QuestData.eState.ACCOMPLISHING)
             {
                 StartCoroutine("ShowEnding");
             }
+            
         }
         
         AudioManager.Instance.PlayBgm();

@@ -56,38 +56,25 @@ public class GameManager : MonoBehaviour
 
     public static void DialogAction(GameData.DialogData data)
     {
+        if (data.m_listActionQuest.Count > 0)
+        {
+            foreach (var quest in data.m_listActionQuest)
+            {
+                var req = new ReqQuestClear();
+                req.questId = quest;
+                WebReq.Instance.Request(req,delegate(ReqQuestClear.Res res){});
+            }
+        }
+
         switch (data.m_eAction)
         {
-            case eDialogAction.QUEST_FINISH :
-                foreach (var quest in data.m_listActionQuest)
-                {
-                    var req = new ReqQuestClear();
-                    req.questId = quest;
-                    WebReq.Instance.Request(req,delegate(ReqQuestClear.Res res){});
-                }
-                break;
 
-            /*case eDialogAction.QUEST_ACCEPT :
-                foreach (var quest in data.m_listActionQuest)
-                {
-                    var req = new ReqQuestAccept();
-                    req.questId = quest;
-                    WebReq.Instance.Request(req,delegate(ReqQuestAccept.Res res){});
-                }
-                break;
-                */
             case eDialogAction.PLAY_SANYEAH:
                 Instance.Scene.LoadScene(GameData.eScene.SanyeahGameScene);
                 break;
             case eDialogAction.WAKE_SANYEAH_UP :
                 if (Instance.Scene.currentScene.m_eSceneType == GameData.eScene.SanyeahScene)
                 {
-                    /*foreach (var quest in data.m_listActionQuest)
-                    {
-                        var req = new ReqQuestAccept();
-                        req.questId = quest;
-                        WebReq.Instance.Request(req,delegate(ReqQuestAccept.Res res){});
-                    }*/
                     Instance.Scene.currentScene.DelFunc();
                 } 
                 break;

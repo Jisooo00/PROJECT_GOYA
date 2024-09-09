@@ -203,7 +203,7 @@ public class ReqQuestInfo : ReqBase
 
 	public ReqQuestInfo()
 	{
-		api = "quest/info";
+		api = "quest/info2";
 		userUid = GameData.myData.user_uid;
 	}
 
@@ -231,7 +231,7 @@ public class ReqQuestAccept : ReqBase
 
 	public ReqQuestAccept()
 	{
-		api = "quest/accept";
+		api = "quest/accept2";
 		userUid = GameData.myData.user_uid;
 	}
 
@@ -315,34 +315,6 @@ public class ReqQuestAction : ReqBase
 		public List<ResData> data = new List<ResData>();
 	}
 }
-// Quest Reset
-[Serializable]
-public class ReqQuestReset : ReqBase
-{
-	public int userUid;
-	public string questId;
-
-	public ReqQuestReset()
-	{
-		api = "quest/accept";
-		userUid = GameData.myData.user_uid;
-	}
-
-	// Response
-	[Serializable]
-	public class Res : ResBase
-	{
-		[Serializable]
-		public class ResData
-		{
-			public string questId;
-			public string state;
-		}
-		
-		public List<ResData> data = new List<ResData>();
-	}
-}
-
 
 // Mep Enter
 [Serializable]

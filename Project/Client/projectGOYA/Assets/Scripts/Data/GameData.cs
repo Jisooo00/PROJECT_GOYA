@@ -196,8 +196,12 @@ public static class GameData
             {
                 foreach (var quest in QuestDatas)
                 {
-                    if (quest.Value.GetState() == QuestData.eState.ACCOMPLISHING || quest.Value.GetState() == QuestData.eState.COMPLETED)
+                    if (quest.Value.GetState() == QuestData.eState.ACCOMPLISHING ||
+                        quest.Value.GetState() == QuestData.eState.COMPLETED)
+                    {
+                        //Debug.Log(quest.Key);
                         return quest.Key;
+                    }
                 }
 
                 return Global.KEY_QUEST_TUTO;
@@ -211,11 +215,12 @@ public static class GameData
                 bool accept = true;
                 foreach (var quest in QuestDatas)
                 {
+                    //Debug.Log(quest+" "+quest.Value.GetState());
                     if (quest.Value.GetState() == QuestData.eState.ACCOMPLISHING)
                         accept = false;
                 }
 
-                return true;
+                return accept;
             }
         }
 
@@ -321,14 +326,6 @@ public static class GameData
         bInitNoticeData = true;
     }
     
-    public static void TempDemoNotice()
-    {
-        foreach (var dialog in SaveDataManager.Instance.GetDialogList())
-        {
-            if (dialog.m_strDialogID == "Dl_0008")
-                dialog.m_eAction = GameManager.eDialogAction.POPUP_NOTICE_DEMO;
-        }
-    }
     public static void InitDialogData(string sheetData)
     {
         //Debug.Log("????");
@@ -482,6 +479,7 @@ public class Global
     public const float SANYEAH_NOTE_JUDGE_BAD = 100;
     public const float SANYEAH_NOTE_JUDGE_MISS = 150;
     public const string KEY_QUEST_TUTO = "Qu_0000";
+    public const string KEY_QUEST_SANYEAH_WAKE = "Qu_0002";
     public const string KEY_QUEST_SANYEAH = "Qu_0003";
     public const string KEY_QUEST_SANYEAH_CLEAR = "Qu_0004";
     

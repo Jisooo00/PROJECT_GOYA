@@ -30,14 +30,24 @@ public class Player : MonoBehaviour
         }
     }
 
+    public bool IS_MOVING
+    {
+        get
+        {
+            return instance.bForceMoving || bIsMoving;
+        }
+    }
+    
+
     public Animation mAniEffect;
     public GameObject mGoEffect;
 
     private bool bIsMoving = false;
+    private bool bForceMoving = false;
     public Vector3 dirVec;
     [NonSerialized] public GameObject mScanObject = null;
 
-    public GameData.DialogData GetScannedMonster()
+    public GameData.DialogData GetScannedMonsterData()
     {
         if (mScanObject == null)
         {
@@ -46,6 +56,16 @@ public class Player : MonoBehaviour
 
         var data = mScanObject.GetComponent<MonsterBase>();
         return data.CurDialog;
+    }
+    public MonsterBase GetScannedMonster()
+    {
+        if (mScanObject == null)
+        {
+            return null;
+        }
+
+        var data = mScanObject.GetComponent<MonsterBase>();
+        return data;
     }
     
     public List<GameData.DialogData> GetScannedMonsterRefresh()
@@ -68,29 +88,15 @@ public class Player : MonoBehaviour
     void Update()
     {
         
-        if (bIsDialogPlaying)
+        if (bIsDialogPlaying || bForceMoving)
             return;
-
-        /*if (PopupManager.Instance.IsSettingPopupOpen)
-        {
-            movement = Vector2.zero;
-            return;
-        }*/
         
         CheckMovement();
 
         if (bIsMoving)
         {
-            //saveTime += Time.deltaTime;
             movement.x = bInputLeft ? -1 : bInputRight ? 1: 0;
             movement.y = bInputUp ? 1 : bInputDown ? -1 : 0;
-            //SaveDataManager.Instance.CurPos = instance.transform.localPosition;
-            //if (saveTime > 0.5f)
-            //{
-            //    SaveDataManager.Instance.SaveUserData();
-            //    saveTime = 0f;
-            //}
-            
         }
         else
         {
@@ -118,7 +124,27 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         float debuf = movement.x != 0f && movement.y != 0f ? 0.8f : 1.0f; 
-        rb.MovePosition(rb.position + movement * moveSpeed*debuf * Time.fixedDeltaTime);
+        if (bForceMoving)
+        {
+            var dir = dest - rb.position;
+            if (dir.magnitude <= 0.1f)
+            {
+                rb.position  = dest;
+                bForceMoving = false;
+                return;
+            }
+            else
+            {
+                rb.MovePosition(rb.position + dir.normalized * moveSpeed * Time.fixedDeltaTime);
+                dirVec = CharacterAppearance.instance.GetDirection();
+            }
+        }
+        else
+        {
+            rb.MovePosition(rb.position + movement * moveSpeed*debuf * Time.fixedDeltaTime);
+        }
+        
+        
         
     }
 
@@ -136,22 +162,16 @@ public class Player : MonoBehaviour
         if (other.gameObject.layer == 7)
         {
             
-            if(bIsDialogPlaying)
+            if(bIsDialogPlaying||bForceMoving)
             {
                 SetForceStop();
                 return;
             }
             
-            foreach (var dialog in GameData.GetDialog("np_0001"))
+            if (GameData.GetQuestData(Global.KEY_QUEST_SANYEAH_WAKE).GetState() != GameData.QuestData.eState.UNAVAILABLE)
             {
-                if (dialog.m_strDialogID == "Dl_0002")
-                {
-                    if (dialog.m_bPlayed)
-                    {
-                        GameManager.Instance.Scene.LoadScene(GameData.eScene.SanyeahScene);
-                        return;
-                    }
-                }
+                GameManager.Instance.Scene.LoadScene(GameData.eScene.SanyeahScene);
+                return;
             }
             
             SetForceStop();
@@ -159,7 +179,7 @@ public class Player : MonoBehaviour
             uiManager.ForceJoystickPointerUp();
             
             uiManager.PlayDialogForce("Dl_0014",delegate{
-                transform.localPosition = new Vector3(-13,-3.8f,0f);
+                ForceMoveTo(new Vector3(-13,-3.8f));
             });
             
         }
@@ -204,6 +224,12 @@ public class Player : MonoBehaviour
         bInputDown = false; 
         bInputLeft  = false; 
         bInputRight = false; 
+    }
+    
+    public void ForceMoveTo(Vector2 destination)
+    {
+        bForceMoving = true;
+        dest = destination;
     }
     
     

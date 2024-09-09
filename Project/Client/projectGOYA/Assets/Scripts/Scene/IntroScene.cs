@@ -166,7 +166,7 @@ public class IntroScene : BaseScene
 
             GameData.NeedDownloadDialog = false;
         }
-        GameData.TempDemoNotice();
+        //GameData.TempDemoNotice();
 
 
         isBusy = true;
@@ -254,6 +254,7 @@ public class IntroScene : BaseScene
             
             
             //TODO 출시버전 수정 필요
+            
             
             PopupManager.Instance.OpenPopupAccount(
                 delegate
@@ -371,7 +372,6 @@ public class IntroScene : BaseScene
                     yield return null;
                 }
             }
-            
             
             SaveDataManager.Instance.InitDialog();
             SaveDataManager.Instance.SetDialogByQuestInfo();

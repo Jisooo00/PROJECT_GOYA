@@ -87,17 +87,6 @@ public class MainScene : BaseScene
             yield return new WaitForSeconds(0.5f);
             Player.instance.SetInputPos(new Vector2(0,0f));
         }
-
-        
-        /*if (GameData.QuestDatas.ContainsKey("Qu_0001") && GameData.QuestDatas["Qu_0001"].GetState() ==
-            GameData.QuestData.eState.UNAVAILABLE)
-        {
-            var req = new ReqQuestAccept();
-            req.questId = "Qu_0001";
-            WebReq.Instance.Request(req, delegate(ReqQuestAccept.Res res)
-            {
-            });
-        }*/
         
     }
     

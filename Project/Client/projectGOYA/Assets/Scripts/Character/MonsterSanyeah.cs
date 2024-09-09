@@ -16,7 +16,7 @@ public class MonsterSanyeah : MonsterBase
         base.InitMonster();
         monsterID = "np_0002";
         mData = GameData.GetDialog(monsterID);
-        if (GameData.GetQuestData("Qu_0002").GetState() == GameData.QuestData.eState.COMPLETED || GameData.GetQuestData("Qu_0002").GetState() == GameData.QuestData.eState.FINISHED )
+        if (GameData.GetQuestData(Global.KEY_QUEST_SANYEAH).GetState() == GameData.QuestData.eState.FINISHED )
         {
             animator = mListAnimator[1];
             mGoSanyeah[1].SetActive(true);

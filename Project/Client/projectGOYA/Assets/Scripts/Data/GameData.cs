@@ -466,6 +466,7 @@ public class Global
     public const string KEY_USER_PW = "USER_PW";
     public const string KEY_USER_NAME = "USER_NAME";
     public const string KEY_USER_UID = "USER_UID";
+    public const string KEY_NEW_DEVICE = "NEW_DEVICE";
     public const string KEY_BGM_SET_FLAG = "BGM_SET";
     public const string KEY_EFFECT_SET_FLAG = "EFFECT_SET";
     public const string KEY_VOLUME_SET_VALUE = "VOLUME_SET";

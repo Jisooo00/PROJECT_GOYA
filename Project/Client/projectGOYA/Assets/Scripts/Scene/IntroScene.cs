@@ -220,13 +220,14 @@ public class IntroScene : BaseScene
                     var req2 = new ReqLogin();
                     req2.id = res.data.id;
                     req2.pw = res.data.pw;
-
+                    
                     WebReq.Instance.Request(req2, delegate(ReqLogin.Res res2)
                     {
                         isBusy = false;
                         if (res2.IsSuccess)
                         {
                             IsSignIn = true;
+                            mTxtVersion.text = String.Format("version {0}\nuid {1}",Application.version,GameData.myData.user_uid);
                         }
                         else
                         {
@@ -385,7 +386,7 @@ public class IntroScene : BaseScene
             }
             else
             {
-                Debug.Log(GameData.myData.cur_map);
+                //Debug.Log(GameData.myData.cur_map);
                 GameManager.Instance.Scene.LoadSceneByID(GameData.myData.cur_map);
             }
 
@@ -434,6 +435,7 @@ public class IntroScene : BaseScene
     public void RefreshUI()
     {
         mBtnReset.gameObject.SetActive(GameData.myData.bUserInfoExist);
+        mTxtVersion.text = String.Format("version {0}\nUserUid {1}",Application.version,GameData.myData.user_uid);
         if (GameData.myData.bUserInfoExist)
         {
             mTxtReset.text = "새로하기" ;

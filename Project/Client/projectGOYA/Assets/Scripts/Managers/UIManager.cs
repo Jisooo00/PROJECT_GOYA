@@ -158,7 +158,7 @@ public class UIManager : MonoBehaviour
             mDialogSystem.Init(data, delegate { 
                 EndDialog();
                 del();
-                m_goTutoPointer_dialog2.SetActive(Player.instance.bIsOnGoingTutorial);
+                
             });
             
             m_goTutoPointer_dialog1.SetActive(Player.instance.bIsOnGoingTutorial);
@@ -171,7 +171,8 @@ public class UIManager : MonoBehaviour
         mActionUI.SetActive(true);
         mDialogUI.SetActive(false);
         m_goTutoPointer_dialog1.SetActive(false);
-            
+        m_goTutoPointer_dialog2.SetActive(false);
+        
         Player.instance.bIsDialogPlaying = false;
         
         if (Player.instance.mScanObject != null)

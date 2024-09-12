@@ -139,10 +139,7 @@ public class PrologScene : BaseScene
         }
         m_npc.gameObject.SetActive(false);
         Player.instance.ForceMoveTo(new Vector2(0f,3.5f));
-        while (Player.instance.IS_MOVING)
-        {
-            yield return null;
-        }
+        yield return new WaitForSeconds(0.75f);
         GameManager.Instance.Scene.LoadSceneByID(GameData.myData.cur_map);
         
     }

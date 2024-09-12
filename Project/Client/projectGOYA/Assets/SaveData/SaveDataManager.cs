@@ -66,12 +66,21 @@ public class SaveDataManager : MonoBehaviour
             return;
         
         bLoadData = true;
+        
+        if (File.Exists(Application.persistentDataPath+fileName))
+        {
+            if (!PlayerPrefs.HasKey(Global.KEY_NEW_DEVICE))
+                File.Delete(Application.persistentDataPath + fileName);
+        }
+        
         if (!File.Exists(Application.persistentDataPath+fileName))
         {
             data = new UserData();
             SaveUserData();
+            PlayerPrefs.SetString(Global.KEY_NEW_DEVICE,"true");
             return;
         }
+
         string str = File.ReadAllText(Application.persistentDataPath + fileName);
         UserData _data = JsonUtility.FromJson<UserData>(str);
         data = _data;

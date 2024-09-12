@@ -114,6 +114,7 @@ public class UIPopupSetting : UIPopup
         {
             AudioManager.Instance.PlayClick();
             AudioManager.Instance.StopBgm();
+            m_delClose();
             GameManager.Instance.Scene.LoadScene(GameData.eScene.IntroScene);
         });
 

@@ -14,6 +14,7 @@ public class UIPopupSetting : UIPopup
     public CheckButton mEffectBtn;
     public Slider mSliderVol;
     public CheckButton mInteractionBtn;
+    public CheckButton mJoyStickBtn;
     public Slider mSliderCam;
     public TMPro.TMP_Text m_textSetCam;
     public Button mBtnHome;
@@ -52,6 +53,7 @@ public class UIPopupSetting : UIPopup
         mSliderVol.value = GameData.myData.SET_VOLUME;
         mSliderCam.value = GameData.myData.SET_CAM;
         mInteractionBtn.Init(GameData.myData.IS_SHOW_UI_BTN);
+        mJoyStickBtn.Init(GameData.myData.IS_HIDE_JOYSTICK);
     }
 
     public void Init(Action del, string msg, string title = "")
@@ -85,6 +87,11 @@ public class UIPopupSetting : UIPopup
             if (GameData.myData.IS_SHOW_UI_BTN != mInteractionBtn.IsChecked)
             {
                 GameData.myData.SetUIBtnOn(mInteractionBtn.IsChecked);
+            }
+            
+            if (GameData.myData.IS_HIDE_JOYSTICK != mJoyStickBtn.IsChecked)
+            {
+                GameData.myData.SetJoyStickOn(mJoyStickBtn.IsChecked);
             }
             
             if (!Equals(GameData.myData.SET_CAM, mSliderCam.value))

@@ -22,7 +22,9 @@ public class UIPopupSetNickname : UIPopup
     public void Init(Action del)
     {
         base.Init(del);
-        
+#if UNITY_WEBGL && !UNITY_EDITOR
+        WebGLInput.captureAllKeyboardInput = false;
+#endif
         mTextNicknameLabel.text = "도깨비의 이름을 정해주세요."; //TODO 로컬 적용
         mBtnConfirm.onClick.AddListener(delegate
         {

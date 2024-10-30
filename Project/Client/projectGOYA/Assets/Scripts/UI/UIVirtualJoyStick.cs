@@ -13,6 +13,11 @@ public class UIVirtualJoyStick : MonoBehaviour,IPointerDownHandler,IDragHandler,
     private RectTransform mRect;
     public GameObject m_goTutoPointer_action = null;
     private bool bIgnoreDrag = false;
+    
+    public bool bIsZero
+    {
+        get { return mImgController.rectTransform.anchoredPosition == Vector2.zero; }
+    }
 
 
     public void Awake()
@@ -78,7 +83,7 @@ public class UIVirtualJoyStick : MonoBehaviour,IPointerDownHandler,IDragHandler,
                 touchPosition.x * mImgBg.rectTransform.sizeDelta.x / 2,
                 touchPosition.y * mImgBg.rectTransform.sizeDelta.y / 2);
             
-            Player.instance.SetInputPos(touchPosition);
+            Player_tmp.instance.SetInputPos(touchPosition);
             
             
         }
@@ -94,15 +99,34 @@ public class UIVirtualJoyStick : MonoBehaviour,IPointerDownHandler,IDragHandler,
     {  
         mRect.position = mV3Origin;
         mImgController.rectTransform.anchoredPosition = new Vector2(0,0);
-        Player.instance.SetInputPos(Vector2.zero);
+        Player_tmp.instance.SetInputPos(Vector2.zero);
         
     }
     public void ForcePointerUp()
     {  
         mRect.position = mV3Origin;
         mImgController.rectTransform.anchoredPosition = new Vector2(0,0);
-        Player.instance.SetInputPos(Vector2.zero);
+        Player_tmp.instance.SetInputPos(Vector2.zero);
         
+    }
+    
+    public void ForceJoystickMove(int x = 0, int y = 0)
+    {
+        
+        if(m_goTutoPointer_action.activeSelf)
+            m_goTutoPointer_action.SetActive(false);
+        
+        float fX = x;
+        float fY = y;
+        if (Math.Abs(x) > 0 && Math.Abs(y) > 0)
+        {
+            fX *= 0.7f;
+            fY *= 0.7f;
+        }
+        
+        mImgController.rectTransform.anchoredPosition = new Vector2(
+            fX * mImgBg.rectTransform.sizeDelta.x / 2,
+            fY * mImgBg.rectTransform.sizeDelta.y / 2);
     }
     
     

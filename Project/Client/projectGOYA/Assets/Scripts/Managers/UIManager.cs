@@ -22,6 +22,13 @@ public class UIManager : MonoBehaviour
     public GameObject m_goTutoPointer_dialog2 = null;
 
     public Action delTuto = null;
+    public bool IsJoystickZero
+    {
+        get
+        {
+            return mJoyStick.bIsZero;
+        }
+    }
     
     void Start()
     {
@@ -33,6 +40,7 @@ public class UIManager : MonoBehaviour
         mDialogUI.SetActive(false);
         SetDialogEnable(false);
         RefreshDialogBtn();
+        RefreshJoyStick();
         if(mDialogUI!= null)
             mDialogSystem = mDialogUI.GetComponent<UIDialog>();
         mBtnSetting.onClick.AddListener(delegate
@@ -41,6 +49,7 @@ public class UIManager : MonoBehaviour
             PopupManager.Instance.OpenPopupSetting(delegate
             {
                 RefreshDialogBtn();
+                RefreshJoyStick();
             });
             
         });
@@ -83,6 +92,11 @@ public class UIManager : MonoBehaviour
     {
         if(!mIsDialogEnable)
             mBtnDialog.transform.parent.gameObject.SetActive(GameData.myData.IS_SHOW_UI_BTN);
+    }
+    
+    public void RefreshJoyStick()
+    {
+        mJoyStick.mGobJoyStick.gameObject.SetActive(!GameData.myData.IS_HIDE_JOYSTICK);
     }
     public void DialogKeyOnClick()
     {
@@ -196,6 +210,14 @@ public class UIManager : MonoBehaviour
     {
         mJoyStick.ForcePointerUp();
     }
+    
+    public void ForceJoystickMove(int x,int y)
+    {
+        if (!mJoyStick.gameObject.activeSelf)
+            return;
+        mJoyStick.ForceJoystickMove(x,y);
+    }
+
 
 }
 

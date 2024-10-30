@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class IntroScene : BaseScene
 {
+    public CanvasScaler MCanvasScaler;
+    
     public Button mBtnStart;
     public Button mBtnReset;
     public Button mBtnSetting;
@@ -47,6 +49,15 @@ public class IntroScene : BaseScene
     public override void DelFunc()
     {
         
+    }
+
+    private void Awake()
+    {
+        if (Screen.height / Screen.width > 2.0f)
+        {
+            var resolution = MCanvasScaler.referenceResolution;
+            MCanvasScaler.referenceResolution = new Vector2(resolution.x*1.1f,resolution.y);
+        }
     }
 
     private void Start()

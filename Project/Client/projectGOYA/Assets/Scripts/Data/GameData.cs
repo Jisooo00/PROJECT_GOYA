@@ -182,6 +182,7 @@ public static class GameData
 
         public float SET_CAM = 10.0f;
         public bool IS_SHOW_UI_BTN = true;
+        public bool IS_HIDE_JOYSTICK = false;
 
         public bool bInitDialog = false;
 
@@ -270,6 +271,13 @@ public static class GameData
         {
             IS_SHOW_UI_BTN = value;
             PlayerPrefs.SetString(Global.KEY_UI_BTN_FLAG,IS_SHOW_UI_BTN.ToString());
+            PlayerPrefs.Save();
+        }
+        
+        public void SetJoyStickOn(bool value)
+        {
+            IS_HIDE_JOYSTICK = value;
+            PlayerPrefs.SetString(Global.KEY_JOYSTICK_FLAG,IS_HIDE_JOYSTICK.ToString());
             PlayerPrefs.Save();
         }
     }
@@ -472,6 +480,7 @@ public class Global
     public const string KEY_VOLUME_SET_VALUE = "VOLUME_SET";
     public const string KEY_CAMERA_SPEED = "CAMERA_SPEED";
     public const string KEY_UI_BTN_FLAG = "UI_BTN_SET";
+    public const string KEY_JOYSTICK_FLAG = "UI_JOYSTICK_SET";
     public const int SANYEAH_NOTE_POOLING_CNT = 15;
     public const float SANYEAH_NOTE_DROP_SPEED = 550;
     public const float SANYEAH_NOTE_JUDGE_PERFECT = 27.5f;
@@ -502,6 +511,9 @@ public class Global
             GameData.myData.IS_SHOW_UI_BTN = Convert.ToBoolean(PlayerPrefs.GetString(KEY_UI_BTN_FLAG));
         if (PlayerPrefs.HasKey(KEY_CAMERA_SPEED))
             GameData.myData.SET_CAM = PlayerPrefs.GetFloat(KEY_CAMERA_SPEED);
+        if (PlayerPrefs.HasKey(KEY_JOYSTICK_FLAG))
+            GameData.myData.IS_HIDE_JOYSTICK = Convert.ToBoolean(PlayerPrefs.GetString(KEY_JOYSTICK_FLAG));
+
     }
 
     public static void InitUserData()

@@ -32,6 +32,7 @@ public class SanyeahGameManager : BaseScene
     
     [Header("InGame UI")]
     [SerializeField] private GameObject mGoBeforeStart;
+    [SerializeField] private GameObject mGoWebtuto;
     [SerializeField] private Button mBtnStart;
     [SerializeField] private Button mBtnReplay;
     [SerializeField] private Button mBtnExitClear;
@@ -152,6 +153,9 @@ public class SanyeahGameManager : BaseScene
             StopAllCoroutines();
             SetInitGame();
             mGoBeforeStart.SetActive(true);
+#if UNITY_WEBGL
+            mGoWebtuto.SetActive(true);
+#endif
             
         });
         mBtnExitClear.onClick.AddListener(delegate
@@ -198,6 +202,9 @@ public class SanyeahGameManager : BaseScene
         mGoEffectR.SetActive(false);
         mGoEffectL.SetActive(false);
         mGoBeforeStart.SetActive(true);
+#if UNITY_WEBGL
+            mGoWebtuto.SetActive(true);
+#endif
         mGoGameResult.SetActive(false);
         mTextScore.text = string.Format("Score : {0:#,###}", 0);
         TextEffectDisableRight();
@@ -220,7 +227,6 @@ public class SanyeahGameManager : BaseScene
     {
 
 #if UNITY_EDITOR
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //PlayerPrefs.SetString(string.Format("{0}_{1}", GameData.myData.user_uid, "Dl_0006"), "true");
@@ -229,7 +235,7 @@ public class SanyeahGameManager : BaseScene
             mITotalScore = 5000;
             SetGameClear();
         }
-        
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             //Debug.Log("Go Fiver");
@@ -237,7 +243,9 @@ public class SanyeahGameManager : BaseScene
             mEffectFeverSrc.Play();
             SetFeverMode(true);
         }
-        
+#endif        
+
+#if UNITY_WEBGL || UNITY_EDITOR
         if(Input.GetKeyDown(KeyCode.A))
         {
             JudgeLeft();
@@ -246,8 +254,9 @@ public class SanyeahGameManager : BaseScene
         {
             JudgeRight();
         }
-        
 #endif
+        
+
 
         if(bPause)
             return;

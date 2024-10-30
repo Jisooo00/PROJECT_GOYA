@@ -47,7 +47,9 @@ public class UIPopupSignUp : UIPopup
     public void Init(Action del)
     {
         base.Init(del);
-        
+#if UNITY_WEBGL
+        WebGLInput.captureAllKeyboardInput = false;
+#endif
         mTextIDLabel.text = "ID"; //TODO 로컬 적용
         mTextPWLabel.text = "PW"; //TODO 로컬 적용
         mTextPWCheckLabel.text = "PW'"; //TODO 로컬 적용

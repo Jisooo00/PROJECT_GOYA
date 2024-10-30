@@ -21,6 +21,7 @@ public class UIPopup : MonoBehaviour
         m_delClose += delegate
         {
             PopupManager.Instance.SetClosePopup();
+
         };
     }
 
@@ -42,6 +43,10 @@ public class UIPopup : MonoBehaviour
 
     public void OnClose()
     {
+#if UNITY_WEBGL && !UNITY_EDITOR
+        if(!WebGLInput.captureAllKeyboardInput)
+            WebGLInput.captureAllKeyboardInput = true;
+#endif
         m_delClose();
         gameObject.SetActive(false);
     }

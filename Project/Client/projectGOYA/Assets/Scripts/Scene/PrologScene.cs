@@ -28,6 +28,11 @@ public class PrologScene : BaseScene
     public Button m_btnSkip;
     public Monster_np0003 m_npc;
     
+    public GameObject m_gobTuto;
+    public GameObject m_gobTutoWeb;
+    public GameObject m_gobTutoBase;
+    private bool bTutorial1 = false;
+    
     void Start()
     {
         m_imgFade.gameObject.SetActive(true);
@@ -40,10 +45,23 @@ public class PrologScene : BaseScene
         });
         Player.instance.SetSleep(true);
         m_npc.gameObject.SetActive(false);
-        
+        m_gobTuto.SetActive(false);
         StartCoroutine(StartAfter());
 
     }
+    
+    private void Update()
+    {
+        if (bTutorial1)
+        {
+            if (Input.anyKey || Input.touchCount > 0)
+            {
+                m_gobTuto.SetActive(false);
+                bTutorial1 = false;
+            }
+        }
+    }
+
     IEnumerator StartAfter()
     {
         /*if(GameData.GetQuestData("Qu_0000").GetState() == GameData.QuestData.eState.UNAVAILABLE)
@@ -54,6 +72,8 @@ public class PrologScene : BaseScene
             {
             });
         }*/
+        
+        Player.instance.bIgnoreInput = true;
         
         if (m_imgFade != null)
         {
@@ -116,6 +136,22 @@ public class PrologScene : BaseScene
             yield return null;
         }
         m_npc.MoveTo(new Vector2(0f,0.99f));
+        
+        bTutorial1 = true;
+        m_gobTuto.SetActive(true);
+        
+        #if !UNITY_WEBGL
+        m_gobTutoWeb.SetActive(false);
+        var pos = m_gobTutoBase.transform.localPosition;
+        m_gobTutoBase.transform.localPosition = new Vector3(pos.x, pos.y - 125f);
+        #endif
+        
+        while (bTutorial1)
+        {
+            yield return null;
+        }
+        Player.instance.bIgnoreInput = false;
+        
         m_uiManager.SetDelTuto(delegate
         {
             m_uiManager.PlayDialogForce("Dl_0000_04", delegate
@@ -144,12 +180,6 @@ public class PrologScene : BaseScene
         
     }
 
-    IEnumerator SkipAfter()
-    {
-        m_npc.MoveTo(new Vector2(0f,3.5f));
-        yield return new WaitForSeconds(0.5f);
-        Player.instance.SetSleep(false);
-    }
 
     IEnumerator RequestTutorialClear()
     {

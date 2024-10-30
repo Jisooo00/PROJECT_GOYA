@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     [NonSerialized] public bool bInputLeft = false;
     [NonSerialized] public bool bInputRight = false;
     [NonSerialized] public bool bIsDialogPlaying = false;
+    [NonSerialized] public bool bIgnoreInput = false;
 
     private float saveTime = 0f;
     public bool bIsOnGoingTutorial
@@ -88,7 +89,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         
-        if (bIsDialogPlaying || bForceMoving)
+        if (bIsDialogPlaying || bForceMoving || bIgnoreInput)
             return;
         
         CheckMovement();
@@ -102,9 +103,16 @@ public class Player : MonoBehaviour
         {
             movement = Vector2.zero;
             
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_WEBGL
             movement.x = Input.GetAxisRaw("Horizontal");
             movement.y = Input.GetAxisRaw("Vertical");
+            var uiManager = GameManager.Instance.Scene.currentScene.m_uiManager;
+            if (movement != Vector2.zero)
+            {
+                uiManager.ForceJoystickMove((int)movement.x,(int)movement.y);
+            }
+            else if(!uiManager.IsJoystickZero)
+                uiManager.ForceJoystickMove((int)movement.x,(int)movement.y);
 #endif
         }
         

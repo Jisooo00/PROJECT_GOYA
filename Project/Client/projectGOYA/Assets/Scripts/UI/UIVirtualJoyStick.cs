@@ -83,7 +83,7 @@ public class UIVirtualJoyStick : MonoBehaviour,IPointerDownHandler,IDragHandler,
                 touchPosition.x * mImgBg.rectTransform.sizeDelta.x / 2,
                 touchPosition.y * mImgBg.rectTransform.sizeDelta.y / 2);
             
-            Player_tmp.instance.SetInputPos(touchPosition);
+            Player.instance.SetInputPos(touchPosition);
             
             
         }
@@ -99,14 +99,14 @@ public class UIVirtualJoyStick : MonoBehaviour,IPointerDownHandler,IDragHandler,
     {  
         mRect.position = mV3Origin;
         mImgController.rectTransform.anchoredPosition = new Vector2(0,0);
-        Player_tmp.instance.SetInputPos(Vector2.zero);
+        Player.instance.SetInputPos(Vector2.zero);
         
     }
     public void ForcePointerUp()
     {  
         mRect.position = mV3Origin;
         mImgController.rectTransform.anchoredPosition = new Vector2(0,0);
-        Player_tmp.instance.SetInputPos(Vector2.zero);
+        Player.instance.SetInputPos(Vector2.zero);
         
     }
     
